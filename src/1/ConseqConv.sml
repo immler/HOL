@@ -1215,7 +1215,7 @@ fun mk_DEPTH_CONSEQ_CONV_CACHE_dict () =
    (Redblackmap.mkDict (Term.compare), Redblackmap.mkDict (Term.compare))
 
 fun mk_DEPTH_CONSEQ_CONV_CACHE () =
-   (ref (mk_DEPTH_CONSEQ_CONV_CACHE_dict ())):depth_conseq_conv_cache
+   (ref' (mk_DEPTH_CONSEQ_CONV_CACHE_dict ())):depth_conseq_conv_cache
 
 fun mk_DEPTH_CONSEQ_CONV_CACHE_OPT p =
    SOME (mk_DEPTH_CONSEQ_CONV_CACHE, p):depth_conseq_conv_cache_opt

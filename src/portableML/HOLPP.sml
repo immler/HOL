@@ -24,7 +24,7 @@ val prettyPrint = PrettyImpl.prettyPrint
 
 fun pp_to_string w f x =
   let
-    val sbuf = ref [] : string list ref
+    val sbuf = ref' [] : string list ref
     fun app s = (sbuf := s :: !sbuf)
     val _ = prettyPrint (app,w) (f x)
     val strings =
@@ -58,22 +58,6 @@ fun tabulateWith f b c =
       if c = 0 then [] else recurse [] (c - 1)
     end
 
-fun pp_pretty p =
-  case p of
-      PrettyBreak(m,n) => if m = 1 andalso n = 0 then add_string "SPC"
-                          else add_string ("BRK(" ^ Int.toString m ^ "," ^
-                                           Int.toString n ^")")
-    | PrettyString s =>
-        add_string ("PrettyString \"" ^ String.toString s ^ "\"")
-    | PrettyStringWithWidth (s,i) => add_string ("S \""^s^"\"")
-    | PrettyBlock(i, cp, c, ps) =>
-      PrettyBlock(2, true, [],
-                  add_string ((if cp then "C" else "IC") ^ "-" ^Int.toString i ^
-                              " {") ::
-                  add_break(1,0) ::
-                  pr_list pp_pretty [add_string ",", add_break(1,0)] ps @
-                  [add_break(1,~2), add_string "}"])
-    | PrettyLineBreak => add_string "NL"
-
+fun pp_pretty p = add_string "Pretty pretty"
 
 end; (* struct *)

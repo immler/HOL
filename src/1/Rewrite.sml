@@ -58,7 +58,7 @@ fun decompose tag th =
 fun local_mk_rewrites th =
  case total DEST_BOUNDED th
   of NONE => decompose UNBOUNDED th
-   | SOME(th',n) => decompose (BOUNDED (ref n)) th';
+   | SOME(th',n) => decompose (BOUNDED (ref' n)) th';
 
 val mk_rewrites = map fst o local_mk_rewrites;
 
@@ -66,7 +66,7 @@ val mk_rewrites = map fst o local_mk_rewrites;
 (* Support for examining some aspects of the work of the rewriter            *)
 (*---------------------------------------------------------------------------*)
 
-val monitoring = ref false;
+val monitoring = ref' false;
 
 val _ = register_btrace ("Rewrite", monitoring) ;
 
@@ -79,15 +79,16 @@ with
  fun dest_rewrites(RW{thms, ...}) = thms
  fun net_of(RW{net,...})          = net
  val empty_rewrites = RW{thms = [], net= Net.empty}
- val implicit = ref empty_rewrites;
+ val implicit = ref' empty_rewrites;
  fun implicit_rewrites() = !implicit
  fun set_implicit_rewrites rws = (implicit := rws);
 
 fun add_rewrites (RW{thms,net}) thl =
  let val rewrites = itlist (append o local_mk_rewrites) thl []
      fun appconv (c,UNBOUNDED) tm     = c tm
-       | appconv (c,BOUNDED(ref 0)) _ = failwith "exceeded bound"
-       | appconv (c,BOUNDED r) tm     = c tm before Portable.dec r
+       | appconv (c,BOUNDED r) tm     =
+        if !r = 0 then failwith "exceeded bound"
+        else c tm before Portable.dec r
  in
    RW{thms = thms@thl,
        net = itlist Net.insert

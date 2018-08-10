@@ -115,7 +115,7 @@ val UNIQUE_SKOLEM_THM = prove
 
 end (* local open *)
 
-val def_suffix = ref "_def"
+val def_suffix = ref' "_def"
 
 local
 open Feedback Theory

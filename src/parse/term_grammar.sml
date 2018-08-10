@@ -1021,7 +1021,7 @@ structure userSyntaxFns = struct
   type 'a t = 'a getter * 'a setter
   fun mk_table () =
     let
-      val tab = ref (Binarymap.mkDict String.compare)
+      val tab = ref' (Binarymap.mkDict String.compare)
     in
       ((fn s => Binarymap.find(!tab, s)),
        (fn {name,code} => tab := Binarymap.insert(!tab, name, code)))

@@ -36,13 +36,13 @@ abstype 'a queue = QUEUE of {elems: 'a array, (* the contents *)
                              size: int}  (* fixed size of element array *)
 with
 
-  fun is_empty (QUEUE{front=ref ~1, back=ref ~1,...}) = true
+  fun is_empty (QUEUE{front=f, back=b,...}) = (!f = ~1 andalso !b = ~1)
     | is_empty _ = false
 
   fun mk_queue n init_val =
       if (n < 2)
       then raise REQUESTED_QUEUE_SIZE_TOO_SMALL
-      else QUEUE{elems=array(n, init_val), front=ref ~1, back=ref ~1, size=n}
+      else QUEUE{elems=array(n, init_val), front=ref' ~1, back=ref' ~1, size=n}
 
   fun clear_queue (QUEUE{front,back,...}) = (front := ~1; back := ~1)
 
@@ -94,7 +94,7 @@ val INFINITY = 999999
 
 abstype indent_stack = Istack of break_info list ref
 with
-  fun mk_indent_stack() = Istack (ref([]:break_info list))
+  fun mk_indent_stack() = Istack (ref'([]:break_info list))
   fun clear_indent_stack (Istack stk) = (stk := ([]:break_info list))
   fun top (Istack stk) =
       case !stk
@@ -178,7 +178,7 @@ type ppconsumer = {consumer : string -> unit,
                    flush : unit -> unit}
 
 fun safe_consumer ofn = let
-  val output_stack = ref ([]:string list)
+  val output_stack = ref' ([]:string list)
   fun doit s = let
   in
     if String.size s = 0 then ()
@@ -225,50 +225,48 @@ end
    be printable? Because of what goes on in add_string. See there for details.
 *)
 
-fun print_BB (_,{Pblocks = ref [], Ublocks = ref []}) =
-             raise Fail "PP-error: print_BB"
-  | print_BB (PPS{the_indent_stack,linewidth,space_left=ref sp_left,...},
-             {Pblocks as ref({How_to_indent=CONSISTENT,Block_size,
-                              Block_offset}::rst),
-              Ublocks=ref[]}) =
-       (push ((if (!Block_size > sp_left)
+fun print_BB (PPS {the_indent_stack,linewidth,space_left,...}, {Pblocks, Ublocks}) =
+  let val sp_left = !space_left in
+  case (!Pblocks, !Ublocks) of
+    ([], []) =>
+      raise Fail "PP-error: print_BB"
+  | ({How_to_indent=CONSISTENT,Block_size, Block_offset}::rst, []) =>
+      (push ((if (!Block_size > sp_left)
                then ONE_PER_LINE (linewidth - (sp_left - Block_offset))
                else FITS),
               the_indent_stack);
         Pblocks := rst)
-  | print_BB(PPS{the_indent_stack,linewidth,space_left=ref sp_left,...},
-             {Pblocks as ref({Block_size,Block_offset,...}::rst),Ublocks=ref[]}) =
-       (push ((if (!Block_size > sp_left)
-               then PACK_ONTO_LINE (linewidth - (sp_left - Block_offset))
-               else FITS),
-              the_indent_stack);
-        Pblocks := rst)
-  | print_BB (PPS{the_indent_stack, linewidth, space_left=ref sp_left,...},
-              {Ublocks,...}) =
-      let fun pr_end_Ublock [{How_to_indent=CONSISTENT,Block_size,Block_offset}] l =
-                (push ((if (!Block_size > sp_left)
-                        then ONE_PER_LINE (linewidth - (sp_left - Block_offset))
-                        else FITS),
-                       the_indent_stack);
-                 List.rev l)
-            | pr_end_Ublock [{Block_size,Block_offset,...}] l =
-                (push ((if (!Block_size > sp_left)
-                        then PACK_ONTO_LINE (linewidth - (sp_left - Block_offset))
-                        else FITS),
-                       the_indent_stack);
-                 List.rev l)
-            | pr_end_Ublock (a::rst) l = pr_end_Ublock rst (a::l)
-            | pr_end_Ublock _ _ =
-                raise Fail "PP-error: print_BB: internal error"
-       in Ublocks := pr_end_Ublock(!Ublocks) []
+  | ({Block_size,Block_offset,...}::rst, []) =>
+      (push ((if (!Block_size > sp_left)
+                     then PACK_ONTO_LINE (linewidth - (sp_left - Block_offset))
+                     else FITS),
+                    the_indent_stack);
+              Pblocks := rst)
+  | (_, Ubl) =>
+        let fun pr_end_Ublock [{How_to_indent=CONSISTENT,Block_size,Block_offset}] l =
+                    (push ((if (!Block_size > sp_left)
+                            then ONE_PER_LINE (linewidth - (sp_left - Block_offset))
+                            else FITS),
+                           the_indent_stack);
+                     List.rev l)
+                | pr_end_Ublock [{Block_size,Block_offset,...}] l =
+                    (push ((if (!Block_size > sp_left)
+                            then PACK_ONTO_LINE (linewidth - (sp_left - Block_offset))
+                            else FITS),
+                           the_indent_stack);
+                     List.rev l)
+                | pr_end_Ublock (a::rst) l = pr_end_Ublock rst (a::l)
+                | pr_end_Ublock _ _ =
+                    raise Fail "PP-error: print_BB: internal error"
+       in Ublocks := pr_end_Ublock Ubl []
       end
-
+  end
 
 (* Uend should always be 0 when print_E is called. *)
-fun print_E (_,{Pend = ref 0, Uend = ref 0}) =
-      raise Fail "PP-error: print_E"
-  | print_E (istack,{Pend, ...}) =
-      let fun pop_n_times 0 = ()
+fun print_E (istack,{Pend, Uend, ...}) =
+  if !Pend = 0 andalso !Uend = 0
+  then raise Fail "PP-error: print_E"
+  else let fun pop_n_times 0 = ()
             | pop_n_times n = (pop istack; pop_n_times(n-1))
        in pop_n_times(!Pend); Pend := 0
       end
@@ -340,9 +338,8 @@ fun E_inc_right_index(PPS{the_token_buffer,right_index, ++,...})=
 fun pointers_coincide(PPS{left_index,right_index,the_token_buffer,...}) =
     (!left_index = !right_index) andalso
     (case (the_token_buffer sub (!left_index))
-       of (BB {Pblocks = ref [], Ublocks = ref []}) => true
-        | (BB _) => false
-        | (E {Pend = ref 0, Uend = ref 0}) => true
+       of (BB {Pblocks = Pb, Ublocks = Ub}) => (case (!Pb, !Ub) of ([], []) => true | _ => false)
+        | (E {Pend = Pe, Uend = Ue}) => !Pe = 0 andalso !Ue = 0
         | (E _) => false
         | _ => true)
 
@@ -360,16 +357,17 @@ fun advance_left (ppstrm as PPS{consumer,left_index,left_sum,
           | last_size (_::rst) = last_size rst
           | last_size _ = raise Fail "PP-error: last_size: internal error"
         fun token_size (S{Length, ...}) = Length
-          | token_size (BB b) =
-             (case b
-                of {Pblocks = ref [], Ublocks = ref []} =>
-                     raise Fail "PP-error: BB_size"
-                 | {Pblocks as ref(_::_),Ublocks=ref[]} => POS
-                 | {Ublocks, ...} => last_size (!Ublocks))
-          | token_size (E{Pend = ref 0, Uend = ref 0}) =
-              raise Fail "PP-error: token_size.E"
-          | token_size (E{Pend = ref 0, ...}) = NEG
-          | token_size (E _) = POS
+          | token_size (BB {Pblocks, Ublocks}) =
+             (case (!Pblocks, !Ublocks) of
+               ([], []) => raise Fail "PP-error: BB_size"
+             | (_::_, []) => POS
+             | (_, ub) => last_size ub)
+          | token_size (E{Pend, Uend}) =
+            (case (!Pend, !Uend) of
+              (0, 0) =>
+                raise Fail "PP-error: token_size.E"
+            | (0, _) => NEG
+            | _ => POS)
           | token_size (BR {Distance_to_next_break, ...}) = !Distance_to_next_break
         fun loop (instr) =
             if (token_size instr < 0)  (* synchronization point; cannot advance *)
@@ -391,16 +389,18 @@ fun advance_left (ppstrm as PPS{consumer,left_index,left_sum,
        mangled output.)
     *)
                        (case (the_token_buffer sub (!left_index))
-                          of (BB {Pblocks = ref [], Ublocks = ref []}) =>
+                          of (BB {Pblocks, Ublocks}) =>
+                            (case (!Pblocks, !Ublocks) of ([], []) =>
                                (update(the_token_buffer,!left_index,
                                        initial_token_value);
                                 ++left_index)
-                           | (BB _) => ()
-                           | (E {Pend = ref 0, Uend = ref 0}) =>
+                             | _ => ())
+                           | (E {Pend, Uend}) =>
+                              if !Pend = 0 andalso !Uend = 0 then
                                (update(the_token_buffer,!left_index,
                                        initial_token_value);
                                 ++left_index)
-                           | (E _) => ()
+                               else ()
                            | _ => ++left_index;
                         loop (the_token_buffer sub (!left_index))))
      in loop instr
@@ -420,12 +420,12 @@ fun begin_block0 (ppstrm : ppstream0) style offset =
     else BB_inc_right_index ppstrm;
     case (the_token_buffer sub (!right_index))
       of (BB {Ublocks, ...}) =>
-           Ublocks := {Block_size = ref (~(!right_sum)),
+           Ublocks := {Block_size = ref' (~(!right_sum)),
                        Block_offset = offset,
                        How_to_indent = style}::(!Ublocks)
        | _ => (update(the_token_buffer, !right_index,
-                      BB{Pblocks = ref [],
-                         Ublocks = ref [{Block_size = ref (~(!right_sum)),
+                      BB{Pblocks = ref' [],
+                         Ublocks = ref' [{Block_size = ref' (~(!right_sum)),
                                          Block_offset = offset,
                                          How_to_indent = style}]});
                push_delim_stack (!right_index, the_delim_stack)))
@@ -436,12 +436,12 @@ fun end_block0(ppstrm : ppstream0) =
             = ppstrm
   in
     if (delim_stack_is_empty the_delim_stack)
-    then print_token(ppstrm,(E{Pend = ref 1, Uend = ref 0}))
+    then print_token(ppstrm,(E{Pend = ref' 1, Uend = ref' 0}))
     else (E_inc_right_index ppstrm;
           case (the_token_buffer sub (!right_index))
             of (E{Uend, ...}) => Uend := !Uend + 1
              | _ => (update(the_token_buffer,!right_index,
-                            E{Uend = ref 1, Pend = ref 0});
+                            E{Uend = ref' 1, Pend = ref' 0});
                      push_delim_stack (!right_index, the_delim_stack)))
   end
 
@@ -451,8 +451,9 @@ local
               if (delim_stack_is_empty the_delim_stack)
               then ()
               else case(the_token_buffer sub (top_delim_stack the_delim_stack))
-                     of (BB{Ublocks as ref ((b as {Block_size, ...})::rst),
-                            Pblocks}) =>
+                     of (BB{Ublocks, Pblocks}) =>
+                      (case !Pblocks of
+                        ((b as {Block_size, ...})::rst) =>
                            if (k>0)
                            then (Block_size := !right_sum + !Block_size;
                                  Pblocks := b :: (!Pblocks);
@@ -462,6 +463,7 @@ local
                                  else ();
                                  check(k-1))
                            else ()
+                        | _ => raise Fail "PP-error: check_delim_stack.catchall (sub1)")
                       | (E{Pend,Uend}) =>
                            (Pend := (!Pend) + (!Uend);
                             Uend := 0;
@@ -489,7 +491,7 @@ in
              left_sum := 1;   right_sum := 1)
        else ++right_index;
        update(the_token_buffer, !right_index,
-              BR{Distance_to_next_break = ref (~(!right_sum)),
+              BR{Distance_to_next_break = ref' (~(!right_sum)),
                  Number_of_blanks = n,
                  Break_offset = break_offset});
        check_delim_stack ppstrm;
@@ -524,10 +526,13 @@ fun add_stringsz0 (pps : ppstream0) (s,slen) =
           | fnl (_::rst) = fnl rst
           | fnl _ = raise Fail "PP-error: fnl: internal error"
 
-        fun set(dstack,BB{Ublocks as ref[{Block_size,...}:block_info],...}) =
+        fun set(dstack,BB{Ublocks, ...}) =
+            (case !Ublocks of
+              [{Block_size,...}:block_info] =>
               (pop_bottom_delim_stack dstack;
-               Block_size := INFINITY)
-          | set (_,BB {Ublocks = ref(_::rst), ...}) = fnl rst
+                Block_size := INFINITY)
+            | (_::rst) => fnl rst
+            | _ => raise (Fail "PP-error: add_string.set"))
           | set (dstack, E{Pend,Uend}) =
               (Pend := (!Pend) + (!Uend);
                Uend := 0;
@@ -604,16 +609,16 @@ fun mk_ppstream {consumer,linewidth,flush} =
                the_delim_stack = new_delim_stack buf_size,
                the_indent_stack = mk_indent_stack (),
                ++ = fn i => i := ((!i + 1) mod buf_size),
-               space_left = ref linewidth,
-               left_index = ref 0, right_index = ref 0,
-               left_sum = ref 0, right_sum = ref 0})
+               space_left = ref' linewidth,
+               left_index = ref' 0, right_index = ref' 0,
+               left_sum = ref' 0, right_sum = ref' 0})
     end
 
 
 (* Derived form. Builds a ppstream, sends pretty printing commands called in
    f to the ppstream, then flushes ppstream.
 *)
-val catch_withpp_err = ref true
+val catch_withpp_err = ref' true
 
 fun with_pp ppconsumer ppfn = let
   val ppstrm = mk_ppstream ppconsumer
@@ -628,7 +633,7 @@ end handle e as Fail msg =>
 
 
 fun pp_to_string linewidth ppfn ob =
-    let val l = ref ([]:string list)
+    let val l = ref' ([]:string list)
         fun attach s = l := (s::(!l))
      in with_pp {consumer = attach, linewidth=linewidth, flush = fn()=>()}
                 (fn ppstrm =>  ppfn ppstrm ob);

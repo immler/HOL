@@ -21,7 +21,7 @@ val env_extend : string * quotation -> env -> env
 
 val to_token : pretoken -> token
 
-val perform_substitution : env -> quotation -> string
+(* val perform_substitution : env -> quotation -> string *)
 
 val tokenize : string -> string list
 val dequote : string -> string
@@ -34,9 +34,11 @@ type ruledb =
      (string, {dependencies:string list, commands : quotation list})Binarymap.dict
 type depdb = (string,string list)Binarymap.dict
 val empty_ruledb : ruledb
+(*
 val extend_ruledb : (string -> unit) -> env -> raw_rule_info ->
                     (ruledb * depdb) -> (ruledb * depdb * string list)
 val get_rule_info : ruledb -> env -> string -> rule_info option
+*)
 
 (*
 

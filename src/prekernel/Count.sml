@@ -7,7 +7,7 @@ struct
  * manipulation routines are visible to all.                                 *
  *---------------------------------------------------------------------------*)
 
-val counting = ref false
+val counting = ref' false
 fun counting_thms b = counting := b
 val inc = Portable.inc
 
@@ -49,42 +49,42 @@ datatype rule =
  | Trans
 
 val count =
-   {ABS = ref 0,
-    ALPHA = ref 0,
-    AP_TERM = ref 0,
-    AP_THM = ref 0,
-    ASSUME = ref 0,
-    AXIOM = ref 0,
-    BETA_CONV = ref 0,
-    CCONTR = ref 0,
-    CHOOSE = ref 0,
-    CONJ = ref 0,
-    CONJUNCT1 = ref 0,
-    CONJUNCT2 = ref 0,
-    DEFINITION = ref 0,
-    DISCH = ref 0,
-    DISJ1 = ref 0,
-    DISJ2 = ref 0,
-    DISJ_CASES = ref 0,
-    EQ_IMP_RULE = ref 0,
-    EQ_MP = ref 0,
-    EXISTS = ref 0,
-    FROM_DISK = ref 0,
-    GEN = ref 0,
-    GEN_ABS = ref 0,
-    INST = ref 0,
-    INST_TYPE = ref 0,
-    MK_COMB = ref 0,
-    MP = ref 0,
-    NOT_ELIM = ref 0,
-    NOT_INTRO = ref 0,
-    ORACLE = ref 0,
-    REFL = ref 0,
-    SPEC = ref 0,
-    SUBST = ref 0,
-    SYM = ref 0,
-    TOTAL = ref 0,
-    TRANS = ref 0}
+   {ABS = ref' 0,
+    ALPHA = ref' 0,
+    AP_TERM = ref' 0,
+    AP_THM = ref' 0,
+    ASSUME = ref' 0,
+    AXIOM = ref' 0,
+    BETA_CONV = ref' 0,
+    CCONTR = ref' 0,
+    CHOOSE = ref' 0,
+    CONJ = ref' 0,
+    CONJUNCT1 = ref' 0,
+    CONJUNCT2 = ref' 0,
+    DEFINITION = ref' 0,
+    DISCH = ref' 0,
+    DISJ1 = ref' 0,
+    DISJ2 = ref' 0,
+    DISJ_CASES = ref' 0,
+    EQ_IMP_RULE = ref' 0,
+    EQ_MP = ref' 0,
+    EXISTS = ref' 0,
+    FROM_DISK = ref' 0,
+    GEN = ref' 0,
+    GEN_ABS = ref' 0,
+    INST = ref' 0,
+    INST_TYPE = ref' 0,
+    MK_COMB = ref' 0,
+    MP = ref' 0,
+    NOT_ELIM = ref' 0,
+    NOT_INTRO = ref' 0,
+    ORACLE = ref' 0,
+    REFL = ref' 0,
+    SPEC = ref' 0,
+    SUBST = ref' 0,
+    SYM = ref' 0,
+    TOTAL = ref' 0,
+    TRANS = ref' 0}
 
 fun inc_count R =
   if !counting

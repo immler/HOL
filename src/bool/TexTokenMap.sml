@@ -31,7 +31,7 @@ struct
                      write = K write_deltas}
 
 
-  val tokmap = ref (Binarymap.mkDict String.compare)
+  val tokmap = ref' (Binarymap.mkDict String.compare)
   fun the_map() = !tokmap
 
   fun temp_TeX_notation0 src {hol,TeX} =

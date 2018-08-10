@@ -1,7 +1,7 @@
 structure type_tokens :> type_tokens =
 struct
 
-val greek_tyvars = ref true
+val greek_tyvars = ref' true
 
 val _ = Feedback.register_btrace ("Greek tyvars", greek_tyvars)
 

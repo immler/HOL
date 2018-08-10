@@ -56,16 +56,16 @@ val Infixr       = fn i => Infix(RIGHT, i)
  ---------------------------------------------------------------------------*)
 
 (* type grammar *)
-val the_type_grammar = ref type_grammar.min_grammar
-val type_grammar_changed = ref false
+val the_type_grammar = ref' type_grammar.min_grammar
+val type_grammar_changed = ref' false
 fun type_grammar() = !the_type_grammar
 
 (*---------------------------------------------------------------------------
          pervasive term grammar
  ---------------------------------------------------------------------------*)
 
-val the_term_grammar = ref term_grammar.min_grammar
-val term_grammar_changed = ref false
+val the_term_grammar = ref' term_grammar.min_grammar
+val term_grammar_changed = ref' false
 fun term_grammar () = (!the_term_grammar)
 
 fun current_grammars() = (type_grammar(), term_grammar());
@@ -85,7 +85,7 @@ in
 end
 
 val current_backend : PPBackEnd.t ref =
-    ref (if !Globals.interactive then interactive_ppbackend()
+    ref' (if !Globals.interactive then interactive_ppbackend()
          else PPBackEnd.raw_terminal)
 
 fun rawterm_pp f x =
@@ -102,8 +102,8 @@ fun ulower fm x = mlower (fm x)
          local grammars
  ---------------------------------------------------------------------------*)
 
-val the_lty_grm = ref type_grammar.empty_grammar
-val the_ltm_grm = ref term_grammar.stdhol
+val the_lty_grm = ref' type_grammar.empty_grammar
+val the_ltm_grm = ref' term_grammar.stdhol
 fun current_lgrms() = (!the_lty_grm, !the_ltm_grm);
 
 
@@ -123,22 +123,22 @@ local
   open parse_type Pretype
 in
 val type_parser1 =
-    ref (parse_type termantiq_constructors false (type_grammar()))
+    ref' (parse_type termantiq_constructors false (type_grammar()))
 val type_parser2 =
-    ref (parse_type typantiq_constructors false (type_grammar()))
+    ref' (parse_type typantiq_constructors false (type_grammar()))
 end
 
 (*---------------------------------------------------------------------------
         pretty printing types
  ---------------------------------------------------------------------------*)
 
-val type_printer = ref (type_pp.pp_type (type_grammar()))
+val type_printer = ref' (type_pp.pp_type (type_grammar()))
 
 val grammar_term_printer =
-  ref (term_pp.pp_term (term_grammar()) (type_grammar()))
+  ref' (term_pp.pp_term (term_grammar()) (type_grammar()))
 fun pp_grammar_term pps t = (!grammar_term_printer) (!current_backend) pps t
 
-val term_printer = ref pp_grammar_term
+val term_printer = ref' pp_grammar_term
 
 fun get_term_printer () = ulower (!term_printer)
 
@@ -208,7 +208,7 @@ val min_grammars = (type_grammar.min_grammar, term_grammar.min_grammar)
 
 type grammarDB_info = type_grammar.grammar * term_grammar.grammar
 val grammarDB_value =
-    ref (Binarymap.mkDict String.compare :(string,grammarDB_info)Binarymap.dict)
+    ref' (Binarymap.mkDict String.compare :(string,grammarDB_info)Binarymap.dict)
 fun grammarDB s = Binarymap.peek (!grammarDB_value, s)
 fun grammarDB_fold f acc = Binarymap.foldl f acc (!grammarDB_value)
 fun grammarDB_insert (s, i) =
@@ -288,7 +288,7 @@ fun == q x = Type q;
  ---------------------------------------------------------------------------*)
 
 val the_absyn_parser: (term frag list -> Absyn.absyn) ref =
-    ref (TermParse.absyn (!the_term_grammar) (!the_type_grammar))
+    ref' (TermParse.absyn (!the_term_grammar) (!the_type_grammar))
 
 fun update_term_fns() = let
   val _ = update_type_fns()
@@ -519,7 +519,7 @@ fun typed_parse_in_context ty ctxt q =
      Making temporary and persistent changes to the grammars.
  ---------------------------------------------------------------------------*)
 
-val grm_updates = ref [] : (string * string * term option) list ref;
+val grm_updates = ref' [] : (string * string * term option) list ref;
 
 fun update_grms fname (x,y) = grm_updates := ((x,y,NONE) :: !grm_updates);
 fun full_update_grms (x,y,opt) = grm_updates := ((x,y,opt) :: !grm_updates)
@@ -677,7 +677,7 @@ in
   List.exists (fn RE (TOK s) => includes_unicode s | _ => false)
 end
 
-val unicode_off_but_unicode_act_complaint = ref true
+val unicode_off_but_unicode_act_complaint = ref' true
 val _ = register_btrace("Parse.unicode_trace_off_complaints",
                         unicode_off_but_unicode_act_complaint)
 

@@ -2554,7 +2554,7 @@ fun PATH_CONV path c =
 
 fun memoize dst tree accept err (cnv: conv) =
   let
-    val map = ref tree
+    val map = ref' tree
   in
     fn tm =>
       case dst tm of

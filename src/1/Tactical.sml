@@ -753,7 +753,7 @@ fun QTY_TAC ty = Q_TAC0 {traces = []} (SOME ty)
  *---------------------------------------------------------------------------*)
 
 local
-   val unsolved_list = ref ([]: goal list)
+   val unsolved_list = ref' ([]: goal list)
 in
    fun unsolved () = !unsolved_list
    fun TAC_PROOF (g, tac) =
@@ -787,7 +787,7 @@ local
                 | _ => ())
             ; raise e)
    val internal_prover =
-      ref (provide_feedback default_prover: Term.term * tactic -> Thm.thm)
+      ref' (provide_feedback default_prover: Term.term * tactic -> Thm.thm)
 in
    fun set_prover f = internal_prover := provide_feedback f
    fun restore_prover () = set_prover default_prover

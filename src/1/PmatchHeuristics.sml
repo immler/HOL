@@ -183,7 +183,7 @@ fun pmatch_heuristic_size_cmp xy = lex_order pmatch_heuristic_size_base_cmp
  --------------------------*)
 
 fun pmatch_heuristic_list min_fun l () : (pmatch_heuristic_res_compare * (unit -> pmatch_heuristic option)) = let
-  val hL_ref = ref l
+  val hL_ref = ref' l
   fun aux () = case (!hL_ref) of
      [] => NONE
    | h::hL => (hL_ref := hL; SOME h)
@@ -199,13 +199,13 @@ val classic_heuristic_fun = (pmatch_heuristic_list pmatch_heuristic_cases_cmp [p
 
 fun exhaustive_heuristic_fun cmp =
 let
-  val heuristicL_ref = ref ([]:pmatch_heuristic list)
+  val heuristicL_ref = ref' ([]:pmatch_heuristic list)
   fun add_heu heu = (heuristicL_ref := heu :: (!heuristicL_ref))
 
   fun heu (prefix : (bool * int * int) list) : pmatch_heuristic =
   let
-    val current_prefix = ref prefix
-    val remaining_prefix = ref prefix
+    val current_prefix = ref' prefix
+    val remaining_prefix = ref' prefix
 
     fun colfun_print thry rowL =
       case (!remaining_prefix) of
@@ -277,7 +277,7 @@ let
     print ts_s;
     print "\n"
   end
-  val res = ref res_input
+  val res = ref' res_input
   fun man_choice rowL =
     let
       val r = case (!res) of
@@ -315,8 +315,8 @@ end
       A reference to store the current heuristic_fun
  ----------------------------------------------------------------------------*)
 
-val pmatch_heuristic = ref default_heuristic_fun
-val classic = ref false
+val pmatch_heuristic = ref' default_heuristic_fun
+val classic = ref' false
 fun is_classic () = !classic
 
 fun set_heuristic_fun heu_fun = (pmatch_heuristic := heu_fun)

@@ -693,7 +693,7 @@ local fun peel f (t as Clos _) A = peel f (push_clos t) A
          if HOLset.member(viset,vi) then viset else HOLset.add(viset,vi)
       fun trypush_clos (x as Clos _) = push_clos x
         | trypush_clos t = t
-      val AV = ref (Redblackmap.mkDict String.compare) : ((string,occtype)Redblackmap.dict) ref
+      val AV = ref' (Redblackmap.mkDict String.compare) : ((string,occtype)Redblackmap.dict) ref
       fun peekInsert (key,data) =
         let open Redblackmap
         in case peek (!AV,key)

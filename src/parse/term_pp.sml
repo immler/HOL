@@ -69,18 +69,18 @@ fun apply_absargs f abs =
  ---------------------------------------------------------------------------*)
 
 
-val casesplit_munger = ref (NONE: (term -> term * (term * term)list) option)
+val casesplit_munger = ref' (NONE: (term -> term * (term * term)list) option)
 fun init_casesplit_munger f =
-    case casesplit_munger of
-      ref NONE => casesplit_munger := SOME f
+    case !casesplit_munger of
+      NONE => casesplit_munger := SOME f
     | _ => raise PP_ERR "init_casesplit_munger"
                         "casesplit munger already initialised"
 
 exception CaseConversionFailed
 fun convert_case tm =
-    case casesplit_munger of
-      ref NONE => raise CaseConversionFailed
-    | ref (SOME f) => let
+    case !casesplit_munger of
+      NONE => raise CaseConversionFailed
+    | (SOME f) => let
         val (split_on, splits) = f tm
             handle HOL_ERR _ => raise CaseConversionFailed
         val _ = not (null splits) orelse raise CaseConversionFailed
@@ -88,8 +88,8 @@ fun convert_case tm =
         (split_on, splits)
       end
 
-val prettyprint_cases = ref true;
-val prettyprint_cases_dt = ref false;
+val prettyprint_cases = ref' true;
+val prettyprint_cases_dt = ref' false;
 val _ = register_btrace ("pp_cases", prettyprint_cases)
 val _ = register_btrace ("pp_cases_dt", prettyprint_cases_dt)
 
@@ -108,7 +108,7 @@ fun prettyprint_cases_name () = if !prettyprint_cases_dt then "dtcase" else "cas
    ---------------------------------------------------------------------- *)
 open HOLPP smpp term_pp_types term_pp_utils
 
-val dollar_escape = ref true
+val dollar_escape = ref' true
 
 (* When printing with parentheses, make consecutive calls to the
    supplied printing function (add_string) so that the "tokens"
@@ -158,7 +158,7 @@ end
    fast on its second argument.
 *)
 
-val avoid_symbol_merges = ref true
+val avoid_symbol_merges = ref' true
 val _ = register_btrace("pp_avoids_symbol_merges", avoid_symbol_merges)
 
 fun creates_comment(s1, s2) = let
@@ -215,7 +215,7 @@ end
     A flag controlling printing of set comprehensions
    ---------------------------------------------------------------------- *)
 
-val unamb_comp = ref 0
+val unamb_comp = ref' 0
 val _ = Feedback.register_trace ("pp_unambiguous_comprehensions", unamb_comp, 2)
 
 fun grav_name (Prec(n, s)) = s | grav_name _ = ""
@@ -425,10 +425,10 @@ fun nthy_compare ({Name = n1, Thy = thy1}, {Name = n2, Thy = thy2}) =
     EQUAL => String.compare(thy1, thy2)
   | x => x
 
-val prettyprint_bigrecs = ref true;
+val prettyprint_bigrecs = ref' true;
 val _ = register_btrace ("pp_bigrecs", prettyprint_bigrecs)
 
-val pp_print_firstcasebar = ref false
+val pp_print_firstcasebar = ref' false
 val _ = register_btrace ("PP.print_firstcasebar", pp_print_firstcasebar)
 
 val unfakeconst = Option.map #fake o GrammarSpecials.dest_fakeconst_name

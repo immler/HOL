@@ -62,7 +62,7 @@ val empty_sdata_map = Map.mkDict String.compare
    latter sort of map an ordermap. *)
 type dbmap = (string, submap * submap) Map.dict
 
-local val DBref = ref (Map.mkDict String.compare) : dbmap ref
+local val DBref = ref' (Map.mkDict String.compare) : dbmap ref
       fun lemmas() = !DBref
       fun add_to_submap m (newdata as ((s1, s2), x)) =
           let val s2key = toLower s2

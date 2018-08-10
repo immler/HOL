@@ -161,7 +161,7 @@ fun dest_string_lit tm =
 
 val is_string_lit = can dest_string_lit
 
-val paranoid_stringlitpp = ref false
+val paranoid_stringlitpp = ref' false
 val _ = Feedback.register_btrace
             ("paranoid string literal printing", paranoid_stringlitpp)
 fun string_literalpp s =
@@ -233,7 +233,7 @@ end
 (*---------------------------------------------------------------------------*)
 
 local
-   val literals = ref [is_numeral, is_string_lit, is_char_lit]
+   val literals = ref' [is_numeral, is_string_lit, is_char_lit]
 in
    fun add_literal is_lit = literals := !literals @ [is_lit]
    fun is_literal tm = List.exists (fn f => f tm) (!literals)

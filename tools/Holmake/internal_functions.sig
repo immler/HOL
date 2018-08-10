@@ -8,10 +8,10 @@ sig
   val tokenize : string -> string list
   val find_unescaped : char list -> Substring.substring -> int option
   val wildcard : string -> string list
-  val function_call : (string *
+(*  val function_call : (string *
                        Substring.substring list *
                        (Substring.substring -> string)) -> string
-
+*)
 end
 
 (*

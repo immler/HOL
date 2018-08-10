@@ -4,8 +4,8 @@ struct
 open base_tokens_dtype
 exception LEX_ERR of string * locn.locn
 
-val allow_octal_input = ref false
-val preferred_output_base = ref StringCvt.DEC
+val allow_octal_input = ref' false
+val preferred_output_base = ref' StringCvt.DEC
 
 
 fun toString (BT_Ident s) = s

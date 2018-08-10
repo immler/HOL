@@ -40,8 +40,8 @@ fun resolve_ssfragconvs tyi =
     apply_all [] (TypeBasePure.extra_of tyi) tyi
   end
 
-local val dBase = ref empty
-      val update_fns = ref ([]:(tyinfo list -> tyinfo list) list)
+local val dBase = ref' empty
+      val update_fns = ref' ([]:(tyinfo list -> tyinfo list) list)
 in
   fun theTypeBase() = !dBase
 

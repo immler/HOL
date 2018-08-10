@@ -238,12 +238,12 @@ end;
 local fun num2name s i = s^Lib.int_to_string i
       fun subscripts x s =
         let val project = num2name (s^x)
-            val cnt = ref 0
+            val cnt = ref' 0
             fun incr() = (cnt := !cnt + 1; project (!cnt))
         in incr
         end
       fun primes s =
-        let val current = ref s
+        let val current = ref' s
             fun next () = (current := Lib.prime (!current); !current)
         in next
         end

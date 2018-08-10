@@ -623,7 +623,7 @@ abstype ('a, 'b) istream = STRM of {mutator: 'a -> 'a,
                                     init: 'a}
 with
    fun mk_istream f i g =
-      STRM {mutator = f, project = g, state = ref i, init = i}
+      STRM {mutator = f, project = g, state = ref' i, init = i}
    fun next (strm as STRM{mutator, state, ...}) =
       (state := mutator (!state); strm)
    fun state (STRM {project, state, ...}) = project (!state)

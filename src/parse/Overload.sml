@@ -37,8 +37,8 @@ fun pmdata_compare ((t1,s1,_), (t2,s2,_)) =
         EQUAL => String.compare(s1,s2)
       | r => r
 val pos_tstamp : bool -> int = let
-  val neg = ref 0
-  val cnt = ref 1
+  val neg = ref' 0
+  val cnt = ref' 1
 in
   fn true => (!cnt before (cnt := !cnt + 1))
    | false => (!neg before (neg := !neg - 1))
@@ -468,7 +468,7 @@ fun overloading_of_nametype (oinfo:overload_info) r =
 fun rev_append [] rest = rest
   | rev_append (x::xs) rest = rev_append xs (x::rest)
 
-val show_alias_resolution = ref true
+val show_alias_resolution = ref' true
 val _ = Feedback.register_btrace ("show_alias_printing_choices",
                                   show_alias_resolution)
 

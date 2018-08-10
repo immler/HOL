@@ -28,7 +28,7 @@ struct
                   'a frag list) ref
 
   fun read_from_string s = let
-    val state = ref (Substring.full s)
+    val state = ref' (Substring.full s)
     fun reader n = let
       open Substring
     in
@@ -77,9 +77,9 @@ struct
               (NONE, (BT_AQ x,maybe (locfrag nf)), nf+1, rest)
       end
 
-  fun new_buffer q = ref (new_buffer0 NONE 0 q)
+  fun new_buffer q = ref' (new_buffer0 NONE 0 q)
 
-  fun current (ref (_, x, _, _)) = x
+  fun current rx = case !rx of (_, x, _, _) => x
 
   fun buffer_from_lbuf lexfn nf_q q =
       let val (t,locn) = lexfn ()
@@ -87,7 +87,8 @@ struct
           buffer_from_tok lexfn (t,locn) nf_q q
       end
 
-  fun advance (r as ref (lbopt, (curr,cloc), nf_q, q)) =
+  fun advance r =
+    case !r of (lbopt, (curr,cloc), nf_q, q) =>
       case curr of
           BT_AQ _ => r := new_buffer0 (SOME cloc) nf_q q
         | BT_EOI => ()
@@ -103,9 +104,10 @@ struct
     recurse []
   end
 
-  fun replace_current t (r as ref (lb, _, nf_q, q)) = r := (lb, t, nf_q, q)
+  fun replace_current t r = case !r of (lb, _, nf_q, q) =>
+    r := (lb, t, nf_q, q)
 
-  fun toString (r as ref (lbopt, (c,_), nf_q, q)) = let
+  fun toString r = case !r of (lbopt, (c,_), nf_q, q) => let
     fun lb_toStringList acc lexfn = let
       val (t,locn) = lexfn ()
     in

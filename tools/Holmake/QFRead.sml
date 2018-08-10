@@ -28,7 +28,7 @@ fun file_to_lexer fname =
 fun string_to_lexer s =
   let
     val qstate = QuoteFilter.UserDeclarations.newstate false
-    val sr = ref s
+    val sr = ref' s
     fun str_read _ = (!sr before sr := "")
     val read = QuoteFilter.makeLexer str_read qstate
   in
@@ -48,10 +48,10 @@ fun inputFile fname = exhaust_lexer (file_to_lexer fname)
 fun fromString s = exhaust_lexer (string_to_lexer s)
 
 fun mkReaderEOF (read, close) = let
-  val i = ref 0
-  val s = ref ""
-  val sz = ref 0
-  val eofp = ref false
+  val i = ref' 0
+  val s = ref' ""
+  val sz = ref' 0
+  val eofp = ref' false
   fun pull () = (s := read(); sz := size (!s); i := 0;
                  if !sz = 0 then (eofp := true; close()) else ())
   fun doit () =

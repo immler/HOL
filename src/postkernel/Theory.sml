@@ -69,7 +69,7 @@ local
        hooks earlier in the list.
        The set component is the list of the disabled hooks.
      *)
-      ref (HOLset.empty String.compare,
+      ref' (HOLset.empty String.compare,
            [] : (string * (TheoryDelta.t -> unit)) list)
 in
 fun call_hooks td = let
@@ -148,7 +148,7 @@ end (* local block enclosing declaration of hooks variable *)
 
 (* This reference is set in course of loading the parsing library *)
 
-val pp_thm = ref (fn _:thm => PP.add_string "<thm>")
+val pp_thm = ref' (fn _:thm => PP.add_string "<thm>")
 
 (*---------------------------------------------------------------------------*
  * Unique identifiers, for securely linking a theory to its parents when     *
@@ -196,7 +196,7 @@ fun thyname_assoc x [] = raise ERR "thyname_assoc" "not found"
  ---------------------------------------------------------------------------*)
 
 structure Graph = struct type graph = (thyid * thyid list) list
-local val theGraph = ref [(min_thyid,[])]
+local val theGraph = ref' [(min_thyid,[])]
 in
    fun add p = theGraph := (p :: !theGraph)
    fun add_parent (n,newp) =
@@ -298,7 +298,7 @@ fun fresh_segment s :segment = {thid=new_thyid s,  facts=[],  adjoin=[],
                                mldeps = HOLset.empty String.compare};
 
 
-local val CT = ref (fresh_segment "scratch")
+local val CT = ref' (fresh_segment "scratch")
 in
   fun theCT() = !CT
   fun makeCT seg = CT := seg
@@ -587,7 +587,7 @@ local
     else raise ERR fname ("Can't use name " ^ Lib.mlquote s ^
                           " as a theory-binding")
   fun DATED_ERR f bindname = ERR f (Lib.quote bindname^" is out-of-date!")
-  val save_thm_reporting = ref 1
+  val save_thm_reporting = ref' 1
   val _ = Feedback.register_trace ("Theory.save_thm_reporting",
                                    save_thm_reporting, 2)
   fun mesg_str th =
@@ -701,9 +701,9 @@ struct
                   read : (string -> term) -> string -> t option,
                   write : (term -> string) -> t -> string,
                   terms : t -> term list}
-  val allthydata = ref (Binarymap.mkDict String.compare :
+  val allthydata = ref' (Binarymap.mkDict String.compare :
                         (string, ThyDataMap) Binarymap.dict)
-  val dataops = ref (Binarymap.mkDict String.compare :
+  val dataops = ref' (Binarymap.mkDict String.compare :
                      (string, DataOps) Binarymap.dict)
 
   fun segment_data {thy,thydataty} = let
@@ -871,9 +871,9 @@ fun unadjzip [] A = A
  ----------------------------------------------------------------------------*)
 
 fun total_cpu {usr,sys} = Time.+(usr,sys)
-val new_theory_time = ref (total_cpu (Timer.checkCPUTimer Globals.hol_clock))
+val new_theory_time = ref' (total_cpu (Timer.checkCPUTimer Globals.hol_clock))
 
-val report_times = ref true
+val report_times = ref' true
 val _ = Feedback.register_btrace ("report_thy_times", report_times)
 
 local
@@ -1129,7 +1129,7 @@ fun check_tyvars body_tyvars ty f =
          ("Unbound type variable(s) in definition: "
            :: commafy (map (Lib.quote o dest_vartype) extras)));
 
-val new_definition_hook = ref
+val new_definition_hook = ref'
     ((fn tm => ([], tm)),
      (fn (V,th) =>
        if null V then th

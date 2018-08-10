@@ -8,7 +8,7 @@ open parse_term_dtype
 
 infix >> >- ++ >->
 
-val syntax_error_trace = ref true
+val syntax_error_trace = ref' true
 val _ = Feedback.register_btrace ("syntax_error", syntax_error_trace)
 
 fun WARN f msg = if !syntax_error_trace then
@@ -82,20 +82,20 @@ fun all_tokens strlist =
 
 exception PrecConflict of stack_terminal * stack_terminal
 
-val complained_already = ref false;
+val complained_already = ref' false;
 
 structure Polyhash =
 struct
-   fun peek (ref dict) k = Binarymap.peek(dict,k)
-   fun peekInsert (r as ref dict) (k,v) =
+   fun peek rdict k = Binarymap.peek(!rdict,k)
+   fun peekInsert r (k,v) = let val dict = !r in
        case Binarymap.peek(dict,k) of
          NONE => (r := Binarymap.insert(dict,k,v); NONE)
-       | x => x
-   fun insert (r as ref dict) (k,v) =
-       r := Binarymap.insert(dict,k,v)
-   fun listItems (ref dict) = Binarymap.listItems dict
+       | x => x end
+   fun insert r (k,v) =
+       r := Binarymap.insert(!r,k,v)
+   fun listItems rdict = Binarymap.listItems (!rdict)
    fun mkDict cmp = let
-     val newref = ref (Binarymap.mkDict cmp)
+     val newref = ref' (Binarymap.mkDict cmp)
    in
      newref
    end
@@ -172,7 +172,7 @@ in
   Id :: map STD_HOL_TOK (binders G) @ map hd prefix_rules
 end
 
-val ambigrm = ref 1
+val ambigrm = ref' 1
 val _ = Feedback.register_trace ("ambiguous grammar warning", ambigrm, 2)
 
 fun STtoString (G:grammar) x =
@@ -209,7 +209,7 @@ fun mk_prec_matrix G = let
       *)
 
   val rule_elements = term_grammar.rule_elements o #elements
-  val complained_this_iteration = ref false
+  val complained_this_iteration = ref' false
   fun insert_bail k =
       (Polyhash.insert matrix (k, PM_LESS MS_Multi);
        complained_this_iteration := true;

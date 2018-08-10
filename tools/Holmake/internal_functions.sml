@@ -264,7 +264,7 @@ fun which arg =
     | NONE => if isUnix then "" else smash (check ".")
   end
 
-fun shell arg =
+(* fun shell arg =
   let
     open Unix
 
@@ -287,7 +287,6 @@ fun shell arg =
     if OS.Process.isSuccess (reap proc) then str else ""
   end
   handle OS.SysErr _ => ""
-
 fun function_call (fnname, args, eval) = let
   open Substring
 in
@@ -367,6 +366,6 @@ in
                end
   | _ => raise Fail ("Unknown function name: "^fnname)
 end
-
+*)
 
 end (* struct *)

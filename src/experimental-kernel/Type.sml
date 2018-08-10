@@ -164,7 +164,7 @@ val delta  = Tyv "'d"
 val etyvar = Tyv "'e"
 val ftyvar = Tyv "'f"
 
-val varcomplain = ref true
+val varcomplain = ref' true
 val _ = register_btrace ("Vartype Format Complaint", varcomplain)
 
 fun mk_vartype "'a" = alpha  | mk_vartype "'b" = beta

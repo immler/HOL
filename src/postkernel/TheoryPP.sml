@@ -24,7 +24,7 @@ fun dest_temp_binding s =
   else raise ERR "dest_temp_binding" "String not a temp-binding"
 
 
-val pp_sig_hook = ref (fn () => ());
+val pp_sig_hook = ref' (fn () => ());
 
 val concat = String.concat;
 val sort = Lib.sort (fn s1:string => fn s2 => s1<=s2);
@@ -83,7 +83,7 @@ fun pp_type mvartype mtype ty =
           ]
  end
 
-val include_docs = ref true
+val include_docs = ref' true
 val _ = Feedback.register_btrace ("TheoryPP.include_docs", include_docs)
 
 fun pp_sig pp_thm info_record = let

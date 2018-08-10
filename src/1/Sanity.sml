@@ -16,7 +16,7 @@ fun report_sanity_problem___plain thy thm_name warning =
   HOL_WARNING ("Sanity Check "^thy^"Theory") thm_name
      warning;
 
-val report_last_thm = ref "";
+val report_last_thm = ref' "";
 fun report_sanity_problem___verbose thy thm_name warning =
   let
      open PPBackEnd
@@ -45,7 +45,7 @@ fun report_sanity_problem___verbose thy thm_name warning =
 fun init_report_sanity_problem () =
    (report_last_thm := "");
 
-val report_verbose = ref true;
+val report_verbose = ref' true;
 val _ = Feedback.register_btrace ("Sanity Check Verbose", report_verbose);
 
 
@@ -83,8 +83,8 @@ end;
 (* Check for tags                                                             *)
 (******************************************************************************)
 
-val accepted_axioms = ref ([]:string list);
-val accepted_oracles = ref (["DISK_THM"]:string list);
+val accepted_axioms = ref' ([]:string list);
+val accepted_oracles = ref' (["DISK_THM"]:string list);
 
 fun check_tags ((thy, name), (thm, cl)) =
 let
@@ -110,7 +110,7 @@ end;
 (* Check for theorem name clashes                                             *)
 (******************************************************************************)
 
-val check_thm_name_flag = ref true;
+val check_thm_name_flag = ref' true;
 val _ = Feedback.register_btrace ("Sanity Check Thm-Name Clash", check_thm_name_flag);
 
 fun check_thm_name ((thy, name), (thm, cl)) =
@@ -143,7 +143,7 @@ in
 end;
 
 
-val check_var_names___const_flag = ref true;
+val check_var_names___const_flag = ref' true;
 val _ = Feedback.register_btrace ("Sanity Check Var-Const Clash", check_var_names___const_flag);
 
 fun check_var_names___const ((thy, name), (thm, cl)) =
@@ -164,7 +164,7 @@ end else false;
 (* Check for free top-level variables                                         *)
 (******************************************************************************)
 
-val check_free_vars_ref = ref 1;
+val check_free_vars_ref = ref' 1;
 val _ = Feedback.register_trace ("Sanity Check Free Vars", check_free_vars_ref, 1);
 
 fun varlist_to_string vL =
@@ -245,7 +245,7 @@ fun sanity_check_thm thm = sanity_check_named_thm ("-", thm);
 (* Apply the checks when saving theorems                                      *)
 (******************************************************************************)
 
-val strict_sanity = ref true;
+val strict_sanity = ref' true;
 val _ = Feedback.register_btrace ("Sanity Check Strict", strict_sanity);
 
 exception sanity_exn;

@@ -275,7 +275,7 @@ fun topsort R =
 fun dict_topsort deps =
    let
       open Redblackmap
-      val deps = transform (fn ls => ref (SOME ls)) deps
+      val deps = transform (fn ls => ref' (SOME ls)) deps
       fun visit (n, ls) =
          let
             val r = find (deps, n)
@@ -301,7 +301,7 @@ fun dict_topsort deps =
 val string_to_int =
    partial (ERR "string_to_int" "not convertable") Int.fromString
 
-val saying = ref true
+val saying = ref' true
 
 fun say s = if !saying then !Feedback.MESG_outstream s else ()
 

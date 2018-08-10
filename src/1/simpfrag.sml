@@ -16,7 +16,7 @@ fun add_rwts {convs, rewrs} newrwts = {convs = convs, rewrs = rewrs @ newrwts};
 
 fun add_convs cds {convs, rewrs} = {convs = convs@cds, rewrs = rewrs}
 
-val sconv_db = ref (Binarymap.mkDict String.compare : (string,thm -> convdata) Binarymap.dict)
+val sconv_db = ref' (Binarymap.mkDict String.compare : (string,thm -> convdata) Binarymap.dict)
 
 fun register_simpfrag_conv {name,code} =
   sconv_db := Binarymap.insert(!sconv_db, name, code)

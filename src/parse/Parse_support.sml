@@ -368,7 +368,7 @@ end
  *     B <varstruct list>::<restr>. M
  *---------------------------------------------------------------------------*)
 
-local val restricted_binders = ref ([] : (string * string) list)
+local val restricted_binders = ref' ([] : (string * string) list)
 in
 fun binder_restrictions() = !restricted_binders
 fun associate_restriction l (p as (binder_str,const_name)) =

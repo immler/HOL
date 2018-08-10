@@ -8,7 +8,7 @@ type thry   = {Tyop : string, Thy : string} ->
 
 val ERR = mk_HOL_ERR "Pmatch";
 
-val allow_new_clauses = ref true;
+val allow_new_clauses = ref' true;
 
 (*---------------------------------------------------------------------------
       Miscellaneous support
@@ -41,10 +41,10 @@ fun match_type thry ty1 ty2 = Type.match_type ty1 ty2;
 fun match_info db s = db s
 
 (* should probably be in somewhere like HolKernel *)
-local val counter = ref 0
+local val counter = ref' 0
 in
 fun vary vlist =
-  let val slist = ref (map (fst o dest_var) vlist)
+  let val slist = ref' (map (fst o dest_var) vlist)
       val _ = counter := 0
       fun pass str =
          if Lib.mem str (!slist)

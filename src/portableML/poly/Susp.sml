@@ -6,7 +6,7 @@ datatype 'a thunk = VAL of 'a | THUNK of unit -> 'a
 
 type 'a susp = 'a thunk ref
 
-fun delay (f : unit -> 'a) = ref (THUNK f) : 'a susp
+fun delay (f : unit -> 'a) = ref' (THUNK f) : 'a susp
 
 fun force (su : 'a susp) : 'a =
    case !su of

@@ -233,6 +233,7 @@ in
   recurse 0 0 0 []
 end
 
+(*
 fun perform_substitution env q = let
   open Substring
   fun envfn s =
@@ -279,6 +280,7 @@ fun perform_substitution env q = let
 in
   finisher (recurse [] q)
 end
+*)
 
 fun dequote s = let
   open Substring
@@ -312,6 +314,7 @@ fun app_insert (ddb, s, slist) =
       NONE => Binarymap.insert(ddb, s, slist)
     | SOME existing => Binarymap.insert(ddb, s, existing @ slist)
 
+(*
 fun extend_ruledb warn env {targets,dependencies,commands} (rdb,ddb) = let
   val tgts = map dequote (tokenize (perform_substitution env targets))
   val deps = map dequote (tokenize (perform_substitution env dependencies))
@@ -333,11 +336,13 @@ in
       (List.foldl foldthis rdb tgts, ddb, tgts)
     end
 end
+*)
 
 fun ins (k,v) env = Binarymap.insert(env,k,v)
 infix |>
 fun x |> f = f x
 
+(*
 fun get_rule_info rdb env tgt =
     case Binarymap.peek(rdb, tgt) of
       NONE => NONE
@@ -348,7 +353,7 @@ fun get_rule_info rdb env tgt =
         SOME {dependencies = dependencies,
               commands = map (perform_substitution env) commands}
       end
-
+*)
 
 val base_environment0 = let
   open Systeml

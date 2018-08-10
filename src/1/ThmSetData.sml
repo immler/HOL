@@ -58,7 +58,7 @@ type exportfn = (string -> (string * thm) list -> unit) option
 val data_map = let
   open Binarymap
 in
-  ref (mkDict String.compare : (string,destfn * storefn * exportfn) dict)
+  ref' (mkDict String.compare : (string,destfn * storefn * exportfn) dict)
 end
 
 fun data_storefn s = Option.map #2 (Binarymap.peek(!data_map,s))

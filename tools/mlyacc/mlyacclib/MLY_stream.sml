@@ -31,11 +31,11 @@ struct
 
    type 'a stream = 'a str ref
 
-   fun get(ref(EVAL t)) = t
-     | get(s as ref(UNEVAL f)) =
-	    let val t = (f(), ref(UNEVAL f)) in s := EVAL t; t end
+   fun get(s) = case !s of EVAL t => t
+    | UNEVAL f =>
+	    let val t = (f(), ref'(UNEVAL f)) in s := EVAL t; t end
 
-   fun streamify f = ref(UNEVAL f)
-   fun cons(a,s) = ref(EVAL(a,s))
+   fun streamify f = ref'(UNEVAL f)
+   fun cons(a,s) = ref'(EVAL(a,s))
 
 end;

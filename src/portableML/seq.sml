@@ -9,15 +9,13 @@ datatype 'a seq =
   LDELAYREF of  'a seq ref |
   LDELAYED of (unit -> 'a seq)
 
-fun delay f = LDELAYREF (ref (LDELAYED f))
+fun delay f = LDELAYREF (ref' (LDELAYED f))
 fun force s =
   case s of
-    LDELAYREF (r as ref (LDELAYED f)) => let
-      val new = f ()
-    in
-      r := new; new
-    end
-  | LDELAYREF (ref x) => x
+    LDELAYREF r =>
+    (case !r of
+      LDELAYED f => let val new = f() in r := new; new end
+    | x => x)
   | x => x
 
 fun cons x xs = LCONS(x, xs)

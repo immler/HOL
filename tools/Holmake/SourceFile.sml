@@ -20,11 +20,11 @@ fun getPos (T {file, lineNum, lineStart, ...}, n) =
 
 fun lineStart (s as T {lineStart, ...}) = getPos (s, !lineStart)
 
-val observe_line_directives = ref true
+val observe_line_directives = ref' true
 
-fun new file = T {file = ref file,
-                  lineNum = ref 1,
-                  lineStart = ref 0}
+fun new file = T {file = ref' file,
+                  lineNum = ref' 1,
+                  lineStart = ref' 0}
 
 fun newline (T {lineStart, lineNum, ...}, n) =
    (lineNum := !lineNum + 1

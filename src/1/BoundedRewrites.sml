@@ -28,7 +28,7 @@ struct
   fun dest_tagged_rewrite thm = let
     val (th, n) = DEST_BOUNDED thm
   in
-    (th, BOUNDED (ref n))
+    (th, BOUNDED (ref' n))
   end handle HOL_ERR _ => (thm, UNBOUNDED)
 
 

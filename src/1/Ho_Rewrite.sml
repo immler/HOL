@@ -47,7 +47,7 @@ fun mk_rewrites th =
   handle e => raise (wrap_exn "Ho_Rewrite" "mk_rewrites" e);
 
 
-val monitoring = ref false;
+val monitoring = ref' false;
 
 val _ = register_btrace ("Ho_Rewrite", monitoring);
 
@@ -61,7 +61,7 @@ fun dest_rewrites(RW{thms, ...}) = thms
 
 val empty_rewrites = RW{thms = [],  net = Ho_Net.empty}
 
-val implicit = ref empty_rewrites;
+val implicit = ref' empty_rewrites;
 
 fun add_rewrites (RW{thms,net}) thl =
   RW{thms = thms@thl,

@@ -57,16 +57,16 @@ fun assoc1 item =
  * Controlling the display of exceptions, messages, and warnings.            *
  *---------------------------------------------------------------------------*)
 
-val emit_ERR     = ref true
-val emit_MESG    = ref true
-val emit_WARNING = ref true
-val WARNINGs_as_ERRs = ref false
+val emit_ERR     = ref' true
+val emit_MESG    = ref' true
+val emit_WARNING = ref' true
+val WARNINGs_as_ERRs = ref' false
 
 fun out strm s = (TextIO.output(strm, s); TextIO.flushOut strm)
 
-val ERR_outstream     = ref (out TextIO.stdErr)
-val MESG_outstream    = ref (out TextIO.stdOut)
-val WARNING_outstream = ref (out TextIO.stdOut)
+val ERR_outstream     = ref' (out TextIO.stdErr)
+val MESG_outstream    = ref' (out TextIO.stdOut)
+val WARNING_outstream = ref' (out TextIO.stdOut)
 
 fun quiet_warnings f = Portable.with_flag (emit_WARNING, false) f
 fun quiet_messages f = Portable.with_flag (emit_MESG, false) f
@@ -88,9 +88,9 @@ fun format_WARNING structName fnName mesg =
    String.concat
       ["<<HOL warning: ", structName, ".", fnName, ": ", mesg, ">>\n"]
 
-val ERR_to_string     = ref format_ERR
-val MESG_to_string    = ref format_MESG
-val WARNING_to_string = ref format_WARNING
+val ERR_to_string     = ref' format_ERR
+val MESG_to_string    = ref' format_MESG
+val WARNING_to_string = ref' format_WARNING
 
 fun output_ERR s = if !emit_ERR then !ERR_outstream s else ()
 
@@ -170,7 +170,7 @@ type trace_record = {
 datatype TI = TR of trace_record | ALIAS of string
 
 val trace_map =
-    ref (Binarymap.mkDict String.compare : (string,TI)Binarymap.dict)
+    ref' (Binarymap.mkDict String.compare : (string,TI)Binarymap.dict)
 
 fun find_record n =
   case Binarymap.peek (!trace_map, n) of
