@@ -18,6 +18,10 @@ fun add_parameter v =
   fv_ass := v :: !fv_ass
   end;
 
+fun drop_parameter () =
+  case !fv_ass of [] => ()
+  | _ :: vs => fv_ass := vs
+
 fun get_assums () = !curr_assums;
 
 fun set_assums asl =
@@ -48,7 +52,7 @@ fun add_impl_param x p =
   impl_param_cstr := (x,p)::(!impl_param_cstr);
 fun impl_of x =
   map Absyn.mk_AQ (assoc x (!impl_param_cstr)) handle HOL_ERR _ => []
-
+fun drop_impl () = impl_param_cstr:=[]
 
 
 fun head tm =

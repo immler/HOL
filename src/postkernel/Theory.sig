@@ -80,6 +80,7 @@ sig
                                read : string -> term,
                                data : string} -> unit
     (* updates segment data using an encoded string *)
+    val update_loaded : string -> (string, t) Binarymap.dict -> unit
   end
 
 (* Extensions by definition *)

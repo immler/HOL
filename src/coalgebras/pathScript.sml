@@ -4,7 +4,7 @@ open bossLib llistTheory BasicProvers metisLib
 
 local open pred_setLib fixedPointTheory rich_listTheory in end
 
-val _ = augment_srw_ss [rewrites [LET_THM]]
+val _ = augment_srw_ss [simpLib.name_ss "path_ss" (simpLib.rewrites [LET_THM])]
 
 val _ = new_theory "path";
 

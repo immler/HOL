@@ -4,6 +4,7 @@ sig
   include Abbrev
 
   val add_parameter : term -> unit
+  val drop_parameter : unit -> unit
 
   val get_assums : unit -> term list
   val set_assums : term list -> unit
@@ -13,6 +14,7 @@ sig
 
   val add_impl_param : string -> term list -> unit
   val impl_of : string -> Absyn.absyn list
+  val drop_impl : unit -> unit
 
   val param_eq : term -> term
 

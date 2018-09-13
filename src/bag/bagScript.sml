@@ -1499,7 +1499,7 @@ val FINITE_SET_OF_BAG = store_thm(
     take elements that want to be infinite to one instead.
    ---------------------------------------------------------------------- *)
 
-val _ = augment_srw_ss [simpLib.rewrites [LET_THM]]
+val _ = augment_srw_ss [simpLib.name_ss "bag_ss" (simpLib.rewrites [LET_THM])]
 val BAG_IMAGE_DEF = new_definition(
   "BAG_IMAGE_DEF",
   ``BAG_IMAGE f b = \e. let sb = BAG_FILTER (\e0. f e0 = e) b

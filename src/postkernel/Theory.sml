@@ -757,6 +757,9 @@ struct
                         $$)
         end
 
+  fun update_loaded thy (newsubmap: (string, t) Binarymap.dict) =
+    allthydata := Binarymap.insert(!allthydata, thy, Binarymap.transform Loaded newsubmap)
+
   fun temp_encoded_update {thy, thydataty, data, read = tmread} = let
     val (s as {thydata, thid, ...}) = theCT()
     open Binarymap
