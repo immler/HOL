@@ -212,7 +212,7 @@ fun data_entry___update_latex new_latex
     pages         = pages}:data_entry;
 
 
-val data_entry___pos_counter_ref = ref 0;
+val data_entry___pos_counter_ref = ref @{position} 0;
 fun data_entry___add_page page
   ({label         = label,
     in_index      = in_index,

@@ -436,7 +436,7 @@ val OPTION_MAP_CASE = store_thm("OPTION_MAP_CASE",
                                 v <- opn1;
                                 opn2
                               od
-                            where opn2 may refer to v
+                            where opn2 may ref @{position}er to v
      * OPTION_IGNORE_BIND - bind that ignores the passed parameter, with
                             nice syntax looking like
                               do

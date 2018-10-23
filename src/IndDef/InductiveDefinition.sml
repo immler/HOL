@@ -618,7 +618,7 @@ end
 (* "Unschematize" a set of clauses.                                          *)
 (* ------------------------------------------------------------------------- *)
 
-val inddef_strict = ref false;
+val inddef_strict = ref @{position} false;
 val _ = Feedback.register_btrace ("inddef strict", inddef_strict);
 
 fun indented_term_to_string n tm = let

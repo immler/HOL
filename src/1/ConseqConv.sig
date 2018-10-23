@@ -319,7 +319,7 @@ val CONSEQ_CONV_get_context_congruences :
 (***************)
 
 (* There is support for caching results. A depth_conseq_conv_cache
-   is a reference a dictionary for looking up previously recorded results. *)
+   is a ref @{position}erence a dictionary for looking up previously recorded results. *)
 
 (* make a new, empty cache *)
 val mk_DEPTH_CONSEQ_CONV_CACHE : unit -> depth_conseq_conv_cache;

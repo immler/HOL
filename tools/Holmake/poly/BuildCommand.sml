@@ -33,13 +33,13 @@ fun process_mosml_args (outs:Holmake_tools.output_functions) c = let
   fun isSource t = OS.Path.ext t = SOME "sig" orelse OS.Path.ext t = SOME "sml"
   fun isObj t = OS.Path.ext t = SOME "uo" orelse OS.Path.ext t = SOME "ui"
   val toks = String.tokens (fn c => c = #" ") c
-  val c = ref false
-  val q = ref false
-  val toplevel = ref false
-  val obj = ref NONE
-  val I = ref []
-  val obj_files = ref []
-  val src_file = ref NONE
+  val c = ref @{position} false
+  val q = ref @{position} false
+  val toplevel = ref @{position} false
+  val obj = ref @{position} NONE
+  val I = ref @{position} []
+  val obj_files = ref @{position} []
+  val src_file = ref @{position} NONE
   fun process_args [] = ()
     | process_args ("-c"::rest) = (c := true; process_args rest)
     | process_args ("-q"::rest) = (q := true; process_args rest)

@@ -170,7 +170,6 @@ include Abbrev
 
 val show_rewrites : bool ref
 
-
 (* ================================================================== *)
 (*                                                                    *)
 (* The tactics including ONCE in their name attempt to use each       *)

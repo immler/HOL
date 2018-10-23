@@ -6,7 +6,7 @@ val _ = new_theory "SGAUnicodeMergeB";
 val _ = set_grammar_ancestry ["SGAUnicodeMergeA1", "SGAUnicodeMergeA2"]
 
 
-val numfails = ref 0
+val numfails = ref @{position} 0
 
 val thm1 = store_thm(
   "thm1",

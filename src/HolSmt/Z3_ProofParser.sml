@@ -244,8 +244,8 @@ local
   (* turning terms into Z3 proofterms                                        *)
   (***************************************************************************)
 
-  (* we use a reference to implement recursion through this dictionary *)
-  val pt_dict = ref (Redblackmap.mkDict String.compare
+  (* we use a ref @{position}erence to implement recursion through this dictionary *)
+  val pt_dict = ref @{position} (Redblackmap.mkDict String.compare
     : (string, Term.term list -> proofterm) Redblackmap.dict)
 
   fun proofterm_of_term t =
@@ -361,7 +361,7 @@ local
     ) else
       let
         (* undo look-ahead of 2 tokens *)
-        val buffer = ref ["(", head]
+        val buffer = ref @{position} ["(", head]
         fun get_token' () =
           case !buffer of
             [] => get_token ()

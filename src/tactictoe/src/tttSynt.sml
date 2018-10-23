@@ -16,9 +16,9 @@ val ERR = mk_HOL_ERR "tttSynt"
    Globals
    -------------------------------------------------------------------------- *)
 
-val conjecture_limit = ref 100000
-val patsub_flag = ref false
-val type_errors = ref 0
+val conjecture_limit = ref @{position} 100000
+val patsub_flag = ref @{position} false
+val type_errors = ref @{position} 0
 
 (* --------------------------------------------------------------------------
    Tools
@@ -41,7 +41,7 @@ fun unvalid_change tm tm' =
    Debugging
    -------------------------------------------------------------------------- *)
 
-val ttt_synt_dir = ref (tactictoe_dir ^ "/log_synt")
+val ttt_synt_dir = ref @{position} (tactictoe_dir ^ "/log_synt")
 
 fun log_synt_file file s =
   append_endline (!ttt_synt_dir ^ "/" ^ file) s 
@@ -112,10 +112,10 @@ type psubst = (int * int) list
 type tsubst = (term * term) list
 
 (* dictionnary *)
-val cdict_glob = ref (dempty Term.compare)
-val icdict_glob = ref (dempty Int.compare)
-val cdict_loc = ref (dempty Int.compare)
-val cjinfo_glob =ref (dempty Term.compare)
+val cdict_glob = ref @{position} (dempty Term.compare)
+val icdict_glob = ref @{position} (dempty Int.compare)
+val cdict_loc = ref @{position} (dempty Int.compare)
+val cjinfo_glob =ref @{position} (dempty Term.compare)
 
 
 fun fconst_glob c =
@@ -147,8 +147,8 @@ fun init_synt () =
    Conceptualization
    -------------------------------------------------------------------------- *)
 
-val concept_threshold = ref 4
-val concept_flag = ref false
+val concept_threshold = ref @{position} 4
+val concept_flag = ref @{position} false
 
 fun is_varconst x = is_var x orelse is_const x
  
@@ -170,7 +170,7 @@ fun concept_selection tml =
     fun w (x,n) = int_to_string n ^ " :" ^ term_to_string x 
     val _  = writel_synt "concepts" (map w l3)
     val _  = msg_synt l2 "selected concepts"
-    val d = ref (dempty Term.compare)
+    val d = ref @{position} (dempty Term.compare)
   in
     app (save_concept d) (map fst l2);
     (!d)
@@ -276,9 +276,9 @@ fun write_ceptpatdict iceptdict ceptpatdict =
 
 fun patternify ntot ceptdict iceptdict tml =
   let
-    val patceptdict = ref (dempty pattern_compare)
-    val ceptpatdict = ref (dempty (list_compare Int.compare))
-    val thmpatdict = ref (dempty Term.compare)
+    val patceptdict = ref @{position} (dempty pattern_compare)
+    val ceptpatdict = ref @{position} (dempty (list_compare Int.compare))
+    val thmpatdict = ref @{position} (dempty Term.compare)
     val tml1 = mk_fast_set Term.compare tml
     fun f tm = 
       let 
@@ -429,8 +429,8 @@ fun update_gendict covdict genthmdict gencjdict x =
 
 fun conjecture_sub covdict tml subl =
   let
-    val gencjdict = ref (dempty Term.compare)
-    val genthmdict = ref (dempty Term.compare)
+    val gencjdict = ref @{position} (dempty Term.compare)
+    val genthmdict = ref @{position} (dempty Term.compare)
     val dsub = dnew Int.compare (number_list 0 subl) 
     val tmnl = map (fn x => (x,0)) tml
     fun try_nsub n (tm,nsub) =
@@ -444,7 +444,7 @@ fun conjecture_sub covdict tml subl =
         (tm, nsub + 1)
         )
       )
-    val mem = ref (~1) 
+    val mem = ref @{position} (~1) 
     fun loop tmnl =
        if dlength (!gencjdict) >= (!conjecture_limit) orelse 
           !mem >= dlength (!gencjdict)
@@ -463,8 +463,8 @@ fun conjecture_sub covdict tml subl =
 
 fun conjecture_patsub thmpatdict iceptdict covdict tml patsubl =
   let
-    val gencjdict = ref (dempty Term.compare)
-    val genthmdict = ref (dempty Term.compare)
+    val gencjdict = ref @{position} (dempty Term.compare)
+    val genthmdict = ref @{position} (dempty Term.compare)
     val dsub = dnew Int.compare (number_list 0 patsubl) 
     val tmnl = map (fn x => (x,0)) tml
     fun try_nsub n (tm,nsub) =
@@ -478,7 +478,7 @@ fun conjecture_patsub thmpatdict iceptdict covdict tml patsubl =
         (tm, nsub + 1)
         )
       )
-    val mem = ref (~1) 
+    val mem = ref @{position} (~1) 
     fun loop tmnl =
        if dlength (!gencjdict) >= (!conjecture_limit) orelse 
           !mem >= dlength (!gencjdict)
@@ -513,7 +513,7 @@ fun write_graph ntot genthmdict =
     val rcov = int_div (dlength genthmdict) ntot
     val _    = log_synt (Real.toString rcov ^ " conjecture coverage")
     val l0 = map snd (dlist genthmdict)
-    val d = ref (dempty Int.compare)
+    val d = ref @{position} (dempty Int.compare)
     fun update_dict (a,b) = 
       let val oldb = dfind a (!d) handle NotFound => 0 in
         if b > oldb then d := dadd a b (!d) else ()

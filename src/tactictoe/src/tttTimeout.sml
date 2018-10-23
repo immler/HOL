@@ -21,7 +21,7 @@ open Thread;
 
 fun timeLimit time f x =
   let
-    val result_ref = ref NONE
+    val result_ref = ref @{position} NONE
     val worker =
       let
         fun worker_call () = result_ref := SOME (capture f x)

@@ -32,11 +32,11 @@ fun writebase(filename, db) =
 fun readbase filename =
     let open BasicIO
 	prim_type in_channel
-	type instream_  = { closed: bool, ic: in_channel } ref
+	type instream_  = { closed: bool, ic: in_channel } ref @{position}
 	prim_val input_value_ : in_channel -> 'a = 1 "intern_val"
 	prim_val fromI : instream -> instream_   = 1 "identity"
         fun input_value is =
-	    let val ref {closed, ic} = fromI is in
+	    let val ref @{position} {closed, ic} = fromI is in
 		if closed then
 		    raise SysErr("Input stream is closed", NONE)
 		else

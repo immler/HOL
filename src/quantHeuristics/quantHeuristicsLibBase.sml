@@ -39,16 +39,16 @@ val std_ss = numLib.std_ss
  * Traces and other global parameters
  *******************************************************)
 
-val QUANT_INSTANTIATE_HEURISTIC___max_rec_depth = ref 250;
+val QUANT_INSTANTIATE_HEURISTIC___max_rec_depth = ref @{position} 250;
 val _ = register_trace("QUANT_INST___REC_DEPTH", QUANT_INSTANTIATE_HEURISTIC___max_rec_depth, 20000);
 
-val QUANT_INSTANTIATE_HEURISTIC___debug = ref 0;
+val QUANT_INSTANTIATE_HEURISTIC___debug = ref @{position} 0;
 val _ = register_trace("QUANT_INST_DEBUG", QUANT_INSTANTIATE_HEURISTIC___debug, 3);
 
-val QUANT_INSTANTIATE_HEURISTIC___debug_depth = ref 5;
+val QUANT_INSTANTIATE_HEURISTIC___debug_depth = ref @{position} 5;
 val _ = register_trace("QUANT_INST_DEBUG_DEPTH", QUANT_INSTANTIATE_HEURISTIC___debug_depth, 2000);
 
-val QUANT_INSTANTIATE_HEURISTIC___print_term_length = ref 2000;
+val QUANT_INSTANTIATE_HEURISTIC___print_term_length = ref @{position} 2000;
 val _ = register_trace("QUANT_INST___print_term_length", QUANT_INSTANTIATE_HEURISTIC___print_term_length, 2000);
 
 
@@ -572,7 +572,7 @@ fun guess_collection2list (gc:guess_collection) =
 
 (*
 val guess = hd (#exists gc)
-val gc_ref = ref []
+val gc_ref = ref @{position} []
 val gc = hd (!gc_ref)
 *)
 
@@ -1405,7 +1405,7 @@ end;
 
 val guesses_thmL = inference_thmL;
 val guesses_net = mk_guess_net guesses_thmL
-val heuristic = QUANT_INSTANTIATE_HEURISTIC___PURE_COMBINE empty_qp (SOME (ref (mk_quant_heuristic_cache())))
+val heuristic = QUANT_INSTANTIATE_HEURISTIC___PURE_COMBINE empty_qp (SOME (ref @{position} (mk_quant_heuristic_cache())))
 val heuristic = QUANT_INSTANTIATE_HEURISTIC___PURE_COMBINE empty_qp NONE
 val heuristic = QUANT_INSTANTIATE_HEURISTIC___PURE_COMBINE std_qp NONE
 val sys = heuristic;
@@ -1475,7 +1475,7 @@ fun get_org_name fv fb =
 
 fun local_cache_sys sys =
   let
-   val lc_ref = ref []
+   val lc_ref = ref @{position} []
   in fn v => fn t =>
   let
     val gc_opt = assoc t (!lc_ref)
@@ -1645,7 +1645,7 @@ val (guesses_net_complex, guesses_net_simple) = mk_guess_net guesses_thmL
 
 val (guesses_net_complex, guesses_net_simple) = mk_guess_net[]
 
-val heuristic = QUANT_INSTANTIATE_HEURISTIC___PURE_COMBINE empty_qp (SOME (ref (mk_quant_heuristic_cache())))
+val heuristic = QUANT_INSTANTIATE_HEURISTIC___PURE_COMBINE empty_qp (SOME (ref @{position} (mk_quant_heuristic_cache())))
 val heuristic = QUANT_INSTANTIATE_HEURISTIC___PURE_COMBINE empty_qp NONE
 val heuristic = QUANT_INSTANTIATE_HEURISTIC___PURE_COMBINE std_qp NONE
 val sys = heuristic;
@@ -1769,7 +1769,7 @@ end;
 
 (* Applying a rewrite rule to a guess *)
 (*
-val tref = ref NONE
+val tref = ref @{position} NONE
 
 val (v,t,thmL,guess) = valOf (!tref)
 val fvL = [``x:num``, ``y:num``]
@@ -2455,7 +2455,7 @@ val v = ``z:'a``
 val fv = [v]
 
 val n = 0;
-val cache_ref_opt = SOME (ref (mk_quant_heuristic_cache ()))
+val cache_ref_opt = SOME (ref @{position} (mk_quant_heuristic_cache ()))
 val heuristicL = hL
 *)
 
@@ -2469,7 +2469,7 @@ val heuristicL = hL
    ctx_top_heuristicL - context heuristics to combine and only be used at top-level
    ctx_heuristicL - context heuristics to combine. In contrast to heuristicL they get an extra context argument as input and their result is
       not cached, because it may depend on the context.
-   cache_ref_opt  - a reference to a cache, if NONE is passed, a new cache is created internally
+   cache_ref_opt  - a ref @{position}erence to a cache, if NONE is passed, a new cache is created internally
    ctx            - context theorems that might be used
    v              - the variable
    t              - the term
@@ -2484,7 +2484,7 @@ else let
    val _ = if exists (aconv t) tL then raise QUANT_INSTANTIATE_HEURISTIC___no_guess_exp else ();
    val _ = if (all (fn filter => (filter v t)) filterL) andalso (free_in v t) then () else raise QUANT_INSTANTIATE_HEURISTIC___no_guess_exp;
    val cache_ref = if isSome cache_ref_opt then valOf cache_ref_opt else
-                   (ref (mk_quant_heuristic_cache ()));
+                   (ref @{position} (mk_quant_heuristic_cache ()));
    val gc_opt = quant_heuristic_cache___peek (!cache_ref) v t
    val cache_found = isSome gc_opt;
 
@@ -2619,7 +2619,7 @@ val debug_sys = qp_to_heuristic empty_qp NONE []
  * a stateful heuristic and quant_param
  ******************************************************************)
 
-val quant_param_ref = ref empty_qp;
+val quant_param_ref = ref @{position} empty_qp;
 fun clear_stateful_qp () = (quant_param_ref := empty_qp);
 
 
@@ -2932,7 +2932,7 @@ REWRITE_CONV rwL;
  * It get's the following arguments:
  *
  * - cache_ref_opt
- *     a possible reference to a cache which stores
+ *     a possible ref @{position}erence to a cache which stores
  *     previously found guesses. A new cache can be
  *     created using mk_quant_heuristic_cache
  *

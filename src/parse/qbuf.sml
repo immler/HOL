@@ -7,7 +7,7 @@ struct
 
  infix ##;
 
-  (* qbufs are references to quadruples:
+  (* qbufs are ref @{position}erences to quadruples:
        field #1   :  the optional lexing function for a current QUOTE part
                      of the quotation
        field #2   :  the "current token" and its location (advance recalculates this)
@@ -28,7 +28,7 @@ struct
                   'a frag list) ref
 
   fun read_from_string s = let
-    val state = ref (Substring.full s)
+    val state = ref @{position} (Substring.full s)
     fun reader n = let
       open Substring
     in
@@ -77,7 +77,7 @@ struct
               (NONE, (BT_AQ x,maybe (locfrag nf)), nf+1, rest)
       end
 
-  fun new_buffer q = ref (new_buffer0 NONE 0 q)
+  fun new_buffer q = ref @{position} (new_buffer0 NONE 0 q)
 
   fun current r = case !r of (_, x, _, _) => x
 

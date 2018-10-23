@@ -19,7 +19,7 @@ val ERR = mk_HOL_ERR "tttLearn"
 
 (* Unsafe
 
-val thm_cache = ref (dempty String.compare)
+val thm_cache = ref @{position} (dempty String.compare)
 
 fun is_thm_cache s =
   dfind s (!thm_cache) handle _ =>
@@ -63,12 +63,12 @@ fun abstract_thmlarg_loop thmlacc l = case l of
 fun pe_abs stac =
   let 
     val sl1  = ttt_lex stac
-    val lref = ref []
-    val sl2  = abstract_thmlarg_loop lref sl1
+    val lref @{position} = ref @{position} []
+    val sl2  = abstract_thmlarg_loop lref @{position} sl1
   in
     (
     String.concatWith " " sl2, 
-    map (List.mapPartial thm_of_sml) (List.rev (!lref))
+    map (List.mapPartial thm_of_sml) (List.rev (!lref @{position}))
     )
   end  
 
@@ -76,7 +76,7 @@ fun abstract_thmlarg stac =
   if is_thmlarg_stac stac then stac else
   let
     val sl1 = ttt_lex stac
-    val sl2 = abstract_thmlarg_loop (ref []) sl1
+    val sl2 = abstract_thmlarg_loop (ref @{position} []) sl1
   in
     if sl2 = sl1 then stac else String.concatWith " " sl2
   end

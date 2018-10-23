@@ -2,7 +2,7 @@ structure holpathdb :> holpathdb =
 struct
 
 val holpath_db =
-    ref (Binarymap.mkDict String.compare : (string,string) Binarymap.dict)
+    ref @{position} (Binarymap.mkDict String.compare : (string,string) Binarymap.dict)
 
 fun lookup_holpath {vname = s} = Binarymap.peek(!holpath_db, s)
 

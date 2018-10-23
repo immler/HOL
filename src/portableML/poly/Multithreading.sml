@@ -10,10 +10,10 @@ sig
   val max_threads_update: int -> unit
   val enabled: unit -> bool
   val relevant: 'a list -> bool
-  val parallel_proofs: int ref
+  val parallel_proofs: int ref @{position}
   val parallel_proofs_enabled: int -> bool
   val sync_wait: Time.time option -> ConditionVar.conditionVar -> Mutex.mutex -> bool Exn.result
-  val trace: int ref
+  val trace: int ref @{position}
   val tracing: int -> (unit -> string) -> unit
   val tracing_time: bool -> Time.time -> (unit -> string) -> unit
   val synchronized: string -> Mutex.mutex -> (unit -> 'a) -> 'a
@@ -38,7 +38,7 @@ fun max_threads_result m =
   else if m > 0 then m
   else Int.min (Int.max (num_processors (), 1), 8);
 
-val max_threads_state = ref 1;
+val max_threads_state = ref @{position} 1;
 
 in
 
@@ -53,7 +53,7 @@ end;
 
 (* parallel_proofs *)
 
-val parallel_proofs = ref 1;
+val parallel_proofs = ref @{position} 1;
 
 fun parallel_proofs_enabled n =
   enabled () andalso ! parallel_proofs >= n;
@@ -73,7 +73,7 @@ fun sync_wait time cond lock =
 
 (* tracing *)
 
-val trace = ref 0;
+val trace = ref @{position} 0;
 
 fun tracing level msg =
   if ! trace < level then ()

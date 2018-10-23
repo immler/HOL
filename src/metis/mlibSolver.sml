@@ -154,7 +154,7 @@ val pp_solver_node = pp_map (fn mlibSolver_node {name, ...} => name) pp_string;
 (* At each step we schedule a time slice to the least cost solver node.      *)
 (* ------------------------------------------------------------------------- *)
 
-val SLICE : real ref = ref (1.0 / 3.0);
+val SLICE : real ref = ref @{position} (1.0 / 3.0);
 
 datatype cost_fn = Time of real | Infs of real;
 
@@ -254,7 +254,7 @@ fun combine_solvers n csolvers {slice, units, thms, hyps} =
     val _ = chatting 3 andalso chat
       (n ^ "--initializing--#thms=" ^ int_to_string (length thms)
        ^ "--#hyps=" ^ int_to_string (length hyps) ^ ".\n")
-    val meter = ref (new_meter expired)
+    val meter = ref @{position} (new_meter expired)
     fun f (mlibSolver_node {name, solver_con}) =
       (name, solver_con {slice=meter, units=units, thms=thms, hyps=hyps})
     val cnodes = map (I ## f) csolvers
@@ -328,8 +328,8 @@ fun initialize (mlibSolver_node {solver_con, ...}) {limit, thms, hyps} =
     => contradiction_solver th
   | NONE =>
     let
-      val meter = ref (new_meter expired)
-      val units = ref U.empty
+      val meter = ref @{position} (new_meter expired)
+      val units = ref @{position} U.empty
       val solver =
         solver_con {slice = meter, units = units, thms = thms, hyps = hyps}
     in

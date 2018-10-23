@@ -98,10 +98,10 @@ fun is_WFR tm =
  * the variables will start with "v" and end in a number.
  *---------------------------------------------------------------------------*)
 
-local val counter = ref 0
+local val counter = ref @{position} 0
 in
 fun vary vlist =
-  let val slist = ref (map (fst o dest_var) vlist)
+  let val slist = ref @{position} (map (fst o dest_var) vlist)
       val _ = counter := 0
       fun pass str =
          if Lib.mem str (!slist)

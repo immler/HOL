@@ -44,17 +44,17 @@ val WARN = HOL_WARNING "EmitML";
 val type_grammar = Parse.type_grammar
 
 (*---------------------------------------------------------------------------*)
-(* All ref cells.                                                            *)
+(* All ref @{position} cells.                                                            *)
 (*---------------------------------------------------------------------------*)
 
-val emitOcaml = ref false;
-val sigSuffix = ref "ML.sig";
-val structSuffix = ref "ML.sml";
-val sigCamlSuffix = ref "ML.mli";
-val structCamlSuffix = ref "ML.ml";
+val emitOcaml = ref @{position} false;
+val sigSuffix = ref @{position} "ML.sig";
+val structSuffix = ref @{position} "ML.sml";
+val sigCamlSuffix = ref @{position} "ML.mli";
+val structCamlSuffix = ref @{position} "ML.ml";
 
-val is_int_literal_hook = ref (fn _:term => false);
-val int_of_term_hook = ref
+val is_int_literal_hook = ref @{position} (fn _:term => false);
+val int_of_term_hook = ref @{position}
     (fn _:term => (raise ERR "EmitML" "integers not loaded") : Arbint.int)
 
 (*---------------------------------------------------------------------------*)
@@ -218,10 +218,10 @@ fun vars_of_types alist =
 (*---------------------------------------------------------------------------*)
 
 local val emit_tag = "EmitML"
-  val pseudo_constr_defs = ref [] : thm list ref;
+  val pseudo_constr_defs = ref @{position} [] : thm list ref @{position};
 in
 fun pseudo_constr_rws() = map concl (!pseudo_constr_defs)
-val reshape_thm_hook = ref (fn th =>
+val reshape_thm_hook = ref @{position} (fn th =>
      pairLib.GEN_BETA_RULE (Rewrite.PURE_REWRITE_RULE (!pseudo_constr_defs) th))
 
 fun new_pseudo_constr (c,a) =
@@ -1159,7 +1159,7 @@ fun pp_datatype_as_ML (tyvars,decls) =
                add_break(1,0) >> pp_tyvars tyvars >> add_string (fix_type name)
              ) >> add_break(1,0) >>
              B 0 (
-              pr_list (pp_clause (ref true)) (add_break(1,0)) clauselist
+              pr_list (pp_clause (ref @{position} true)) (add_break(1,0)) clauselist
              )
            )
        | pp_decl (tyvars,_) (name,Record flist) =
@@ -1177,7 +1177,7 @@ fun pp_datatype_as_ML (tyvars,decls) =
            end
  in
     B 0 (
-      pr_list (pp_decl (tyvars,ref true))
+      pr_list (pp_decl (tyvars,ref @{position} true))
               (add_newline >> add_string "and" >> add_newline)
               decls
     )
@@ -1276,7 +1276,7 @@ val MLinfixes =
 
 fun pp_struct (s,elems,cnames) =
  let open Portable PP smpp
-    val openthys = ref []
+    val openthys = ref @{position} []
     fun opens() = !openthys
     val pp_datatype = pp_datatype_as_ML
     fun pp_el (iDATATYPE astl) = pp_datatype (repair_type_decls (iDATATYPE astl))

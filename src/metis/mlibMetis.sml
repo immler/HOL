@@ -178,9 +178,9 @@ val metis = metis' defaults;
 (* A user-friendly interface.                                                *)
 (* ------------------------------------------------------------------------- *)
 
-val settings = ref defaults;
+val settings = ref @{position} defaults;
 
-val limit : limit ref = ref {time = NONE, infs = NONE};
+val limit : limit ref = ref @{position} {time = NONE, infs = NONE};
 
 fun prove goal =
     let

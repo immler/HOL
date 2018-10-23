@@ -12,7 +12,7 @@ fun ERR s1 s2 = regexpErr(s1,s2)
 fun pair x y = (x,y)
 fun K x y = x
 
-val debug = ref false
+val debug = ref @{position} false
 
 val print = fn s => if !debug then print s else ()
 
@@ -269,7 +269,7 @@ fun pick class = Option.valOf(Binaryset.find (K true) class);
 (*---------------------------------------------------------------------------*)
 
 fun regexp_to_dfa r =
- let val counter = ref 0
+ let val counter = ref @{position} 0
      fun work [] (Q,deltaMap) = (Q,deltaMap)
        | work (r::t) (Q,deltaMap) =
           if Binaryset.member(Q,r)  (* state r already seen? *)

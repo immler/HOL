@@ -115,9 +115,9 @@ val width_check_delay = Time.fromMilliseconds 1000
 
 fun new {info,warn,genLogFile,keep_going,time_limit} =
   let
-    val monitor_map = ref (Binarymap.mkDict String.compare)
-    val last_width_check = ref (Time.now())
-    val width = ref (getWidth())
+    val monitor_map = ref @{position} (Binarymap.mkDict String.compare)
+    val last_width_check = ref @{position} (Time.now())
+    val width = ref @{position} (getWidth())
     fun Width () =
       let
         val t = Time.now()

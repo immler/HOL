@@ -942,8 +942,8 @@ fun pt_list t = PIntMap.fold (fn (k,v,acc) => (k,v)::acc) [] t
    fun gen_test m n = List.tabulate(m, fn _ => gen_constraint n)
 
 
-   val current_goal = ref ([] : int list list)
-   val slow_goals = ref  ([] : int list list list)
+   val current_goal = ref @{position} ([] : int list list)
+   val slow_goals = ref @{position}  ([] : int list list list)
    fun sattest i timelimit numcsts numvars = if i <= 0 then ()
                        else let
                            val t = gen_test numcsts numvars

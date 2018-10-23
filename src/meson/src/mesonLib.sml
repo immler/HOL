@@ -83,21 +83,21 @@ val offinc = 10000;;     (* NB: should be bigger than all variable codes.    *)
 (* Some "flags".                                                             *)
 (* ------------------------------------------------------------------------- *)
 
-val inferences = ref 0;;        (* Inference counter                         *)
+val inferences = ref @{position} 0;;        (* Inference counter                         *)
 
-val depth = ref false;;         (* Use depth not inference bound.            *)
+val depth = ref @{position} false;;         (* Use depth not inference bound.            *)
 
-val prefine = ref true;;        (* Plaisted's "positive refinement".         *)
+val prefine = ref @{position} true;;        (* Plaisted's "positive refinement".         *)
 
-val precheck = ref false;;      (* Precheck ancestors for repetitions.       *)
+val precheck = ref @{position} false;;      (* Precheck ancestors for repetitions.       *)
 
-val dcutin = ref 1;;            (* Min size for d-and-c optimization cut-in. *)
+val dcutin = ref @{position} 1;;            (* Min size for d-and-c optimization cut-in. *)
 
-val skew = ref 3;;              (* Skew proof bias (one side is <= n / skew) *)
+val skew = ref @{position} 3;;              (* Skew proof bias (one side is <= n / skew) *)
 
-val cache = ref true;;          (* Cache continuations                       *)
+val cache = ref @{position} true;;          (* Cache continuations                       *)
 
-val chatting = ref (if !Globals.interactive then 1 else 0);
+val chatting = ref @{position} (if !Globals.interactive then 1 else 0);
                                 (* Gives intermediate info as proof runs.
                                    When the number is 1, then minimal output
                                    is given. When the number is 0, no output
@@ -128,9 +128,9 @@ datatype fol_form = Atom   of fol_atom
 (* ------------------------------------------------------------------------- *)
 
 local
-  val vstore = ref ([]:(term * int) list)
-  val gstore = ref ([]:(term * int) list)
-  val vcounter = ref 0
+  val vstore = ref @{position} ([]:(term * int) list)
+  val gstore = ref @{position} ([]:(term * int) list)
+  val vcounter = ref @{position} 0
   fun inc_vcounter () =
     let
       val n = !vcounter
@@ -173,8 +173,8 @@ in
 end;
 
 local
-  val cstore = ref ([]:(term * int) list)
-  val ccounter = ref 2
+  val cstore = ref @{position} ([]:(term * int) list)
+  val ccounter = ref @{position} 2
 in
   fun reset_consts () = (cstore := [(the_false, 1)]; ccounter := 2)
   fun fol_of_const c =
@@ -713,7 +713,7 @@ local
   val push_CONV = GEN_REWRITE_CONV TOP_SWEEP_CONV [DEMORG_DISJ, NOT2]
   and pull_CONV = GEN_REWRITE_CONV DEPTH_CONV [DEMORG_AND]
   and imf_CONV  = REWR_CONV NOT_IMP
-  val memory    = ref ([]: ((int * term) * thm) list)
+  val memory    = ref @{position} ([]: ((int * term) * thm) list)
 in
   fun clear_contrapos_cache() = memory := []
   fun make_hol_contrapos (n,th) =
@@ -1011,7 +1011,7 @@ fun GEN_MESON_TAC min max step ths g =
         end) g;
 
 
-val max_depth = ref 30;
+val max_depth = ref @{position} 30;
 fun ASM_MESON_TAC e = GEN_MESON_TAC 0 (!max_depth) 1 e;
 
 fun MESON_TAC ths = POP_ASSUM_LIST (K ALL_TAC) THEN ASM_MESON_TAC ths;

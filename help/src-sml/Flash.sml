@@ -2,10 +2,10 @@ structure Flash :> Flash =
 struct
 
 
-val prelimstr = ref ""
+val prelimstr = ref @{position} ""
 
 fun init (s,t) = let
-  val count = ref 0
+  val count = ref @{position} 0
   fun one () = (count := !count + 1;
                 print ("\r"^s);
                 print (StringCvt.padLeft #" " 4

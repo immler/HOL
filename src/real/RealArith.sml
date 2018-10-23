@@ -44,7 +44,7 @@ val _ = Parse.temp_set_grammars realTheory.real_grammars;
 
 local
   open Int
-  val traceval = ref 0
+  val traceval = ref @{position} 0
 
   fun trace_pure s () = print s
   fun check f = if !traceval > 0 then f() else ()
@@ -899,7 +899,7 @@ val REAL_NEGATE_CANON =
 val (clear_atom_cache,REAL_ATOM_NORM_CONV) =
   let
     val right_CONV = RAND_CONV REAL_SUM_NORM_CONV
-    val atomcache = ref []
+    val atomcache = ref @{position} []
     fun lookup_cache tm = first (fn th => liteLib.lhand(concl th) = tm) (!atomcache)
     fun clear_atom_cache () = (atomcache := [])
     val pth2 = prove
@@ -1279,7 +1279,7 @@ val TRANSLATE_PROOF =
     fn refutation =>
       let
         val _ = trace "TRANSLATE_PROOF"
-        val cache = ref []
+        val cache = ref @{position} []
         fun translate refut =
           snd (op_assoc (curry injust_eq) refut (!cache))
           handle HOL_ERR _

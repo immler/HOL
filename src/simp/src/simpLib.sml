@@ -533,7 +533,7 @@ in
   fun remove_theorems avoids (SS {mk_rewrs, ssfrags, ...}) =
     let
       fun thm_to_thms thm =
-         List.map fst (mk_rewrs (thm, BoundedRewrites.BOUNDED (ref 1)))
+         List.map fst (mk_rewrs (thm, BoundedRewrites.BOUNDED (ref @{position} 1)))
       val part = List.partition (exists_match avoids)
       fun f ac thm =
         let

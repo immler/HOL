@@ -139,8 +139,8 @@ struct
 		val actions = LrTable.describeActions table
 		val states = numStates table
 
-                val gotoTableSize = ref 0
-                val actionTableSize = ref 0
+                val gotoTableSize = ref @{position} 0
+                val actionTableSize = ref @{position} 0
 
 		val _ = if length errs > 0
 			   then (printSummary print errs;

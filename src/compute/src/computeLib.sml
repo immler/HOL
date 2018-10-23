@@ -3,7 +3,7 @@ struct
 
 open HolKernel boolSyntax boolTheory Abbrev clauses compute_rules equations;
 
-val auto_import_definitions = ref true;
+val auto_import_definitions = ref @{position} true;
 
 (* re-exporting types from clauses *)
 

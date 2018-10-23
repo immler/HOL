@@ -3,8 +3,8 @@ struct
 
 open HolKernel
 
-val univ_printing = ref true
-val unicode_univ = ref true
+val univ_printing = ref @{position} true
+val unicode_univ = ref @{position} true
 
 val _ = Feedback.register_btrace ("Univ pretty-printing", univ_printing)
 val _ = Feedback.register_btrace ("Unicode Univ printing", unicode_univ)

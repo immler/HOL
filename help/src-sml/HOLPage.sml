@@ -49,12 +49,12 @@ fun printHOLPage version bgcolor HOLpath idIndex TheoryIndex (dbfile, outfile)
   = let val db = readbase dbfile
 	val os = TextIO.openOut outfile
 	fun out s = TextIO.output(os, s)
-	fun href anchor target =
+	fun href @{position} anchor target =
 	    app out ["<A HREF=\"file://", target, "\">", anchor, "</A>"]
-	fun idhref file line anchor =
-	    href anchor (concat [file, ".html#line", Int.toString line])
-	fun strhref file anchor = href anchor (file ^ ".html")
-	fun mkref line file = idhref file line file
+	fun idhref @{position} file line anchor =
+	    href @{position} anchor (concat [file, ".html#line", Int.toString line])
+	fun strhref @{position} file anchor = href @{position} anchor (file ^ ".html")
+	fun mkref @{position} line file = idhref @{position} file line file
         val sigspath = normPath[HOLpath,"help","src-sml","htmlsigs"]
         fun path front file = normPath[front, file^".html"]
 
@@ -81,7 +81,7 @@ fun printHOLPage version bgcolor HOLpath idIndex TheoryIndex (dbfile, outfile)
 	fun prentries [] = ()
 	  | prentries ((anchor,path)::rst) =
               let
-              in href anchor path
+              in href @{position} anchor path
                ; out "&nbsp;&nbsp;&nbsp;&nbsp;\n"
                ; prentries rst
               end
@@ -104,7 +104,7 @@ fun printHOLPage version bgcolor HOLpath idIndex TheoryIndex (dbfile, outfile)
 
         out"<DT><STRONG>THEORIES</STRONG>\n";
         out "&nbsp;&nbsp;&nbsp;\n";
-        href "(Theory Graph)"
+        href @{position} "(Theory Graph)"
              (normPath [HOLpath,"help/theorygraph/theories.html"]);
         out "\n";
         out"<DD>"; prtree theory_of db;
@@ -123,9 +123,9 @@ fun printHOLPage version bgcolor HOLpath idIndex TheoryIndex (dbfile, outfile)
         out "<P>";
 
         out"<DT><STRONG>";
-        href "IDENTIFIERS" idIndex;
+        href @{position} "IDENTIFIERS" idIndex;
         out "&nbsp;&nbsp;&nbsp;&nbsp;";
-        href "THEORY BINDINGS" TheoryIndex;
+        href @{position} "THEORY BINDINGS" TheoryIndex;
         out "</STRONG>";
         out "<P>";
 	out "</DL>\n";

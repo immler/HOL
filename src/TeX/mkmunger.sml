@@ -25,7 +25,7 @@ fun munger eatfirstNL () = let
   fun setwidth i = UD.width := i
   fun setoverrides s = mungeTools.user_overrides := mungeTools.read_overrides s
   fun set_mathmode s = UD.mathmode := SOME (UD.tex_spacing s)
-  val run_lexer = ref true
+  val run_lexer = ref @{position} true
   fun proc_args args =
       case args of
         [] => ()

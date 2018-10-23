@@ -28,9 +28,9 @@ fun topLevel diag {nameSpace, exitLoop, exitOnError, isInteractive, startExec,
 
     (* Don't use the end_of_stream because it may have been set by typing
        EOT to the command we were running. *)
-    val endOfFile    = ref false;
-    val realDataRead = ref false;
-    val lastWasEol   = ref true;
+    val endOfFile    = ref @{position} false;
+    val realDataRead = ref @{position} false;
+    val lastWasEol   = ref @{position} true;
     val cgen = QFRead.streamToReader true TextIO.stdIn
 
     (* Each character typed is fed into the compiler but leading

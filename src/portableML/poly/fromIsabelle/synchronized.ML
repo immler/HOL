@@ -24,14 +24,14 @@ abstype 'a var = Var of
  {name: string,
   lock: Mutex.mutex,
   cond: ConditionVar.conditionVar,
-  var: 'a Unsynchronized.ref}
+  var: 'a Unsynchronized.ref @{position}}
 with
 
 fun var name x = Var
  {name = name,
   lock = Mutex.mutex (),
   cond = ConditionVar.conditionVar (),
-  var = Unsynchronized.ref x};
+  var = Unsynchronized.ref @{position} x};
 
 fun value (Var {name, lock, var, ...}) =
   Multithreading.synchronized name lock (fn () => ! var);

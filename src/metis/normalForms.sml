@@ -21,7 +21,7 @@ open Parse
 (* Tracing.                                                                  *)
 (* ------------------------------------------------------------------------- *)
 
-val trace_level = ref 0;
+val trace_level = ref @{position} 0;
 val () = register_trace ("normalForms", trace_level, 10);
 fun chatting l = l <= !trace_level;
 fun chat s = (Lib.say s; true);
@@ -567,7 +567,7 @@ end;
 (*  ?y. (!x x'. Q (y x) \/ ~P x' \/ ~P x) /\ !x x'. Q (y x) \/ ~Q x' \/ ~P x *)
 (* ------------------------------------------------------------------------- *)
 
-val tautology_checking = ref true;
+val tautology_checking = ref @{position} true;
 
 val TSIMP_CONV =
   REWR_CONV OR_T ORELSEC REWR_CONV T_OR ORELSEC
@@ -1240,7 +1240,7 @@ fun min_cnf_prep defs acc [] = (defs, rev acc)
 
 local
   open Arbint (* hope that on Poly/ML we can eventually just make
-                 Arbint a reference to its built-in infinite int type *)
+                 Arbint a ref @{position}erence to its built-in infinite int type *)
 
 in
 

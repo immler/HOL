@@ -12,7 +12,7 @@ open HolKernel boolLib Abbrev tttTools tttTimeout tttFeature tttPredict
 tttExec tttLexer tttMinimize tttThmData tttTacticData tttLearn tttSetup
 
 val ERR = mk_HOL_ERR "tttSearch"
-val last_stac = ref ""
+val last_stac = ref @{position} ""
 fun debug_err s = (debug ("Error: " ^ s); raise ERR "standard" "error")
 
 (* --------------------------------------------------------------------------
@@ -34,10 +34,10 @@ datatype async_result_t =
   HVoid
 
 (* 100000 is the maximum number of nodes *)
-val hammer_ref = ref 0
+val hammer_ref = ref @{position} 0
 val async_result = Array.array (100000, HVoid)
-val install_async = ref (dempty Int.compare)
-val running_async = ref (dempty Int.compare)
+val install_async = ref @{position} (dempty Int.compare)
+val running_async = ref @{position} (dempty Int.compare)
 
 (* Start and end of search *)
 fun init_async () =
@@ -87,7 +87,7 @@ fun queue_async pid g =
    Tell if a node is active or not
    -------------------------------------------------------------------------- *)
 
-val notactivedict = ref (dempty Int.compare)
+val notactivedict = ref @{position} (dempty Int.compare)
 fun is_notactive x = dmem x (!notactivedict)
 fun is_active x = not (is_notactive x)
 
@@ -99,53 +99,53 @@ fun deactivate x =
   )
 
 (* -------------------------------------------------------------------------
-   Search references
+   Search ref @{position}erences
    -------------------------------------------------------------------------- *)
 
-val glob_timer = ref NONE
-val proofdict = ref (dempty Int.compare)
+val glob_timer = ref @{position} NONE
+val proofdict = ref @{position} (dempty Int.compare)
 
 (* global values to prevent many arguments in functions *)
-val thmpredictor_glob = ref (fn _ => (fn _ => []))
-val tacpredictor_glob = ref (fn _ => [])
-val glpredictor_glob = ref (fn _ => 0.0)
-val hammer_glob = ref (fn _ => (fn _ => NONE))
+val thmpredictor_glob = ref @{position} (fn _ => (fn _ => []))
+val tacpredictor_glob = ref @{position} (fn _ => [])
+val glpredictor_glob = ref @{position} (fn _ => 0.0)
+val hammer_glob = ref @{position} (fn _ => (fn _ => NONE))
 
 (* --------------------------------------------------------------------------
    Caching tactic applications on goals
    -------------------------------------------------------------------------- *)
 
-val stacgoal_cache = ref (dempty (cpl_compare String.compare goal_compare))
+val stacgoal_cache = ref @{position} (dempty (cpl_compare String.compare goal_compare))
 
 (* --------------------------------------------------------------------------
    Statistics
    -------------------------------------------------------------------------- *)
 
-val stac_counter = ref 0
+val stac_counter = ref @{position} 0
 
 fun string_of_pred pred =
   "[" ^ String.concatWith "," pred ^ "]"
 
-val tactime = ref 0.0
-val thmtime = ref 0.0
-val gltime = ref 0.0
+val tactime = ref @{position} 0.0
+val thmtime = ref @{position} 0.0
+val gltime = ref @{position} 0.0
 
 val tactimer = total_time tactime
 val thmtimer = total_time thmtime
 val gltimer = total_time gltime
 
-val inst_time = ref 0.0
-val terminst_time = ref 0.0
-val infstep_time = ref 0.0
-val node_create_time = ref 0.0
-val node_find_time = ref 0.0
+val inst_time = ref @{position} 0.0
+val terminst_time = ref @{position} 0.0
+val infstep_time = ref @{position} 0.0
+val node_create_time = ref @{position} 0.0
+val node_find_time = ref @{position} 0.0
 
 val inst_timer = total_time inst_time
 val infstep_timer = total_time infstep_time
 fun node_create_timer f x = total_time node_create_time f x
 val node_find_timer = total_time node_find_time
 
-val tot_time = ref 0.0
+val tot_time = ref @{position} 0.0
 fun total_timer f x = total_time tot_time f x
 
 fun reset_timers () =
@@ -250,8 +250,8 @@ fun backup_success cid =
    Node creation and deletion
    -------------------------------------------------------------------------- *)
 
-val max_depth_mem = ref 0
-val pid_counter = ref 0
+val max_depth_mem = ref @{position} 0
+val pid_counter = ref @{position} 0
 
 fun next_pid () =
   let
@@ -263,7 +263,7 @@ fun next_pid () =
 
 fun root_create goal pred =
   let
-    fun init_empty _ = ref []
+    fun init_empty _ = ref @{position} []
     val selfid = next_pid ()
     val selfrec =
       {
@@ -276,19 +276,19 @@ fun root_create goal pred =
       predarr  = Array.fromList [pred],
       depth = 0,
       (* *)
-      pending  = ref [0],
-      children = ref [],
+      pending  = ref @{position} [0],
+      children = ref @{position} [],
       (* proof saved for reconstruction + children *)
-      proofl   = ref [],
+      proofl   = ref @{position} [],
       childrena = Array.fromList (map init_empty [goal]),
       (* preventing loop and parallel steps *)
       pardict  = dempty goal_compare,
-      trydict  = ref (dempty (list_compare goal_compare)),
+      trydict  = ref @{position} (dempty (list_compare goal_compare)),
       (* monte carlo *)
-      priorpolicy = ref 0.0,
-      visit = ref 0.0,
-      prioreval = ref 0.0,
-      cureval = ref []
+      priorpolicy = ref @{position} 0.0,
+      visit = ref @{position} 0.0,
+      prioreval = ref @{position} 0.0,
+      cureval = ref @{position} []
       }
   in
     debug_search "Root";
@@ -307,7 +307,7 @@ fun node_create pripol tactime parid parstac pargn parg goallist
     predlist pending pardict =
   let
     val selfid = next_pid ()
-    fun init_empty _ = ref []
+    fun init_empty _ = ref @{position} []
     val selfrec =
     {
       selfid   = selfid,
@@ -319,19 +319,19 @@ fun node_create pripol tactime parid parstac pargn parg goallist
       predarr  = Array.fromList predlist,
       depth    = #depth (dfind parid (!proofdict)) + 1,
       (* goal considered *)
-      pending  = ref pending,
-      children = ref [],
+      pending  = ref @{position} pending,
+      children = ref @{position} [],
       (* proof saved for reconstruction + children *)
-      proofl = ref [],
+      proofl = ref @{position} [],
       childrena = Array.fromList (map init_empty goallist),
       (* preventing loop and parallel steps *)
       pardict  = pardict,
-      trydict  = ref (dempty (list_compare goal_compare)),
+      trydict  = ref @{position} (dempty (list_compare goal_compare)),
       (* monte carlo: dummy values changed by init_eval *)
-      priorpolicy = ref 0.0,
-      visit = ref 0.0,
-      prioreval = ref 0.0,
-      cureval = ref []
+      priorpolicy = ref @{position} 0.0,
+      visit = ref @{position} 0.0,
+      prioreval = ref @{position} 0.0,
+      cureval = ref @{position} []
     }
     val cdepth = #depth selfrec
   in
@@ -395,9 +395,9 @@ fun try_nqtm pid n (stac,tac) (otm,qtac) g =
    Transfomring code into a tactic. Doing necessary predictions.
    -------------------------------------------------------------------------- *)
 
-val thml_dict = ref (dempty (cpl_compare goal_compare Int.compare))
-val inst_dict = ref (dempty (cpl_compare String.compare goal_compare))
-val tac_dict = ref (dempty String.compare)
+val thml_dict = ref @{position} (dempty (cpl_compare goal_compare Int.compare))
+val inst_dict = ref @{position} (dempty (cpl_compare String.compare goal_compare))
+val tac_dict = ref @{position} (dempty String.compare)
 
 fun pred_sthml thmpredictor thml_dict n g =
   dfind (g,n) (!thml_dict) handle NotFound =>

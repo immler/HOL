@@ -41,7 +41,7 @@ with
   fun mk_queue n init_val =
       if (n < 2)
       then raise REQUESTED_QUEUE_SIZE_TOO_SMALL
-      else QUEUE{elems=array(n, init_val), front=ref ~1, back=ref ~1, size=n}
+      else QUEUE{elems=array(n, init_val), front=ref @{position} ~1, back=ref @{position} ~1, size=n}
 
   fun clear_queue (QUEUE{front,back,...}) = (front := ~1; back := ~1)
 
@@ -93,7 +93,7 @@ val INFINITY = 999999
 
 abstype indent_stack = Istack of break_info list ref
 with
-  fun mk_indent_stack() = Istack (ref([]:break_info list))
+  fun mk_indent_stack() = Istack (ref @{position}([]:break_info list))
   fun clear_indent_stack (Istack stk) = (stk := ([]:break_info list))
   fun top (Istack stk) =
       case !stk
@@ -177,7 +177,7 @@ type ppconsumer = {consumer : string -> unit,
                    flush : unit -> unit}
 
 fun safe_consumer ofn = let
-  val output_stack = ref ([]:string list)
+  val output_stack = ref @{position} ([]:string list)
   fun doit s = let
   in
     if String.size s = 0 then ()
@@ -418,12 +418,12 @@ fun begin_block0 (ppstrm : ppstream0) style offset =
     else BB_inc_right_index ppstrm;
     case (the_token_buffer sub (!right_index))
       of (BB {Ublocks, ...}) =>
-           Ublocks := {Block_size = ref (~(!right_sum)),
+           Ublocks := {Block_size = ref @{position} (~(!right_sum)),
                        Block_offset = offset,
                        How_to_indent = style}::(!Ublocks)
        | _ => (update(the_token_buffer, !right_index,
-                      BB{Pblocks = ref [],
-                         Ublocks = ref [{Block_size = ref (~(!right_sum)),
+                      BB{Pblocks = ref @{position} [],
+                         Ublocks = ref @{position} [{Block_size = ref @{position} (~(!right_sum)),
                                          Block_offset = offset,
                                          How_to_indent = style}]});
                push_delim_stack (!right_index, the_delim_stack)))
@@ -434,12 +434,12 @@ fun end_block0(ppstrm : ppstream0) =
             = ppstrm
   in
     if (delim_stack_is_empty the_delim_stack)
-    then print_token(ppstrm,(E{Pend = ref 1, Uend = ref 0}))
+    then print_token(ppstrm,(E{Pend = ref @{position} 1, Uend = ref @{position} 0}))
     else (E_inc_right_index ppstrm;
           case (the_token_buffer sub (!right_index))
             of (E{Uend, ...}) => Uend := !Uend + 1
              | _ => (update(the_token_buffer,!right_index,
-                            E{Uend = ref 1, Pend = ref 0});
+                            E{Uend = ref @{position} 1, Pend = ref @{position} 0});
                      push_delim_stack (!right_index, the_delim_stack)))
   end
 
@@ -489,7 +489,7 @@ in
              left_sum := 1;   right_sum := 1)
        else ++right_index;
        update(the_token_buffer, !right_index,
-              BR{Distance_to_next_break = ref (~(!right_sum)),
+              BR{Distance_to_next_break = ref @{position} (~(!right_sum)),
                  Number_of_blanks = n,
                  Break_offset = break_offset});
        check_delim_stack ppstrm;
@@ -607,16 +607,16 @@ fun mk_ppstream {consumer,linewidth,flush} =
                the_delim_stack = new_delim_stack buf_size,
                the_indent_stack = mk_indent_stack (),
                ++ = fn i => i := ((!i + 1) mod buf_size),
-               space_left = ref linewidth,
-               left_index = ref 0, right_index = ref 0,
-               left_sum = ref 0, right_sum = ref 0})
+               space_left = ref @{position} linewidth,
+               left_index = ref @{position} 0, right_index = ref @{position} 0,
+               left_sum = ref @{position} 0, right_sum = ref @{position} 0})
     end
 
 
 (* Derived form. Builds a ppstream, sends pretty printing commands called in
    f to the ppstream, then flushes ppstream.
 *)
-val catch_withpp_err = ref true
+val catch_withpp_err = ref @{position} true
 
 fun with_pp ppconsumer ppfn = let
   val ppstrm = mk_ppstream ppconsumer
@@ -631,7 +631,7 @@ end handle e as Fail msg =>
 
 
 fun pp_to_string linewidth ppfn ob =
-    let val l = ref ([]:string list)
+    let val l = ref @{position} ([]:string list)
         fun attach s = l := (s::(!l))
      in with_pp {consumer = attach, linewidth=linewidth, flush = fn()=>()}
                 (fn ppstrm =>  ppfn ppstrm ob);

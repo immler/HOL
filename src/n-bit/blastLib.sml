@@ -16,9 +16,9 @@ open Parse
 
 val ERR = Feedback.mk_HOL_ERR "blastLib"
 
-val blast_trace = ref 0
-val blast_counter = ref true
-val blast_multiply_limit = ref 8
+val blast_trace = ref @{position} 0
+val blast_counter = ref @{position} true
+val blast_multiply_limit = ref @{position} 8
 
 val _ = Feedback.register_trace ("bit blast", blast_trace, 3)
 val _ = Feedback.register_btrace ("print blast counterexamples", blast_counter)
@@ -47,7 +47,7 @@ fun mk_less_thm (i,j) =
 fun mk_size_thm (i,ty) = mk_less_thm (i, wordsSyntax.mk_dimindex ty)
 
 local
-   val e_tys = ref (Redblackset.empty Type.compare)
+   val e_tys = ref @{position} (Redblackset.empty Type.compare)
    val cmp = reduceLib.num_compset ()
    val () = computeLib.add_thms [combinTheory.o_THM, combinTheory.K_THM] cmp
    val cnv = computeLib.CBV_CONV cmp
@@ -463,8 +463,8 @@ local
 
    val FCP_EQ_CONV = Conv.REWR_CONV FCP_EQ_EVERY THENC EVAL_CONV
 
-   val fcp_map = ref (Redblackmap.mkDict Arbnum.compare)
-                   : (Arbnum.num, Thm.thm) Redblackmap.dict ref
+   val fcp_map = ref @{position} (Redblackmap.mkDict Arbnum.compare)
+                   : (Arbnum.num, Thm.thm) Redblackmap.dict ref @{position}
 in
    fun fcp_eq_thm ty =
       case Lib.total (fcpLib.index_to_num o wordsSyntax.dest_word_type) ty of
@@ -719,11 +719,11 @@ local
            (last := thm; Conv.REWR_CONV thm tm)
         end
 
-  val last_lsl_thm = ref combinTheory.I_THM
-  val last_lsr_thm = ref combinTheory.I_THM
-  val last_asr_thm = ref combinTheory.I_THM
-  val last_ror_thm = ref combinTheory.I_THM
-  val last_rol_thm = ref combinTheory.I_THM
+  val last_lsl_thm = ref @{position} combinTheory.I_THM
+  val last_lsr_thm = ref @{position} combinTheory.I_THM
+  val last_asr_thm = ref @{position} combinTheory.I_THM
+  val last_ror_thm = ref @{position} combinTheory.I_THM
+  val last_rol_thm = ref @{position} combinTheory.I_THM
 in
   fun LSL_BV_CONV tm = BV_CONV last_lsl_thm
                            (mk_bv_thm blastTheory.word_lsl_bv_expand) tm
@@ -749,7 +749,7 @@ local
             (Conv.STRIP_QUANT_CONV (Conv.RHS_CONV
                 (EVAL_CONV THENC PURE_REWRITE_CONV [wordsTheory.WORD_ADD_0])))
 
-   val mul_rwts = ref ([]: thm list)
+   val mul_rwts = ref @{position} ([]: thm list)
 in
    fun BLAST_MUL_CONV tm =
       let

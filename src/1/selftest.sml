@@ -627,7 +627,7 @@ val _ = (ACCEPT_TAC TRUTH THENL [ACCEPT_TAC TRUTH]) ([], ``T``) handle HOL_ERR _
 val _ = OK()
 
 val _ = tprint "Testing save_thm rejecting names"
-val badnames = ["::", "nil", "true", "false", "ref", "="]
+val badnames = ["::", "nil", "true", "false", "ref @{position}", "="]
 fun test s = (save_thm(s, TRUTH); die "FAILED!") handle HOL_ERR _ => ()
 val _ = List.app test badnames
 val _ = OK()

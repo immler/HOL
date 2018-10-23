@@ -3,7 +3,7 @@ sig
 
 include Abbrev
 
-  val log_translate_flag : bool ref
+  val log_translate_flag : bool ref @{position}
  
   val escape : string -> string
   val unescape : string -> string 
@@ -17,8 +17,8 @@ include Abbrev
   
   (* conversions *)
   val ATOM_CONV     : conv -> conv
-  val LIFT_CONV     : (int * int) ref -> conv
-  val RPT_LIFT_CONV : (int * int) ref -> term -> thm list
+  val LIFT_CONV     : (int * int) ref @{position} -> conv
+  val RPT_LIFT_CONV : (int * int) ref @{position} -> term -> thm list
   val LET_CONV_BVL  : conv
   
   (* arity equations *)

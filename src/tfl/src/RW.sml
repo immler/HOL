@@ -22,7 +22,7 @@ open HolKernel Parse boolLib pairLib;
 
 val RW_ERR = mk_HOL_ERR "RW";
 
-val monitoring = ref 0
+val monitoring = ref @{position} 0
 
 val _ = register_trace ("TFL rewrite monitoring", monitoring, 20);
 
@@ -97,7 +97,7 @@ fun GENVAR_THM th =
 
  (* For changing the notion of a looping rewrite. *)
 
- val embedded_ref = ref embedded1;
+ val embedded_ref = ref @{position} embedded1;
 
 
  (*---------------------------------------------------------------------------
@@ -775,7 +775,7 @@ fun RW_STEPS traverser (simpls,context,congs,prover) thl =
  * need to be constantly given by the user.                                  *
  *---------------------------------------------------------------------------*)
 
-local val implicit = ref std_simpls
+local val implicit = ref @{position} std_simpls
 in
    fun implicit_simpls() = !implicit
    fun set_implicit_simpls rws = (implicit := rws)

@@ -69,7 +69,7 @@ local
        hooks earlier in the list.
        The set component is the list of the disabled hooks.
      *)
-      ref (HOLset.empty String.compare,
+      ref @{position} (HOLset.empty String.compare,
            [] : (string * (TheoryDelta.t -> unit)) list)
 in
 fun call_hooks td = let
@@ -146,9 +146,9 @@ fun enable_hook nm f x =
 
 end (* local block enclosing declaration of hooks variable *)
 
-(* This reference is set in course of loading the parsing library *)
+(* This ref @{position}erence is set in course of loading the parsing library *)
 
-val pp_thm = ref (fn _:thm => PP.add_string "<thm>")
+val pp_thm = ref @{position} (fn _:thm => PP.add_string "<thm>")
 
 (*---------------------------------------------------------------------------*
  * Unique identifiers, for securely linking a theory to its parents when     *
@@ -196,7 +196,7 @@ fun thyname_assoc x [] = raise ERR "thyname_assoc" "not found"
  ---------------------------------------------------------------------------*)
 
 structure Graph = struct type graph = (thyid * thyid list) list
-local val theGraph = ref [(min_thyid,[])]
+local val theGraph = ref @{position} [(min_thyid,[])]
 in
    fun add p = theGraph := (p :: !theGraph)
    fun add_parent (n,newp) =
@@ -298,7 +298,7 @@ fun fresh_segment s :segment = {thid=new_thyid s,  facts=[],  adjoin=[],
                                mldeps = HOLset.empty String.compare};
 
 
-local val CT = ref (fresh_segment "scratch")
+local val CT = ref @{position} (fresh_segment "scratch")
 in
   fun theCT() = !CT
   fun makeCT seg = CT := seg
@@ -581,13 +581,13 @@ fun scrubCT() = (scrub(); theCT());
 local
   fun check_name tempok (fname,s) =
     if Lexis.ok_sml_identifier s andalso
-       not (Lib.mem s ["ref", "true", "false", "::", "nil", "="]) orelse
+       not (Lib.mem s ["ref @{position}", "true", "false", "::", "nil", "="]) orelse
        tempok andalso is_temp_binding s
       then ()
     else raise ERR fname ("Can't use name " ^ Lib.mlquote s ^
                           " as a theory-binding")
   fun DATED_ERR f bindname = ERR f (Lib.quote bindname^" is out-of-date!")
-  val save_thm_reporting = ref 1
+  val save_thm_reporting = ref @{position} 1
   val _ = Feedback.register_trace ("Theory.save_thm_reporting",
                                    save_thm_reporting, 2)
   fun mesg_str th =
@@ -675,6 +675,30 @@ fun link_parents thy plist =
     end
  end;
 
+(* like link_parents, but with 0 ids *)
+fun link_parents0 thy plist =
+ let fun make_thyid0 thy = make_thyid (thy, Arbnum.fromInt 0, Arbnum.fromInt 0)
+     val node = make_thyid0 thy
+     val parents = map make_thyid0 plist
+ in
+ if Lib.all Graph.isin parents
+ then if Graph.isin node
+      then if node_set_eq parents (Graph.parents_of node) then ()
+           else (HOL_MESG
+                  "link_parents: the theory has two unequal sets of parents";
+                 raise ERR "link_parents" "")
+      else Graph.add (node,parents)
+ else let val baddies = Lib.filter (not o Graph.isin) parents
+          val names = map thyid_to_string baddies
+    in HOL_MESG (String.concat
+        ["link_parents: the following parents of ",
+         Lib.quote (thyid_name node),
+         "\n  should already be in the theory graph (but aren't): ",
+         String.concat (commafy names)]);
+       raise ERR "link_parents" ""
+    end
+ end;
+
 fun incorporate_types thy tys =
   let fun itype (s,a) = (install_type(s,a,thy);())
   in List.app itype tys
@@ -689,7 +713,7 @@ fun incorporate_consts thy tyvector consts =
     Theory data functions
 
     In addition to the data in the current segment, we want to track the data
-    associated with all previous segments.  We do this with another reference
+    associated with all previous segments.  We do this with another ref @{position}erence
     variable (yuck).
    ---------------------------------------------------------------------- *)
 
@@ -701,9 +725,9 @@ struct
                   read : (string -> term) -> string -> t option,
                   write : (term -> string) -> t -> string,
                   terms : t -> term list}
-  val allthydata = ref (Binarymap.mkDict String.compare :
+  val allthydata = ref @{position} (Binarymap.mkDict String.compare :
                         (string, ThyDataMap) Binarymap.dict)
-  val dataops = ref (Binarymap.mkDict String.compare :
+  val dataops = ref @{position} (Binarymap.mkDict String.compare :
                      (string, DataOps) Binarymap.dict)
 
   fun segment_data {thy,thydataty} = let
@@ -874,9 +898,9 @@ fun unadjzip [] A = A
  ----------------------------------------------------------------------------*)
 
 fun total_cpu {usr,sys} = Time.+(usr,sys)
-val new_theory_time = ref (total_cpu (Timer.checkCPUTimer Globals.hol_clock))
+val new_theory_time = ref @{position} (total_cpu (Timer.checkCPUTimer Globals.hol_clock))
 
-val report_times = ref true
+val report_times = ref @{position} true
 val _ = Feedback.register_btrace ("report_thy_times", report_times)
 
 local
@@ -1132,7 +1156,7 @@ fun check_tyvars body_tyvars ty f =
          ("Unbound type variable(s) in definition: "
            :: commafy (map (Lib.quote o dest_vartype) extras)));
 
-val new_definition_hook = ref
+val new_definition_hook = ref @{position}
     ((fn tm => ([], tm)),
      (fn (V,th) =>
        if null V then th

@@ -44,7 +44,7 @@ fun bool_lists n =
 
 local open Portable
       fun num_variant vlist v =
-        let val counter = ref 0
+        let val counter = ref @{position} 0
             val names = map (fst o dest_var) vlist
             val (Name,Ty) = dest_var v
             fun pass str =

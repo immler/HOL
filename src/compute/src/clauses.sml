@@ -176,12 +176,12 @@ fun lex_string_comp ((s1, s2), (s3, s4)) =
     EQUAL => String.compare (s2, s4)
   | x => x
 
-fun empty_rws () = RWS (ref (Redblackmap.mkDict lex_string_comp));
+fun empty_rws () = RWS (ref @{position} (Redblackmap.mkDict lex_string_comp));
 
 fun assoc_clause (RWS rws) cst =
   case Redblackmap.peek (!rws, cst)
    of SOME rl => rl
-    | NONE => let val mt = ref (EndDb, NONE)
+    | NONE => let val mt = ref @{position} (EndDb, NONE)
               in rws := Redblackmap.insert (!rws,cst,mt)
                ; mt
               end

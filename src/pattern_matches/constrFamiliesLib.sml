@@ -537,7 +537,7 @@ type pmatch_compile_fun = (term list * term) list -> (thm * int * simpLib.ssfrag
 
 type pmatch_nchotomy_fun = (term list * term) list -> (thm * int) option
 
-val typeConstrFamsDB = ref (TypeNet.empty : constructorFamily TypeNet.typenet)
+val typeConstrFamsDB = ref @{position} (TypeNet.empty : constructorFamily TypeNet.typenet)
 
 type pmatch_compile_db = {
   pcdb_compile_funs  : pmatch_compile_fun list,
@@ -553,7 +553,7 @@ val empty : pmatch_compile_db = {
   pcdb_ss = (simpLib.rewrites [])
 }
 
-val thePmatchCompileDB = ref empty
+val thePmatchCompileDB = ref @{position} empty
 
 fun lookup_typeBase_constructorFamily ty = let
   val b_ty = base_ty ty

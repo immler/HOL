@@ -480,7 +480,7 @@ let isa_gl oc names asms gl =
 ;;
 
 
-let fileno = ref 0;;
+let fileno = ref @{position} 0;;
 
 let rec fullsplitlist dest x =
   try let l,r = dest x in

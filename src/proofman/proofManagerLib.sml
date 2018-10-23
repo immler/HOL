@@ -1,5 +1,5 @@
 (*---------------------------------------------------------------------------*)
-(* The programs here maintain a reference to an element of the proofs type.  *)
+(* The programs here maintain a ref @{position}erence to an element of the proofs type.  *)
 (* For purely functional operations, i.e., where no hidden state is being    *)
 (* maintained, see the Manager structure.                                    *)
 (*---------------------------------------------------------------------------*)
@@ -15,7 +15,7 @@ type proofs = Manager.proofs
 val chatting = goalStack.chatting;
 fun say s = if !chatting then Lib.say s else ();
 
-val the_proofs = ref (Manager.initial_proofs());
+val the_proofs = ref @{position} (Manager.initial_proofs());
 
 fun proofs() = !the_proofs;
 fun top_proof() = Manager.current_proof(proofs());

@@ -31,17 +31,17 @@ functor HeaderFun () : HEADER =
 	val DEBUG = true
 
 	type pos = int
-        val lineno: int ref = ref 0
-        val text = ref (nil: string list)
+        val lineno: int ref @{position} = ref @{position} 0
+        val text = ref @{position} (nil: string list)
         type inputSource = {name : string,
 			    errStream : TextIO.outstream,
 			    inStream : TextIO.instream,
-			    errorOccurred : bool ref}
+			    errorOccurred : bool ref @{position}}
 
 	val newSource =
 	  fn (s : string,i : TextIO.instream ,errs : TextIO.outstream) =>
 	      {name=s,errStream=errs,inStream=i,
-	       errorOccurred = ref false}
+	       errorOccurred = ref @{position} false}
 
 	val errorOccurred = fn (s : inputSource) =>fn () => !(#errorOccurred s)
 

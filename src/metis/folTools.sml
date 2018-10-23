@@ -192,9 +192,9 @@ val varnames = matchTools.vfree_names is_var o list_mk_conj';
 
 type fol_problem = {thms : thm1 list, hyps : thm1 list, query : formula1 list};
 
-val recent_fol_problems : fol_problem list option ref = ref NONE;
+val recent_fol_problems : fol_problem list option ref = ref @{position} NONE;
 
-(* no code actually sets this reference to SOME, but it may of course be useful
+(* no code actually sets this ref @{position}erence to SOME, but it may of course be useful
    for debugging *)
 fun save_fol_problem (t, h, q) =
   case !recent_fol_problems of NONE => ()

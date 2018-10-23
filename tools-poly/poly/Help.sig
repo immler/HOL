@@ -3,12 +3,12 @@ signature Help = sig
 
 val help           : string -> unit
 
-val displayLines   : int ref
-val helpdirs       : string list ref
-val indexfiles     : string list ref
-val specialfiles   : {term : string, file : string, title : string} list ref
-val welcome        : string vector ref
-val browser        : (string -> unit) ref
+val displayLines   : int ref @{position}
+val helpdirs       : string list ref @{position}
+val indexfiles     : string list ref @{position}
+val specialfiles   : {term : string, file : string, title : string} list ref @{position}
+val welcome        : string vector ref @{position}
+val browser        : (string -> unit) ref @{position}
 val defaultBrowser : string -> unit
 end;
 (*
@@ -39,29 +39,29 @@ end;
 
    A newline by itself moves down one screen (24 lines).
 
-   [helpdirs] is a reference to a list of additional directories to be
+   [helpdirs] is a ref @{position}erence to a list of additional directories to be
    searched for help files.  The directories are searched in order,
    after the -stdlib directory.
 
-   [indexfiles] is a reference to a list of full paths of help term
+   [indexfiles] is a ref @{position}erence to a list of full paths of help term
    index files.  Setting `indexfiles' affects subsequent invocations
    of `help'.  (Every invocation of `help' reads the index files anew).
 
-   [specialfiles] is a reference to a list of {term, file, title}
+   [specialfiles] is a ref @{position}erence to a list of {term, file, title}
    records, each of which maps a search term to the specified file
    with the specified title (in the browser).  The string in the
    `term' field should be all lowercase, since the argument passed to
    `help' will be converted to lowercase.
 
-   [welcome] is a reference to the text shown in response to the query
+   [welcome] is a ref @{position}erence to the text shown in response to the query
    help "".  This is a vector of lines of text.
 
-   [browser] is a reference to the function that gets invoked on the
+   [browser] is a ref @{position}erence to the function that gets invoked on the
    text of the help file.  Initially set to defaultBrowser.
 
    [defaultBrowser] is the default (built-in) help browser.
 
-   [displayLines] is a reference to the size of the display (window)
+   [displayLines] is a ref @{position}erence to the size of the display (window)
    assumed by the defaultBrowser; initially 24 lines.  Set it to the
    actual size of your window for best results.
 *)

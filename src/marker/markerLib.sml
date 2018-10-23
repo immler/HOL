@@ -94,7 +94,7 @@ fun ABB l r =
 fun ABBREV_TAC eq = let val (l,r) = dest_eq eq in ABB l r end;
 
 local
-   val match_var_or_const = ref true
+   val match_var_or_const = ref @{position} true
 in
    val () = Feedback.register_btrace
                ("PAT_ABBREV_TAC: match var/const", match_var_or_const)
@@ -281,7 +281,7 @@ fun MK_LABEL(s, th) = EQ_MP (SYM (SPECL [lb s, concl th] label_def)) th
 fun ASSUME_NAMED_TAC s bth : tactic = ASSUME_TAC (MK_LABEL(s, bth))
 
 (*---------------------------------------------------------------------------*)
-(* Given an LB encoded label reference, finds a corresponding term in the    *)
+(* Given an LB encoded label ref @{position}erence, finds a corresponding term in the    *)
 (*   assumption list.                                                        *)
 (*---------------------------------------------------------------------------*)
 

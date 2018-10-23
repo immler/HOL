@@ -785,12 +785,12 @@ fun DEPTH_ARI_CONV rwt tm =
 
 (* ------------------------------------------------------------------------- *)
 
-val ptree_consts_ref = ref ([]:term list)
-val ptree_cache_ref = ref ([]:(term * thm) list)
+val ptree_consts_ref = ref @{position} ([]:term list)
+val ptree_cache_ref = ref @{position} ([]:(term * thm) list)
 
-val ptree_strict_defn_check = ref false
-val ptree_max_cache_size = ref 10
-val ptree_new_defn_depth = ref ~1
+val ptree_strict_defn_check = ref @{position} false
+val ptree_max_cache_size = ref @{position} 10
+val ptree_new_defn_depth = ref @{position} ~1
 
 local
    fun contains_term t1 t2 = can (find_term (can (match_term t2))) t1

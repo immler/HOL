@@ -3,7 +3,7 @@ struct
 
 (*---------------------------------------------------------------------------
     Elements in signatures are determined by a (name,theory) pair.
-    The reference cell is for uniqueness (an interactive session may
+    The ref @{position}erence cell is for uniqueness (an interactive session may
     create more than one such pair, and they need to be distinguished).
  ---------------------------------------------------------------------------*)
 

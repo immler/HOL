@@ -67,7 +67,7 @@ open Parse
 
 (* In interactive sessions, omit the chatting section below. *)
 
-val chatting = ref false;  (* When chatting is false,
+val chatting = ref @{position} false;  (* When chatting is false,
                                  gives no output of lifting.
                               When chatting is true, then
                                  every type, constant, and theorem lifted
@@ -78,17 +78,17 @@ val _ = register_btrace("quotient", chatting);
 (* End of chatting section. *)
 
 
-val caching = ref true; (* should be pure efficiency gain *)
+val caching = ref @{position} true; (* should be pure efficiency gain *)
 
 
 structure Map = Redblackmap
 
 (* Redblackmap has the same signature as Binarymap. *)
 
-val quotient_cache = ref ((Map.mkDict Type.compare) :(hol_type, thm) Map.dict);
+val quotient_cache = ref @{position} ((Map.mkDict Type.compare) :(hol_type, thm) Map.dict);
 
-val hits = ref 0;
-val misses = ref 0;
+val hits = ref @{position} 0;
+val misses = ref @{position} 0;
 
 fun reset_cache () =
       (quotient_cache := (Map.mkDict Type.compare : (hol_type, thm)Map.dict);

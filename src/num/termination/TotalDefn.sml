@@ -147,7 +147,7 @@ val SUB_LESS_I = prove
  REWRITE_TAC[SUB_LESS,combinTheory.I_THM]);
 
 val termination_simps =
-     ref [combinTheory.o_DEF,
+     ref @{position} [combinTheory.o_DEF,
           combinTheory.I_THM,
           prim_recTheory.measure_def,
           relationTheory.inv_image_def,
@@ -162,7 +162,7 @@ val termination_simps =
 val WF_thms =
  let open relationTheory prim_recTheory pairTheory
  in
-   ref [WF_inv_image, WF_measure, WF_LESS,
+   ref @{position} [WF_inv_image, WF_measure, WF_LESS,
         WF_EMPTY_REL, WF_PRED, WF_RPROD, WF_LEX, WF_TC]
  end;
 
@@ -508,7 +508,7 @@ fun proveTotal tac defn =
   end;
 
 local open Defn
-  val auto_tgoal = ref true
+  val auto_tgoal = ref @{position} true
   val () = Feedback.register_btrace("auto Defn.tgoal", auto_tgoal)
 
   fun should_try_to_prove_termination defn rhs_frees =

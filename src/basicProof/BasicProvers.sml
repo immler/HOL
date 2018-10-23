@@ -659,7 +659,7 @@ fun breakable tm =
 val let_movement_thms = let
   open combinTheory
 in
-  ref [o_THM, o_ABS_R, C_ABS_L, C_THM,
+  ref @{position} [o_THM, o_ABS_R, C_ABS_L, C_THM,
        GEN_literal_case_RAND, GEN_literal_case_RATOR,
        GEN_LET_RAND, GEN_LET_RATOR, S_ABS_R]
 end
@@ -891,11 +891,11 @@ val bool_ss = boolSimps.bool_ss;
        just when a datatype is declared.
  ---------------------------------------------------------------------------*)
 
-val (srw_ss : simpset ref) = ref (bool_ss ++ combinSimps.COMBIN_ss);
+val (srw_ss : simpset ref) = ref @{position} (bool_ss ++ combinSimps.COMBIN_ss);
 
-val srw_ss_initialised = ref false;
+val srw_ss_initialised = ref @{position} false;
 
-val pending_updates = ref ([]: simpLib.ssfrag list);
+val pending_updates = ref @{position} ([]: simpLib.ssfrag list);
 
 fun initialise_srw_ss() =
   if !srw_ss_initialised then !srw_ss
@@ -957,7 +957,7 @@ val Abbr = markerSyntax.Abbr
 open LoadableThyData
 
 (* store a database of per-theory simpset fragments *)
-val thy_ssfrags = ref (Binarymap.mkDict String.compare)
+val thy_ssfrags = ref @{position} (Binarymap.mkDict String.compare)
 fun thy_ssfrag s = Binarymap.find(!thy_ssfrags, s)
 
 fun add_rewrites thyname (thms : (string * thm) list) = let

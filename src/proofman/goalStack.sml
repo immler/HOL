@@ -11,14 +11,14 @@ infix 0 before;
 
 val ERR = mk_HOL_ERR "goalStack";
 
-val show_nsubgoals = ref 10;
-val chatting = ref true;
-val show_stack_subgoal_count = ref true
-val print_fvs = ref false
-val print_goal_at_top = ref true;
-val reverse_assums = ref false;
-val print_number_assums = ref 1000000;
-val other_subgoals_pretty_limit = ref 100;
+val show_nsubgoals = ref @{position} 10;
+val chatting = ref @{position} true;
+val show_stack_subgoal_count = ref @{position} true
+val print_fvs = ref @{position} false
+val print_goal_at_top = ref @{position} true;
+val reverse_assums = ref @{position} false;
+val print_number_assums = ref @{position} 1000000;
+val other_subgoals_pretty_limit = ref @{position} 100;
 
 val _ = register_trace ("Goalstack.howmany_printed_subgoals", show_nsubgoals,
                         10000);
@@ -348,7 +348,7 @@ fun ppgoal (asl,w) =
    end
    handle e => (Lib.say "\nError in attempting to print a goal!\n";  raise e);
 
-   val goal_printer = ref (Parse.mlower o ppgoal)
+   val goal_printer = ref @{position} (Parse.mlower o ppgoal)
 in
  val mppgoal = ppgoal
  val std_pp_goal = Parse.mlower o ppgoal

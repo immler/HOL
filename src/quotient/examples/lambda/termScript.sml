@@ -595,7 +595,7 @@ val _ = overload_on("<[", “$SUB1”)
 handle e => Raise e;
 *)
 
-(* Now overload the substitution operator <[ to refer to any of the  *)
+(* Now overload the substitution operator <[ to ref @{position}er to any of the  *)
 (* object, dict, entry, or method substitution operators defined:    *)
 
 val _ = map (fn t => overload_on("<[", t))

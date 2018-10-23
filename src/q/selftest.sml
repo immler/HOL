@@ -336,7 +336,7 @@ val _ = new_definition ("gh425a_def", ``gh425a a = a``);
 val _ = new_definition ("gh425b_def", ``gh425b p = (p ==> T)``);
 val _ = overload_on ("gh425", ``gh425a``);
 val _ = overload_on ("gh425", ``gh425b``);
-val buf = ref ([] : string list)
+val buf = ref @{position} ([] : string list)
 fun app s = buf := s :: !buf
 fun testquiet f x =
   (buf := [];

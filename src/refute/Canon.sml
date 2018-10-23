@@ -40,7 +40,7 @@ val RIGHT_IMP_EXISTS_THM = GSYM RIGHT_EXISTS_IMP_THM;
  * Taken directly from GTT.
  * ------------------------------------------------------------------------- *)
 val (args,ONEWAY_SKOLEM_CONV) =
-  let val args = ref []
+  let val args = ref @{position} []
       val P = ``P:'a->bool``
       and z = ``z:'a``
       and aty = Type.alpha
@@ -547,7 +547,7 @@ end;;
 (* ------------------------------------------------------------------------- *)
 (* used for debugging refutation provers *)
 
-val latest = ref (NONE: (thm * thm * term) option);
+val latest = ref @{position} (NONE: (thm * thm * term) option);
 
 val REFUTE =
   let val pth = TAUT`(~p ==> F) ==> p`

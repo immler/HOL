@@ -5,7 +5,7 @@ open monofldATheory
 val _ = new_theory "monofldB";
 
 val (write, read) = let
-  val buf = ref ([] : string list)
+  val buf = ref @{position} ([] : string list)
   fun w s = (buf := s :: !buf)
   fun r () = let
     val result = String.concat (List.rev (!buf))

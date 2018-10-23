@@ -441,7 +441,7 @@ val variant_is_variant = store_thm
 
 (* Now we wish to express the variant definition more simply,   *)
 (* by just saying that the variant selected is just a variant,  *)
-(* without referring to any variant-sets.                       *)
+(* without ref @{position}erring to any variant-sets.                       *)
 
 
 val variant_DEF = store_thm

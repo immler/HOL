@@ -17,9 +17,9 @@ tacticToe
 
 val ERR = mk_HOL_ERR "tttRecord"
 
-val goalstep_glob = ref []
-val tactictoe_step_counter = ref 0
-val tactictoe_thm_counter = ref 0
+val goalstep_glob = ref @{position} []
+val tactictoe_step_counter = ref @{position} 0
+val tactictoe_thm_counter = ref @{position} 0
 
 fun local_tag x = x
 fun add_local_tag s = "( tttRecord.local_tag " ^ s ^ ")"
@@ -47,22 +47,22 @@ fun parse_msg thmname qtac final_stac =
 fun parse_err thmname qtac final_stac =
   (parse_msg thmname qtac final_stac; raise ERR "" "")
 
-val n_parse_glob = ref 0
-val n_replay_glob = ref 0
-val n_tactic_parse_glob = ref 0
-val n_tactic_replay_glob = ref 0
+val n_parse_glob = ref @{position} 0
+val n_replay_glob = ref @{position} 0
+val n_tactic_parse_glob = ref @{position} 0
+val n_tactic_replay_glob = ref @{position} 0
 
-val tactic_time = ref 0.0
-val save_time = ref 0.0
-val record_time = ref 0.0
-val extract_time = ref 0.0
-val number_time = ref 0.0
-val exec_time = ref 0.0
-val mkfinal_time = ref 0.0
-val hide_time = ref 0.0
-val replay_time = ref 0.0
-val original_time = ref 0.0
-val fetch_thm_time = ref 0.0
+val tactic_time = ref @{position} 0.0
+val save_time = ref @{position} 0.0
+val record_time = ref @{position} 0.0
+val extract_time = ref @{position} 0.0
+val number_time = ref @{position} 0.0
+val exec_time = ref @{position} 0.0
+val mkfinal_time = ref @{position} 0.0
+val hide_time = ref @{position} 0.0
+val replay_time = ref @{position} 0.0
+val original_time = ref @{position} 0.0
+val fetch_thm_time = ref @{position} 0.0
 
 fun reset_profiling () =
   (
@@ -134,9 +134,9 @@ fun record_tactic (tac,stac) g =
 
 fun wrap_tactics_in name qtac goal =
   let
-    val success_flag = ref NONE
+    val success_flag = ref @{position} NONE
     val cthy = current_theory ()
-    val final_stac_ref = ref ""
+    val final_stac_ref = ref @{position} ""
     fun mk_alttac qtac =
       let
         val _ = final_stac_ref := ""
@@ -248,7 +248,7 @@ val fetch = total_time fetch_thm_time fetch_thm
    Proof recording
    ---------------------------------------------------------------------- *)
 
-val thm_counter = ref 0
+val thm_counter = ref @{position} 0
 
 fun start_record_proof name =
   let 
@@ -331,7 +331,7 @@ fun org_tac tac g =
       TacTimeOut => (debug "Error: org_tac: loop"; clear_tac tac g)
     | _ => (debug "Error: org_tac: error"; clear_tac tac g)
 
-val fof_counter = ref 0
+val fof_counter = ref @{position} 0
 
 fun create_fof_wrap name pflag result =
   if !ttt_fof_flag andalso (not pflag orelse !ttt_evprove_flag) then 

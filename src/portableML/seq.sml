@@ -9,7 +9,7 @@ datatype 'a seq =
   LDELAYREF of  'a seq ref |
   LDELAYED of (unit -> 'a seq)
 
-fun delay f = LDELAYREF (ref (LDELAYED f))
+fun delay f = LDELAYREF (ref @{position} (LDELAYED f))
 fun force s =
   case s of LDELAYREF r =>
     (case !r of LDELAYED f =>

@@ -65,7 +65,7 @@ fun tyop_name ([],"bool") = {Thy="min",Tyop="bool"}
   | tyop_name (["Data","Sum"],"+") = {Thy=Thy,Tyop="Data_Sum_sum"}
   | tyop_name (ns,n) = {Thy=Thy,Tyop=String.concatWith "_"(ns@[n])}
 
-val defs = ref ([]:thm list)
+val defs = ref @{position} ([]:thm list)
 fun add_def tm =
   let
     val th = mk_oracle_thm"def" ([],tm)

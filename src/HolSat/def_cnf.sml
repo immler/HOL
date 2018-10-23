@@ -63,7 +63,7 @@ val GCONJUNCTS  =
           let val ths0 = if is_neg tm andalso is_neg (rand tm)
                          then CONJUNCTSR (CONV_RULE NOT_NOT_CONV th) else [th]
               val ths1 = List.map GCONJUNCTS'' ths0
-              val is_cnf = ref true
+              val is_cnf = ref @{position} true
               val ths2 =  List.map (fn th =>
                                        if is_clausal (concl th) then (true,th)
                                        else (is_cnf:=false;(false,th))) (List.concat ths1)
@@ -175,7 +175,7 @@ fun to_cnf' tm =
     end
 end
 
-val cnfv_ref = ref "SP"
+val cnfv_ref = ref @{position} "SP"
 
 fun clausify tm lfn eq cls =
     let val fvs = free_vars eq

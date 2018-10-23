@@ -20,7 +20,7 @@ val pow_tm   = Term`$pow`;
 (* A conversion to differentiate expressions                                 *)
 (*---------------------------------------------------------------------------*)
 
-val basic_diffs = ref ([]:thm list);
+val basic_diffs = ref @{position} ([]:thm list);
 
 
 (*---------------------------------------------------------------------------*)

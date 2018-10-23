@@ -74,9 +74,9 @@ struct
   val case_arrow_special = mk_default_case "arrow"
 
   open HolKernel
-  val compilefn = ref (NONE : (term -> term) option)
+  val compilefn = ref @{position} (NONE : (term -> term) option)
   val constructorsfn =
-      ref (NONE : ({Thy:string,Tyop:string} -> term list) option)
+      ref @{position} (NONE : ({Thy:string,Tyop:string} -> term list) option)
 
   fun compile_pattern_match t =
       case !compilefn of

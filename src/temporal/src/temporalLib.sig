@@ -1,6 +1,6 @@
 signature temporalLib =
   sig
-    val smv_tmp_dir : string ref
+    val smv_tmp_dir : string ref @{position}
 
     type term = Term.term
     type thm = Thm.thm

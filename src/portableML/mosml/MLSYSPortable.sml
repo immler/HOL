@@ -12,7 +12,7 @@ val listDir = Mosml.listDir
 local val cast : 'a -> int = Obj.magic
 in
 fun pointer_eq (x:'a, y:'a) = (cast x = cast y)
-fun ref_to_int (r : 'a ref) = cast r
+fun ref_to_int (r : 'a ref @{position}) = cast r
 end;
 
 local
@@ -34,14 +34,14 @@ fun reraise e = raise e
 
 fun make_counter {inc,init} =
   let
-    val n = ref init
+    val n = ref @{position} init
   in
     fn () => !n before n := !n + inc
   end
 
 fun syncref init =
   let
-    val r = ref init
+    val r = ref @{position} init
   in
     { get = fn() => !r,
       upd = fn f => let val (res,nv) = f (!r) in r := nv; res end

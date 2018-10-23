@@ -21,13 +21,13 @@ val provers_dir = HOLDIR ^ "/src/holyhammer/provers"
    Globals
    -------------------------------------------------------------------------- *)
 
-val nb_premises = ref 128
+val nb_premises = ref @{position} 128
 
 (* --------------------------------------------------------------------------
    Features of term
    -------------------------------------------------------------------------- *)
 
-val fea_cache = ref (dempty Term.compare)
+val fea_cache = ref @{position} (dempty Term.compare)
 
 fun fea_of_term_cached tm = 
   dfind tm (!fea_cache) handle NotFound =>
@@ -76,9 +76,9 @@ fun init_dicts_thy state (nthy,thy) =
 fun init_dicts n =
   let
     val _ = clean_dir (!ttt_synt_dir)
-    val order_dict = ref (dempty id_compare)
-    val term_dict  = ref (dempty Term.compare)
-    val role_dict  = ref (dempty Term.compare)
+    val order_dict = ref @{position} (dempty id_compare)
+    val term_dict  = ref @{position} (dempty Term.compare)
+    val role_dict  = ref @{position} (dempty Term.compare)
     val thyl0 = first_n n (sort_thyl (ancestry (current_theory ())))
     val thyl1 = number_list 0 thyl0
     val state = (order_dict,term_dict,role_dict)
@@ -113,7 +113,7 @@ fun insert_cj (order_dict,term_dict,role_dict) (tm,lemmas) =
 fun insert_cjl (odict,tdict,rdict) cjlp = 
   let 
     val _ = msg_synt cjlp "to be inserted in the dicts"
-    val state as (order_dict, term_dict, role_dict) = (ref odict, ref tdict, ref rdict)
+    val state as (order_dict, term_dict, role_dict) = (ref @{position} odict, ref @{position} tdict, ref @{position} rdict)
   in
     app (insert_cj state) cjlp;
     (!order_dict, !term_dict, !role_dict)

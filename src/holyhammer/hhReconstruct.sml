@@ -17,9 +17,9 @@ val ERR = mk_HOL_ERR "hhReconstruct"
    Settings
  -----------------------------------------------------------------------------*)
 
-val reconstruct_flag = ref true
-val minimization_timeout = ref 1.0
-val reconstruction_timeout = ref 1.0
+val reconstruct_flag = ref @{position} true
+val minimization_timeout = ref @{position} 1.0
+val reconstruction_timeout = ref @{position} 1.0
 
 (*----------------------------------------------------------------------------
    Reading the ATP output

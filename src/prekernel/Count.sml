@@ -7,7 +7,7 @@ struct
  * manipulation routines are visible to all.                                 *
  *---------------------------------------------------------------------------*)
 
-val counting = ref false
+val counting = ref @{position} false
 fun counting_thms b = counting := b
 val inc = Portable.inc
 
@@ -49,42 +49,42 @@ datatype rule =
  | Trans
 
 val count =
-   {ABS = ref 0,
-    ALPHA = ref 0,
-    AP_TERM = ref 0,
-    AP_THM = ref 0,
-    ASSUME = ref 0,
-    AXIOM = ref 0,
-    BETA_CONV = ref 0,
-    CCONTR = ref 0,
-    CHOOSE = ref 0,
-    CONJ = ref 0,
-    CONJUNCT1 = ref 0,
-    CONJUNCT2 = ref 0,
-    DEFINITION = ref 0,
-    DISCH = ref 0,
-    DISJ1 = ref 0,
-    DISJ2 = ref 0,
-    DISJ_CASES = ref 0,
-    EQ_IMP_RULE = ref 0,
-    EQ_MP = ref 0,
-    EXISTS = ref 0,
-    FROM_DISK = ref 0,
-    GEN = ref 0,
-    GEN_ABS = ref 0,
-    INST = ref 0,
-    INST_TYPE = ref 0,
-    MK_COMB = ref 0,
-    MP = ref 0,
-    NOT_ELIM = ref 0,
-    NOT_INTRO = ref 0,
-    ORACLE = ref 0,
-    REFL = ref 0,
-    SPEC = ref 0,
-    SUBST = ref 0,
-    SYM = ref 0,
-    TOTAL = ref 0,
-    TRANS = ref 0}
+   {ABS = ref @{position} 0,
+    ALPHA = ref @{position} 0,
+    AP_TERM = ref @{position} 0,
+    AP_THM = ref @{position} 0,
+    ASSUME = ref @{position} 0,
+    AXIOM = ref @{position} 0,
+    BETA_CONV = ref @{position} 0,
+    CCONTR = ref @{position} 0,
+    CHOOSE = ref @{position} 0,
+    CONJ = ref @{position} 0,
+    CONJUNCT1 = ref @{position} 0,
+    CONJUNCT2 = ref @{position} 0,
+    DEFINITION = ref @{position} 0,
+    DISCH = ref @{position} 0,
+    DISJ1 = ref @{position} 0,
+    DISJ2 = ref @{position} 0,
+    DISJ_CASES = ref @{position} 0,
+    EQ_IMP_RULE = ref @{position} 0,
+    EQ_MP = ref @{position} 0,
+    EXISTS = ref @{position} 0,
+    FROM_DISK = ref @{position} 0,
+    GEN = ref @{position} 0,
+    GEN_ABS = ref @{position} 0,
+    INST = ref @{position} 0,
+    INST_TYPE = ref @{position} 0,
+    MK_COMB = ref @{position} 0,
+    MP = ref @{position} 0,
+    NOT_ELIM = ref @{position} 0,
+    NOT_INTRO = ref @{position} 0,
+    ORACLE = ref @{position} 0,
+    REFL = ref @{position} 0,
+    SPEC = ref @{position} 0,
+    SUBST = ref @{position} 0,
+    SYM = ref @{position} 0,
+    TOTAL = ref @{position} 0,
+    TRANS = ref @{position} 0}
 
 fun inc_count R =
   if !counting

@@ -19,7 +19,7 @@ struct
 
   fun invoke lexstream = let
     open PPBackEnd;
-    val error_count = ref 0;
+    val error_count = ref @{position} 0;
     fun print_error (s,(j:int,i:int),_) =
         ((if (!error_count > 0) then () else print "\n");
         (error_count := !error_count + 1);

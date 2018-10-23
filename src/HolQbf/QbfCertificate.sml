@@ -173,7 +173,7 @@ struct
                    | Ext    of (term * term) (* extvar, definition *)
   end
 
-  val sat_prove = ref HolSatLib.SAT_PROVE
+  val sat_prove = ref @{position} HolSatLib.SAT_PROVE
 
   fun check t dict (VALID (exts,lits)) = let
     open Lib Thm Drule Term Type boolSyntax
@@ -190,7 +190,7 @@ struct
          (using num_to_var for extensions) *)
       fun invert_dict d =
         foldl (fn(v,n,d)=>insert(d,n,v)) (mkDict compare) d
-      val tcid = ref (invert_dict dict)
+      val tcid = ref @{position} (invert_dict dict)
       fun update (n,v) = (tcid := insert(!tcid,n,v); v)
     in
       (curry find dict,
@@ -245,8 +245,8 @@ struct
          to the definition of an extension variable,
          plus the set of indexes that term depends on.
        If an extension is defined using an original existential variable v,
-       replace references to v by references to v's witness (extension) variable.
-       If v has no witness, replace references to v by references to T,
+       replace ref @{position}erences to v by ref @{position}erences to v's witness (extension) variable.
+       If v has no witness, replace ref @{position}erences to v by ref @{position}erences to T,
        but simplify as necessary.
        For example, if v has no witness:
          if v occurs in an AND, don't bother listing it.

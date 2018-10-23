@@ -20,8 +20,8 @@ type feav_t = (lbl_t * fea_t)
    Global parameters
    -------------------------------------------------------------------------- *)
 
-val ttt_tactic_time = ref 0.05
-val ttt_search_time = ref (Time.fromReal 15.0)
+val ttt_tactic_time = ref @{position} 0.05
+val ttt_search_time = ref @{position} (Time.fromReal 15.0)
 
 (* --------------------------------------------------------------------------
    Directories
@@ -295,7 +295,7 @@ fun approx n r =
 
 fun rename_bvarl f tm = 
   let 
-    val vi = ref 0
+    val vi = ref @{position} 0
     fun rename_aux tm = case dest_term tm of
       VAR(Name,Ty)       => tm
     | CONST{Name,Thy,Ty} => tm
@@ -468,7 +468,7 @@ fun print_endline s = print (s ^ "\n")
    -------------------------------------------------------------------------- *)
 
 (* unfold_dir *)
-val ttt_unfold_cthy = ref "scratch"
+val ttt_unfold_cthy = ref @{position} "scratch"
 
 fun debug_unfold s =
   append_endline (ttt_unfold_dir ^ "/" ^ !ttt_unfold_cthy) s
@@ -487,7 +487,7 @@ fun debug_t s f x =
     r
   end
 
-val debugsearch_flag = ref false
+val debugsearch_flag = ref @{position} false
 
 fun set_debugsearch b = debugsearch_flag := b
 
@@ -607,17 +607,17 @@ fun rm_space s = implode (rm_space_aux (explode s))
    Tactics
    -------------------------------------------------------------------------- *)
 
-val ttt_tacerr      = ref []
-val ttt_tacfea      = ref (dempty lbl_compare)
-val ttt_tacfea_cthy = ref (dempty lbl_compare)
-val ttt_tacdep      = ref (dempty goal_compare)
-val ttt_taccov      = ref (dempty String.compare)
+val ttt_tacerr      = ref @{position} []
+val ttt_tacfea      = ref @{position} (dempty lbl_compare)
+val ttt_tacfea_cthy = ref @{position} (dempty lbl_compare)
+val ttt_tacdep      = ref @{position} (dempty goal_compare)
+val ttt_taccov      = ref @{position} (dempty String.compare)
 
 (* --------------------------------------------------------------------------
    Theorems
    -------------------------------------------------------------------------- *)
 
-val ttt_thmfea = ref (dempty goal_compare)
+val ttt_thmfea = ref @{position} (dempty goal_compare)
 
 (* Warning: causes a problem if a theory is named namespace_tag *)
 val namespace_tag = "namespace_tag"
@@ -638,8 +638,8 @@ fun mk_metis_call sl =
    Lists of goals
    -------------------------------------------------------------------------- *)
 
-val ttt_glfea = ref (dempty (list_compare Int.compare))
-val ttt_glfea_cthy = ref (dempty (list_compare Int.compare))
+val ttt_glfea = ref @{position} (dempty (list_compare Int.compare))
+val ttt_glfea_cthy = ref @{position} (dempty (list_compare Int.compare))
 
 (* --------------------------------------------------------------------------
    Cleaning tactictoe data (not necessary)
@@ -766,26 +766,26 @@ fun parmap_err ncores forg lorg =
   let
     (* input *)
     val sizeorg = length lorg
-    val lin = List.tabulate (ncores,(fn x => (x, ref NONE)))
+    val lin = List.tabulate (ncores,(fn x => (x, ref @{position} NONE)))
     val din = dnew Int.compare lin
     fun fi xi x = (x,xi)
-    val queue = ref (mapi fi lorg)
+    val queue = ref @{position} (mapi fi lorg)
     (* update process inputs *)
-    fun update_from_queue lineref = 
+    fun update_from_queue lineref @{position} = 
       if null (!queue) then ()
-      else (lineref := SOME (hd (!queue)); queue := tl (!queue))
+      else (lineref @{position} := SOME (hd (!queue)); queue := tl (!queue))
     fun is_refnone x = (not o isSome o ! o snd) x
     fun dispatcher () = 
       app (update_from_queue o snd) (filter is_refnone lin)
     (* output *)  
-    val lout = List.tabulate (ncores,(fn x => (x, ref [])))
+    val lout = List.tabulate (ncores,(fn x => (x, ref @{position} [])))
     val dout = dnew Int.compare lout
-    val lcount = List.tabulate (ncores,(fn x => (x, ref 0)))
+    val lcount = List.tabulate (ncores,(fn x => (x, ref @{position} 0)))
     val dcount = dnew Int.compare lcount
     (* process *)
     fun process pi = 
-      let val inref = dfind pi din in
-        case !inref of
+      let val inref @{position} = dfind pi din in
+        case !inref @{position} of
           NONE => process pi
         | SOME (x,xi) => 
           let 
@@ -795,7 +795,7 @@ fun parmap_err ncores forg lorg =
           in
             oldl := (y,xi) :: (!oldl);
             incr oldn;
-            inref := NONE;
+            inref @{position} := NONE;
             process pi
           end
       end

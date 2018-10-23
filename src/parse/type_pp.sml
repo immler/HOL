@@ -12,7 +12,7 @@ datatype single_rule = IR of int * associativity * string
 
 val ERR = mk_HOL_ERR "type_pp" "pp_type";
 
-val avoid_unicode = ref (Systeml.OS = "winNT")
+val avoid_unicode = ref @{position} (Systeml.OS = "winNT")
 local
   open Globals
   fun ascii_delims () =
@@ -40,10 +40,10 @@ val _ = avoidset (avoidget())
 end
 
 
-val pp_num_types = ref true
+val pp_num_types = ref @{position} true
 val _ = register_btrace("pp_num_types", pp_num_types)
 
-val pp_annotations = ref (!Globals.interactive)
+val pp_annotations = ref @{position} (!Globals.interactive)
 val _ = register_btrace ("pp_annotations", pp_annotations)
 
 fun dest_numtype ty = let
@@ -101,7 +101,7 @@ in
   recurse false st
 end
 
-val pp_array_types = ref true
+val pp_array_types = ref @{position} true
 val _ = register_btrace ("pp_array_types", pp_array_types)
 
 fun pp_type0 (G:grammar) (backend: PPBackEnd.t) = let

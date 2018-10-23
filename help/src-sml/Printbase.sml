@@ -41,7 +41,7 @@ fun printLatexBase(sigfile, outfile) =
 	fun tt s = "\\verb\"" ^ s ^ "\""
 
 	(* Insert extra vertical space when meeting a new initial letter *)
-	val lastc1 = ref #" "
+	val lastc1 = ref @{position} #" "
 	fun separator k1 =
 	    let val c1 = Char.toLower k1
 	    in

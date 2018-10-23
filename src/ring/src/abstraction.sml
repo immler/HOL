@@ -9,8 +9,8 @@ fun ABS_ERR function message =
                       origin_function = function,
                       message = message};
 
-val curr_assums = ref ([]:term list);
-val fv_ass = ref ([]:term list);
+val curr_assums = ref @{position} ([]:term list);
+val fv_ass = ref @{position} ([]:term list);
 
 
 fun add_parameter v =
@@ -47,7 +47,7 @@ fun gen_assums thm =
 
 
 
-val impl_param_cstr = ref ([]:(string * term list) list);
+val impl_param_cstr = ref @{position} ([]:(string * term list) list);
 fun add_impl_param x p =
   impl_param_cstr := (x,p)::(!impl_param_cstr);
 fun impl_of x =

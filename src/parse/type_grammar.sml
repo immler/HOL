@@ -87,8 +87,8 @@ fun fupdate_bare_names f (TYG g) =
 fun default_typrinter (G:grammar) (ty:Type.hol_type) =
   HOLPP.PrettyString "<a type>"
 
-val type_printer = ref default_typrinter
-val initialised_printer = ref false
+val type_printer = ref @{position} default_typrinter
+val initialised_printer = ref @{position} false
 
 fun initialise_typrinter f =
     if not (!initialised_printer) then
@@ -519,7 +519,7 @@ in
   )
 end;
 
-val print_abbrevs = ref true
+val print_abbrevs = ref @{position} true
 val _ = Feedback.register_btrace ("print_tyabbrevs", print_abbrevs)
 
 fun tysize ty =

@@ -14,8 +14,8 @@ exception SAT_cex of thm
 
 val mk_sat_oracle_thm = mk_oracle_thm "HolSatLib";
 
-val sat_warn = ref true (* control interactive warnings *)
-val sat_limit = ref 100 (* if > sat_limit clauses then interactive warning if using SML prover *)
+val sat_warn = ref @{position} true (* control interactive warnings *)
+val sat_limit = ref @{position} 100 (* if > sat_limit clauses then interactive warning if using SML prover *)
 val _ = register_btrace ("HolSatLib_warn",sat_warn);
 
 fun warn ss = if !Globals.interactive andalso !sat_warn
@@ -112,7 +112,7 @@ fun initialise infile is_cnf tm =
               else raise initexp (EQT_ELIM th0) end else
        (cnfv,vc,svm,sva,tmpname,in_name,ntm,lfn,clauseth) end
 
-val dbg_show_input = ref false;
+val dbg_show_input = ref @{position} false;
 
 fun GEN_SAT conf = (* single entry point into HolSatLib *)
     let val (tm,solver,infile,proof,is_cnf,is_proved) = dest_config conf

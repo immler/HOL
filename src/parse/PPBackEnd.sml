@@ -28,7 +28,7 @@ type output_colors = {
 (* Full styles                      *)
 (* -------------------------------- *)
 
-val UserStyle_dict = ref
+val UserStyle_dict = ref @{position}
    (Redblackmap.mkDict String.compare:
      (string, pp_style list * (string * pp_style list) list) Redblackmap.dict)
 
@@ -123,17 +123,17 @@ fun user_push_styleL b style_stack styL =
 (* Traces                           *)
 (* -------------------------------- *)
 
-val add_type_information = ref true
+val add_type_information = ref @{position} true
 val _ = Feedback.register_btrace ("PPBackEnd show types", add_type_information)
 
-val backend_use_annotations = ref true
+val backend_use_annotations = ref @{position} true
 val _ = Feedback.register_btrace ("PPBackEnd use annotations",
                                   backend_use_annotations)
 
-val backend_use_styles = ref true
+val backend_use_styles = ref @{position} true
 val _ = Feedback.register_btrace ("PPBackEnd use styles", backend_use_styles)
 
-val backend_use_css = ref true
+val backend_use_css = ref @{position} true
 val _ = Feedback.register_btrace ("PPBackEnd use css", backend_use_styles)
 
 fun add_ssz (s,sz) =
@@ -204,7 +204,7 @@ fun full_style_to_vt100 (fg,bg,b,u,_) =
 fun ansi_terminal (name : string) (colors : output_colors) : t =
 let
   open smpp
-  val style_stack = ref ([]:pp_full_style list);
+  val style_stack = ref @{position} ([]:pp_full_style list);
   fun set_style fsty =
     smpp.add_stringsz (full_style_to_vt100 fsty, 0)
 
@@ -321,7 +321,7 @@ val emacs_terminal = let
             | _ => add_stringsz (s,sz)
         end
 
-  val style_stack = ref ([]:pp_full_style list);
+  val style_stack = ref @{position} ([]:pp_full_style list);
   fun ustyle sty p =
      if not (!backend_use_styles) then nothing else
      let
@@ -402,7 +402,7 @@ let
     val sz = case sz of NONE => UTF8.size s | SOME sz => sz
   in add_stringsz (html_escape s, sz) end
 
-  val style_stack = ref ([]:pp_full_style list);
+  val style_stack = ref @{position} ([]:pp_full_style list);
   fun set_style fsty =
       add_stringsz ("<span "^(full_style_to_html fsty)^">", 0)
 

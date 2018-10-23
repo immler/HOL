@@ -17,7 +17,7 @@ open HolKernel boolLib tttTools hhTranslate
 
 val ERR = mk_HOL_ERR "hhTptp"
 
-val readable_flag = ref false
+val readable_flag = ref @{position} false
 
 fun tptp_of_var arity v = 
   if not (!readable_flag) 

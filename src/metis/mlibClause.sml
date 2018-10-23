@@ -244,9 +244,9 @@ fun rebrand parm (CL (p,i,th,_,d)) = CL (parm, i, th, no_constraints parm, d);
 (* Pretty-printing.                                                          *)
 (* ------------------------------------------------------------------------- *)
 
-val show_id = ref false;
+val show_id = ref @{position} false;
 
-val show_constraint = ref false;
+val show_constraint = ref @{position} false;
 
 local
   val pp_it = pp_pair pp_int mlibThm.pp_thm;

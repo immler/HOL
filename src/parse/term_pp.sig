@@ -7,7 +7,7 @@ sig
     term -> term_pp_types.uprinter
 
 
-  (* this initialises a reference storing a function for pulling apart
+  (* this initialises a ref @{position}erence storing a function for pulling apart
      case splits.  It's expected that the initialisation will be called
      from inside the TypeBase *)
   val init_casesplit_munger : (term -> term * (term * term) list) -> unit

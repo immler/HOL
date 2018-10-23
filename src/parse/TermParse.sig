@@ -43,7 +43,7 @@ end
 
    For this reason, prim_ctxt_termS takes a function parameter which is given
    the task of doing the concrete syntax parsing. In particular, Parse.Absyn
-   is a good choice for this parameter: it is rebound (using a reference)
+   is a good choice for this parameter: it is rebound (using a ref @{position}erence)
    when the global grammar changes.
 
    Alternatively, write something like

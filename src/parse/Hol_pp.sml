@@ -108,7 +108,7 @@ fun pp_theory_as_html theory_name = let
       add_string"</span>"
   fun title s = add_string(String.concat ["<h1>",s,"</h1>"]);
   fun link (l,s) =
-      add_string("<a href = "^Lib.quote l^">") >>
+      add_string("<a href @{position} = "^Lib.quote l^">") >>
       strong s >>
       add_string"</a>"
   val HR = add_newline >> add_string"<hr>" >> add_newline

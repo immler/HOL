@@ -22,7 +22,7 @@ datatype opt = Turnstile | Case | TT | Def | SpacedDef | TypeOf | TermThm
              | Unoverload of string
              | Depth of int
 
-val numErrors = ref 0
+val numErrors = ref @{position} 0
 type posn = int * int
 
 fun inc ir = (ir := !ir + 1)
@@ -242,7 +242,7 @@ fun optset_traces opts f =
     OptSet.fold (fn (e, f) => case e of TraceSet p => trace p f | _ => f) f opts
 
 val HOL = !EmitTeX.texPrefix
-val user_overrides = ref (Binarymap.mkDict String.compare)
+val user_overrides = ref @{position} (Binarymap.mkDict String.compare)
 
 fun diag s = (TextIO.output(TextIO.stdErr, s ^ "\n");
               TextIO.flushOut TextIO.stdErr)

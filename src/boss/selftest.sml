@@ -68,7 +68,7 @@ local
 
 open match_goal
 
-val n = ref 0;
+val n = ref @{position} 0;
 
 fun test_assert P x =
   (tprint ("match_goal "^(Int.toString (!n))); n := !n + 1;

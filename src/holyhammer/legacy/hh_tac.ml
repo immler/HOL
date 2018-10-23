@@ -13,7 +13,7 @@ open Equal;;
 (*open Theorems;;*)
 
 (* flag for thf *)
-let main_thf_flag = ref false
+let main_thf_flag = ref @{position} false
 
 (* Given a predicate as an argument of another predicate, the
   conversion pRED_ARG_CONV changes it to an equivalent expression
@@ -178,7 +178,7 @@ let fOL_IT_TAC = cONV_TAC pRED_ARG_CONV ++++ rULE_ASSUM_TAC(cONV_RULE pRED_ARG_C
 
 (* Escape characters not accepted by the TPTP format. *)
 let escape_to_hex s =
-  let n = ref 0 in
+  let n = ref @{position} 0 in
   for i = 0 to String.length s - 1 do
     n := !n + (match String.unsafe_get s i with
      'a'|'b'|'c'|'d'|'e'|'f'|'g'|'h'|'i'|'j'|'k'|'l'|'m'|'n'|'o'|'p'|'q'|'r'|'s'|'t'|'u'|'v'|'w'|'x'|'y'|'z'
@@ -325,7 +325,7 @@ let lABEL_ASSUME_TAC names ths =
    for universally quantified theorems; all the quantified variables do not
    need to be arguments of function that replaces the lambda expression. *)
 let genvarsmall,genvarreset =
-  let gcounter = ref 0 in
+  let gcounter = ref @{position} 0 in
   ((fun ty -> let count = !gcounter in
              (gcounter := count + 1;
               mk_var("_"^(string_of_int count),ty))),

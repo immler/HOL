@@ -13,15 +13,15 @@ open HolKernel Abbrev boolLib tttTools tttTimeout tttLexer Tactical
 val ERR = mk_HOL_ERR "tttExec"
 
 (* -----------------------------------------------------------------------------
-   Global references
+   Global ref @{position}erences
    -------------------------------------------------------------------------- *)
 
-val ttt_bool_glob = ref false
-val ttt_tacticl_glob = ref []
-val ttt_tactic_glob = ref (FAIL_TAC "tttExec")
-val ttt_qtactic_glob = ref (fn _ => FAIL_TAC "tttExec")
-val ttt_string_glob = ref ""
-val ttt_goal_glob = ref ([],F)
+val ttt_bool_glob = ref @{position} false
+val ttt_tacticl_glob = ref @{position} []
+val ttt_tactic_glob = ref @{position} (FAIL_TAC "tttExec")
+val ttt_qtactic_glob = ref @{position} (fn _ => FAIL_TAC "tttExec")
+val ttt_string_glob = ref @{position} ""
+val ttt_goal_glob = ref @{position} ([],F)
 
 (* -----------------------------------------------------------------------------
    Execute strings as sml code
@@ -44,7 +44,7 @@ fun exec_sml file s =
 
 fun string_of_pretty p =
   let
-    val acc = ref []
+    val acc = ref @{position} []
     fun f s = acc := s :: !acc
   in
     PolyML.prettyPrint (f,80) p;
@@ -76,9 +76,9 @@ fun is_thm_value l s =
    Tests
    -------------------------------------------------------------------------- *)
 
-val ttt_thm = ref TRUTH
+val ttt_thm = ref @{position} TRUTH
 
-val ttt_thml : thm list ref = ref []
+val ttt_thml : thm list ref @{position} = ref @{position} []
 
 fun is_thm s = exec_sml "is_thm" ("val _ = Thm.dest_thm (" ^ s ^ ")")
 
@@ -131,7 +131,7 @@ fun is_pointer_eq s1 s2 =
    Read tactics
    -------------------------------------------------------------------------- *)
 
-val ttt_invalid_flag = ref false
+val ttt_invalid_flag = ref @{position} false
 
 fun mk_valid s = "Tactical.VALID (" ^ s ^ ")"
 
@@ -198,7 +198,7 @@ fun string_of_sml s =
     if b then !ttt_string_glob else raise ERR "string_of_sml" s
   end
 
-val ttt_term_glob = ref T
+val ttt_term_glob = ref @{position} T
 
 fun is_stype s =
   let
@@ -228,8 +228,8 @@ val hh_stac_glob:
      (int, real) Redblackmap.dict *
      (string * fea_t) list *
      (string, goal * int list) Redblackmap.dict ->
-   int -> goal -> string option) ref =
-  ref (fn _ => (fn _ => (fn _ => (fn _ => NONE))))
+   int -> goal -> string option) ref @{position} =
+  ref @{position} (fn _ => (fn _ => (fn _ => (fn _ => NONE))))
 
 fun update_hh_stac () =
   let
@@ -246,7 +246,7 @@ fun update_hh_stac () =
   end
 
 val create_fof_glob:
-  (string -> thm -> unit) ref = ref (fn _ => (fn _ => ()))
+  (string -> thm -> unit) ref @{position} = ref @{position} (fn _ => (fn _ => ()))
 
 fun update_create_fof () =
   let
@@ -262,7 +262,7 @@ fun update_create_fof () =
     if b then () else raise ERR "update_hh_stac" ""
   end
 
-val metis_tac_glob: (thm list -> tactic) option ref = ref NONE
+val metis_tac_glob: (thm list -> tactic) option ref @{position} = ref @{position} NONE
 
 fun update_metis_tac () =
   let

@@ -12,7 +12,7 @@ struct
                made portable.
  ---------------------------------------------------------------------------*)
 
-val smv_tmp_dir = ref "/tmp/";
+val smv_tmp_dir = ref @{position} "/tmp/";
 
 open HolKernel Parse boolLib Rsyntax;
 
@@ -376,7 +376,7 @@ fun def_subst [] t = t
 (* **************************************************************************** *)
 
 
-val fb = ref([]:string list); (* contains the names of forbidden variables *)
+val fb = ref @{position}([]:string list); (* contains the names of forbidden variables *)
 
 fun tableau Phi =
     case Phi of
@@ -1184,7 +1184,7 @@ fun TEMP_NORMALIZE_CONV t =
 (* model.                                                                               *)
 (* ************************************************************************************ *)
 
-val print_states = ref false;
+val print_states = ref @{position} false;
 
 
 (* ********************************* term2smv_string ********************************** *)
@@ -1287,7 +1287,7 @@ fun interpret_smv_output stl =
 				else if (begins "*** " e) then skip_lines l
 				else if (begins "WARNING *** " e) then skip_lines l
 				else (e::l)
-        val stll = ref stl
+        val stll = ref @{position} stl
         val proved =
             let val (l, ll) = Option.valOf (List.getItem (skip_lines (!stll)))
             in (stll := ll;
@@ -1302,8 +1302,8 @@ fun interpret_smv_output stl =
         fun loop_starts() = beginl (explode "-- loop") (explode(hd(!stll)))
         fun resource_starts() = beginl (explode "resou") (explode(hd(!stll)))
         fun another_state() = beginl (explode "state") (explode(hd(!stll)))
-        val init_sequence = ref ([]:string list list)
-        val loop_sequence = ref ([]:string list list)
+        val init_sequence = ref @{position} ([]:string list list)
+        val loop_sequence = ref @{position} ([]:string list list)
      in (if proved then ()
          else
             (stll := skip_lines(tl(!stll));
@@ -1333,7 +1333,7 @@ fun print_smv_info smv_info =
              Init_Sequence = init_sequence,
              Loop_Sequence = loop_sequence,
              Resources = resources} = smv_info
-        val state_count = ref 0;
+        val state_count = ref @{position} 0;
         fun s_print (s:string) = print s
         fun print_state sa = s_print(String.concat sa)
         fun s_print_sequence [] = () |
@@ -1396,8 +1396,8 @@ fun SMV_RUN_FILE smv_file =
 		 ("SMV not configured: set the HOL4_SMV_EXECUTABLE environment" ^
 		  "variable to point to the SMV executable file.")
   val file_in = TextIO.openIn((!smv_tmp_dir)^"smv_out")
-  val s = ref (TextIO.inputLine file_in)
-  val sl = ref ([]:string list)
+  val s = ref @{position} (TextIO.inputLine file_in)
+  val sl = ref @{position} ([]:string list)
   val _ = while ((!s)<>NONE) do (sl:=(valOf (!s))::(!sl); s:=TextIO.inputLine file_in)
   val _ = TextIO.closeIn file_in
   val p = interpret_smv_output(rev(!sl))

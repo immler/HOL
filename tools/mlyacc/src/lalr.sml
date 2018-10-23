@@ -37,7 +37,7 @@ functor mkLalr ( structure IntGrammar : INTGRAMMAR
 	structure Grammar = IntGrammar.Grammar
 	structure IntGrammar = IntGrammar
 
-	datatype tmpcore = TMPCORE of (item * term list ref) list * int
+	datatype tmpcore = TMPCORE of (item * term list ref @{position}) list * int
 	datatype lcore = LCORE of (item * term list) list * int
 
 
@@ -62,7 +62,7 @@ functor mkLalr ( structure IntGrammar : INTGRAMMAR
 
 	structure ItemList = ListOrdSet
 		(struct
-		   type elem = item * term list ref
+		   type elem = item * term list ref @{position}
 		   val eq = fn ((a,_),(b,_)) => eqItem(a,b)
 		   val gt = fn ((a,_),(b,_)) => gtItem(a,b)
 		 end)
@@ -112,7 +112,7 @@ functor mkLalr ( structure IntGrammar : INTGRAMMAR
 		val printItem = prItem(symbolToString,nontermToString,print)
 
 (* look_pos: position in the rhs of a rule at which we should start placing
-   lookahead ref cells, i.e. the minimum place at which A -> x .B y, where
+   lookahead ref @{position} cells, i.e. the minimum place at which A -> x .B y, where
    B is a nonterminal and y =*=> epsilon, or A -> x. is true.  Positions are
    given by the number of symbols before the place.  The place before the first
    symbol is 0, etc. *)
@@ -121,7 +121,7 @@ functor mkLalr ( structure IntGrammar : INTGRAMMAR
 		 let val positions = array(length rules,0)
 
 (* rule_pos: calculate place in the rhs of a rule at which we should start
-   placing lookahead ref cells *)
+   placing lookahead ref @{position} cells *)
 
 		      val rule_pos = fn (RULE {rhs,...}) =>
 			case (rev rhs)
@@ -174,20 +174,20 @@ functor mkLalr ( structure IntGrammar : INTGRAMMAR
 
 (* map core to a new core including only items of the form A -> x. or
    A -> x. B y, where y =*=> epsilon.  It also adds epsilon productions to the
-   core. Each item is given a ref cell to hold the lookahead nonterminals for
+   core. Each item is given a ref @{position} cell to hold the lookahead nonterminals for
    it.*)
 
 	      val map_core =
 		let val f = fn (item as ITEM {rhsAfter=nil,...},r) =>
-				(item,ref nil) :: r
+				(item,ref @{position} nil) :: r
 			     | (item,r) =>
 				 if (rest_is_null item)
-				    then (item,ref nil)::r
+				    then (item,ref @{position} nil)::r
 				    else r
 		in fn (c as CORE (items,state)) =>
 		   let val epsItems =
 			   map  (fn rule=>(ITEM{rule=rule,dot=0,rhsAfter=nil},
-					   ref (nil : term list))
+					   ref @{position} (nil : term list))
 				) (epsProds c)
 		   in TMPCORE(ItemList.union(List.foldr f [] items,epsItems),state)
 		   end
@@ -197,11 +197,11 @@ functor mkLalr ( structure IntGrammar : INTGRAMMAR
 
 	      exception Find
 
-(* findRef: state * item -> lookahead ref cell for item *)
+(* findRef: state * item -> lookahead ref @{position} cell for item *)
 
 	      val findRef =
 		let val states = Array.fromList new_nodes
-		    val dummy = ref nil
+		    val dummy = ref @{position} nil
 		in fn (state,item) =>
 		    let val TMPCORE (l,_) = states sub state
 		    in case ItemList.find((item,dummy),l)
@@ -406,7 +406,7 @@ functor mkLalr ( structure IntGrammar : INTGRAMMAR
 (* scan_core: Scan a core for all items of the form A -> x .B y.  Applies
    add_nonterm_lookahead to each such B, and then merges first(y) into
    the list of refs returned by add_nonterm_lookahead.  It returns
-   a list of ref * ref list for all the items where y =*=> epsilon *)
+   a list of ref @{position} * ref @{position} list for all the items where y =*=> epsilon *)
 
 		val scan_core = fn (CORE (l,state)) =>
 		  let fun f ((item as ITEM{rhsAfter= NONTERM b :: y,
@@ -482,7 +482,7 @@ functor mkLalr ( structure IntGrammar : INTGRAMMAR
    being reduced *)
 
 		val create_lcore_list =
-			fn ((item as ITEM {rhsAfter=nil,...},ref l),r) =>
+			fn ((item as ITEM {rhsAfter=nil,...},ref @{position} l),r) =>
 				(item,l) :: r
 			 | (_,r) => r
 

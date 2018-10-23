@@ -44,7 +44,7 @@ fun isSigId {comp=Database.Term(_,SOME"HOL"),file,line} = false
  ---------------------------------------------------------------------------*)
 (* The version number inserted in generated files: *)
 val version =
-    String.concat ["<a href=\"http://hol.sourceforge.net\">HOL&nbsp;4,&nbsp;",
+    String.concat ["<a href @{position}=\"http://hol.sourceforge.net\">HOL&nbsp;4,&nbsp;",
                    Systeml.release, "-", Int.toString Systeml.version,
                   "</a>"]
 
@@ -57,7 +57,7 @@ val libdirDef = normPath[HOLpath,"sigobj"]
 (* Default filename for the resulting help database: *)
 val helpfileDef = normPath[HOLpath, "help","HOL.Help"]
 
-(* Default filename for the HOL reference page: *)
+(* Default filename for the HOL ref @{position}erence page: *)
 val HOLpageDef = normPath[HOLpath, "help","HOLindex.html"]
 
 (* Default filename for the ASCII format database: *)

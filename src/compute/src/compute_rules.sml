@@ -38,11 +38,11 @@ fun evaluate th = th;
 
 
 (*
-val mk_comb_r = ref Thm.Mk_comb;
-val mk_abs_r = ref Thm.Mk_abs;
-val beta_r = ref Thm.Beta;
-val eta_r = ref Thm.Eta;
-val spec_r = ref Thm.Specialize;
+val mk_comb_r = ref @{position} Thm.Mk_comb;
+val mk_abs_r = ref @{position} Thm.Mk_abs;
+val beta_r = ref @{position} Thm.Beta;
+val eta_r = ref @{position} Thm.Eta;
+val spec_r = ref @{position} Thm.Specialize;
 
 
 local open timing in

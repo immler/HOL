@@ -16,7 +16,7 @@ fun nextrand seed =
       t - m * real (floor (t / m))
    end
 
-fun newgenseed seed = {seedref = ref (nextrand seed)}
+fun newgenseed seed = {seedref = ref @{position} (nextrand seed)}
 
 fun getrealtime () =
    let

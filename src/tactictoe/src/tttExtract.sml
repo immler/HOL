@@ -19,7 +19,7 @@ val ERR = mk_HOL_ERR "tttExtract"
 fun ttt_propl_of s =
   let
     val stream = TextIO.openString s
-    val resultTrees : PolyML.parseTree list ref = ref []
+    val resultTrees : PolyML.parseTree list ref @{position} = ref @{position} []
     fun compilerResultFun (parsetree, codeOpt) =
       let
         val _ =
@@ -55,7 +55,7 @@ fun ttt_path_of s =
 
 fun string_of_pretty p =
   let
-    val acc = ref []
+    val acc = ref @{position} []
     fun f s = acc := s :: !acc
   in
     PolyML.prettyPrint (f,80) p;
@@ -65,7 +65,7 @@ fun string_of_pretty p =
 fun ttt_propl_all_of s =
   let
     val stream = TextIO.openString s
-    val resultTrees : PolyML.parseTree list ref = ref []
+    val resultTrees : PolyML.parseTree list ref @{position} = ref @{position} []
     fun compilerResultFun (parsetree, codeOpt) =
       let
         val _ =

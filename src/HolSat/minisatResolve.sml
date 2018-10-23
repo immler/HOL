@@ -83,7 +83,7 @@ fun resolve v n0 rth0 rth1 =
         val th = PROVE_HYP th' (if n0 then rth1 else rth0)
      in th end
 
-val counter = ref 0
+val counter = ref @{position} 0
 
 (* resolve c0 against c1 wrt v *)
 fun resolveClause lfn sva cl piv rth0 c1i =

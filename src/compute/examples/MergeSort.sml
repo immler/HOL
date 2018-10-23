@@ -5,7 +5,7 @@ load "computeLib";
 open bossLib computeLib;
 
 
-val thms = ref ([] : thm list);
+val thms = ref @{position} ([] : thm list);
 fun add_thm thm = thms := thm :: (!thms);
 
 fun Define_rw q =

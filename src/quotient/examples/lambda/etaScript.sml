@@ -353,7 +353,7 @@ val COMMUTE =
 
 val _ = add_infix("<=>",250,LEFT);
 
-(* Now overload the operator <=> to refer to COMMUTE:  *)
+(* Now overload the operator <=> to ref @{position}er to COMMUTE:  *)
 
 val _ = overload_on("<=>",
         “$COMMUTE:('a->'a->bool)->('a->'a->bool)->bool”)

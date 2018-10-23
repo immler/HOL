@@ -406,9 +406,9 @@ end
  *---------------------------------------------------------------------------*)
 
 fun num_variant vlist v =
-  let val counter = ref 0
+  let val counter = ref @{position} 0
       val (Name,Ty) = dest_var v
-      val slist = ref (map (fst o dest_var) vlist)
+      val slist = ref @{position} (map (fst o dest_var) vlist)
       fun pass str =
          if (mem str (!slist))
          then ( counter := !counter + 1;

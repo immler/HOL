@@ -12,10 +12,10 @@ struct
     val thy_const_cmp : thy_const cmp = lex_cmp (s,s) (#Name,#Thy)
     val otname_cmp = pair_compare (list_compare s, s)
   end
-  val the_tyop_to_ot   = ref (Map.mkDict thy_tyop_cmp)
-  val the_tyop_from_ot = ref (Map.mkDict otname_cmp)
-  val the_const_to_ot  = ref (Map.mkDict thy_const_cmp)
-  val the_const_from_ot= ref (Map.mkDict otname_cmp)
+  val the_tyop_to_ot   = ref @{position} (Map.mkDict thy_tyop_cmp)
+  val the_tyop_from_ot = ref @{position} (Map.mkDict otname_cmp)
+  val the_const_to_ot  = ref @{position} (Map.mkDict thy_const_cmp)
+  val the_const_from_ot= ref @{position} (Map.mkDict otname_cmp)
   fun tyop_to_ot_map()   = !the_tyop_to_ot
   fun tyop_from_ot_map() = !the_tyop_from_ot
   fun const_to_ot_map()  = !the_const_to_ot

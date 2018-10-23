@@ -11,7 +11,7 @@ struct
          models, proofs)
      4 - moreover, temporary files (for communication with the QBF solver) are
          not removed after solver invocation *)
-  val trace = ref 2
+  val trace = ref @{position} 2
 
   val _ = Feedback.register_trace ("HolQbfLib", trace, 4)
 

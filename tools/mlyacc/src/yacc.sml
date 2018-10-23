@@ -817,12 +817,12 @@ precedences of the rule and the terminal are equal.
         val (table,stateErrs,corePrint,errs) =
                  MakeTable.mkTable(grammar,defaultReductions)
 
-        val entries = ref 0 (* save number of action table entries here *)
+        val entries = ref @{position} 0 (* save number of action table entries here *)
 
     in  let val result = TextIO.openOut (spec ^ ".sml")
             val sigs = TextIO.openOut (spec ^ ".sig")
-            val pos = ref 0
-            val trailing_space = ref false
+            val pos = ref @{position} 0
+            val trailing_space = ref @{position} false
             val pr = fn s => TextIO.output(result,s)
             fun say s = let
               val l = String.size s

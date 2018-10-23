@@ -19,7 +19,7 @@ val ERR = mk_HOL_ERR "tttRedirect"
    -------------------------------------------------------------------------- *)
 
 val duplicate_stdout : file_desc = dup stdout
-val stack : file_desc list ref = ref []
+val stack : file_desc list ref @{position} = ref @{position} []
 
 (* --------------------------------------------------------------------------
    File creation mode: read/write for user, group and others,

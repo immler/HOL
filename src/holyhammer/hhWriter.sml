@@ -135,8 +135,8 @@ fun declare_temp_list state get_name dict l =
       end
     val sl = foldl fold_fun [] l
     fun undeclare () =
-      let val usedref = #used_names state in
-        dict := olddict; usedref := oldused
+      let val usedref @{position} = #used_names state in
+        dict := olddict; usedref @{position} := oldused
       end
   in
     (List.rev sl, undeclare)
@@ -383,12 +383,12 @@ fun write_thyl dir filter_f thyl =
   let
     val state =
     {
-    ty_names    = ref (dempty KernelSig.name_compare),
-    const_names = ref (dempty KernelSig.name_compare),
-    var_names   = ref (dempty Term.compare),
-    tyvar_names = ref (dempty Type.compare),
-    used_names  = ref (dnew String.compare reserved_names0),
-    thm_names   = ref (dempty depid_compare)
+    ty_names    = ref @{position} (dempty KernelSig.name_compare),
+    const_names = ref @{position} (dempty KernelSig.name_compare),
+    var_names   = ref @{position} (dempty Term.compare),
+    tyvar_names = ref @{position} (dempty Type.compare),
+    used_names  = ref @{position} (dnew String.compare reserved_names0),
+    thm_names   = ref @{position} (dempty depid_compare)
     }
   in
     app (write_thy dir filter_f state) (sort_thyl thyl)
@@ -431,12 +431,12 @@ fun write_problem dir filter_f ns_thml thyl cj =
     fun sort_thyl thyl = topo_sort (map (fn x => (x, ancestry x)) thyl)
     val state =
     {
-    ty_names    = ref (dempty KernelSig.name_compare),
-    const_names = ref (dempty KernelSig.name_compare),
-    var_names   = ref (dempty Term.compare),
-    tyvar_names = ref (dempty Type.compare),
-    used_names  = ref (dnew String.compare reserved_names0),
-    thm_names   = ref (dempty depid_compare)
+    ty_names    = ref @{position} (dempty KernelSig.name_compare),
+    const_names = ref @{position} (dempty KernelSig.name_compare),
+    var_names   = ref @{position} (dempty Term.compare),
+    tyvar_names = ref @{position} (dempty Type.compare),
+    used_names  = ref @{position} (dnew String.compare reserved_names0),
+    thm_names   = ref @{position} (dempty depid_compare)
     }
   in
     app (write_thy dir filter_f state) (sort_thyl thyl);

@@ -90,7 +90,7 @@ fun dest_label_ref th = let
   val _ =
       is_var l andalso is_var r andalso Term.compare p = EQUAL andalso
       Type.compare(type_of l, label_ty) = EQUAL orelse
-      raise ERR "dest_label_ref" "Theorem not a label reference"
+      raise ERR "dest_label_ref" "Theorem not a label ref @{position}erence"
 in
   #1 (dest_var l)
 end

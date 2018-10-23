@@ -122,7 +122,7 @@ input string "aba" (this example is taken from
 a comp.compilers message from Dec. 1989, I think):
 
 type lexresult=unit
-val linenum = ref 1
+val linenum = ref @{position} 1
 fun error x = TextIO.output(TextIO.stdErr, x ^ "\n")
 val eof = fn () => ()
 %%
@@ -261,29 +261,29 @@ structure LexGen: LEXGEN =
    (* flags describing input Lex spec. - unnecessary code is omitted *)
    (* if possible *)
 
-   val CharFormat = ref false;
-   val UsesTrailingContext = ref false;
-   val UsesPrevNewLine = ref false;
+   val CharFormat = ref @{position} false;
+   val UsesTrailingContext = ref @{position} false;
+   val UsesPrevNewLine = ref @{position} false;
 
    (* flags for various bells & whistles that Lex has.  These slow the
       lexer down and should be omitted from production lexers (if you
       really want speed) *)
 
-   val CountNewLines = ref false;
-   val PosArg = ref false;
-   val HaveReject = ref false;
+   val CountNewLines = ref @{position} false;
+   val PosArg = ref @{position} false;
+   val HaveReject = ref @{position} false;
 
    (* Can increase size of character set *)
 
-   val CharSetSize: int ref = ref 129;
+   val CharSetSize: int ref @{position} = ref @{position} 129;
 
    (* Can name structure or declare header code *)
 
-   val StrName = ref "Mlex"
-   val HeaderCode = ref ""
-   val HeaderDecl = ref false
-   val ArgCode = ref (NONE: string option)
-   val StrDecl = ref false
+   val StrName = ref @{position} "Mlex"
+   val HeaderCode = ref @{position} ""
+   val HeaderDecl = ref @{position} false
+   val ArgCode = ref @{position} (NONE: string option)
+   val StrDecl = ref @{position} false
 
    val ResetFlags = fn () => (CountNewLines := false; HaveReject := false;
 			      PosArg := false;
@@ -293,7 +293,7 @@ structure LexGen: LEXGEN =
 				ArgCode := NONE;
 				StrDecl := false)
 
-   val LexOut = ref(TextIO.stdOut)
+   val LexOut = ref @{position}(TextIO.stdOut)
    fun say x = TextIO.output(!LexOut, x)
 
 (* Union: merge two sorted lists of integers *)
@@ -345,7 +345,7 @@ and lastpos = fn
 	| END(i) => [i]
 	;
 
-(* ++: Increment an integer reference *)
+(* ++: Increment an integer ref @{position}erence *)
 
 fun ++(x) : int = (x := !x + 1; !x);
 
@@ -388,12 +388,12 @@ open dict;
 
 (* INPUT.ML : Input w/ one character push back capability *)
 
-val LineNum: int ref = ref 1;
+val LineNum: int ref @{position} = ref @{position} 1;
 
 abstype ibuf =
-	BUF of TextIO.instream * {b : string ref, p : int ref}
+	BUF of TextIO.instream * {b : string ref @{position}, p : int ref @{position}}
 with
-	fun make_ibuf(s) = BUF (s, {b=ref"", p = ref 0})
+	fun make_ibuf(s) = BUF (s, {b=ref @{position}"", p = ref @{position} 0})
 	fun close_ibuf (BUF (s,_)) = TextIO.closeIn(s)
 	exception eof
 	fun getch (a as (BUF(s,{b,p}))) =
@@ -434,10 +434,10 @@ exception SyntaxError; (* error in user's input file *)
 
 exception LexError; (* unexpected error in lexer *)
 
-val LexBuf = ref(make_ibuf(TextIO.stdIn));
-val LexState = ref 0;
-val NextTok = ref BOF;
-val inquote = ref false;
+val LexBuf = ref @{position}(make_ibuf(TextIO.stdIn));
+val LexState = ref @{position} 0;
+val NextTok = ref @{position} BOF;
+val inquote = ref @{position} false;
 
 fun AdvanceTok () : unit = let
       fun isLetter c =
@@ -577,7 +577,7 @@ fun AdvanceTok () : unit = let
 			and range (x, y) = if x>y
 			      then (prErr "bad char. range")
 			      else let
-				val i = ref(Char.ord(x)) and j = Char.ord(y)
+				val i = ref @{position}(Char.ord(x)) and j = Char.ord(y)
 				in while !i<=j do (
 				  add (SOME(Char.chr(!i)));
 				  i := !i + 1)
@@ -680,7 +680,7 @@ handle eof => NextTok := EOF ;
 fun GetTok (_:unit) : token =
 	let val t = !NextTok in AdvanceTok(); t
 	end;
-val SymTab = ref (create String.<=) : (string,exp) dictionary ref
+val SymTab = ref @{position} (create String.<=) : (string,exp) dictionary ref @{position}
 
 fun GetExp () : exp =
 
@@ -758,9 +758,9 @@ fun GetExp () : exp =
 			| _ => raise SyntaxError)
 in exp0()
 end;
-val StateTab = ref(create(String.<=)) : (string,int) dictionary ref
+val StateTab = ref @{position}(create(String.<=)) : (string,int) dictionary ref @{position}
 
-val StateNum: int ref = ref 0;
+val StateNum: int ref @{position} = ref @{position} 0;
 
 fun GetStates () : int list =
 
@@ -791,7 +791,7 @@ fun GetStates () : int list =
 	    | _ => addincs state_list
       end
 
-val LeafNum: int ref = ref ~1;
+val LeafNum: int ref @{position} = ref @{position} ~1;
 
 fun renum(e : exp) : exp =
 	let val rec label = fn
@@ -808,7 +808,7 @@ end;
 exception ParseError;
 
 fun parse() : (string * (int list * exp) list * ((string,string) dictionary)) =
-	let val Accept = ref (create String.<=) : (string,string) dictionary ref
+	let val Accept = ref @{position} (create String.<=) : (string,string) dictionary ref @{position}
 	val rec ParseRtns = fn l => case getch(!LexBuf) of
 		  #"%" => let val c = getch(!LexBuf) in
 		    	   if c = #"%" then (implode (rev l))
@@ -926,7 +926,7 @@ fun maketable (fins:(int * (int list)) list,
    trans = (state #,list of transitions for state) list *)
 
    let datatype elem = N of int | T of int | D of int
-       val count = ref 0
+       val count = ref @{position} 0
        val _ = (if length(trans)<256 then CharFormat := true
 		 else CharFormat := false;
 		 if !UsesTrailingContext then
@@ -1092,8 +1092,8 @@ fun makeaccept ends =
 fun leafdata(e:(int list * exp) list) =
 	let val fp = array(!LeafNum + 1,nil)
 	and leaf = array(!LeafNum + 1,EPS)
-	and tcpairs = ref nil
-	and trailmark = ref ~1;
+	and tcpairs = ref @{position} nil
+	and trailmark = ref @{position} ~1;
 	val rec add = fn
 		  (nil,x) => ()
 		| (hd::tl,x) => (update(fp,hd,union(fp sub hd,x));
@@ -1118,10 +1118,10 @@ fun leafdata(e:(int list * exp) list) =
 	end;
 
 fun makedfa(rules) =
-let val StateTab = ref (create(String.<=)) : (string,int) dictionary ref
-    val fintab = ref (create(Int.<=)) : (int,(int list)) dictionary ref
-    val transtab = ref (create(Int.<=)) : (int,int list) dictionary ref
-    val tctab = ref (create(Int.<=)) : (int,(int list)) dictionary ref
+let val StateTab = ref @{position} (create(String.<=)) : (string,int) dictionary ref @{position}
+    val fintab = ref @{position} (create(Int.<=)) : (int,(int list)) dictionary ref @{position}
+    val transtab = ref @{position} (create(Int.<=)) : (int,int list) dictionary ref @{position}
+    val tctab = ref @{position} (create(Int.<=)) : (int,(int list)) dictionary ref @{position}
     val (fp, leaf, tcpairs) = leafdata(rules);
 
 fun visit (state,statenum) =
@@ -1369,13 +1369,13 @@ fun lexGen infile =
 	  say "type int = Int.int\n";
 	  say (if (!PosArg) then "fun makeLexer (yyinput: int -> string,yygone0:int) =\nlet\n"
 		else "fun makeLexer (yyinput: int -> string) =\nlet\tval yygone0:int=0\n");
-	  if !CountNewLines then say "\tval yylineno: int ref = ref 0\n\n" else ();
-	  say "\tval yyb = ref \"\\n\" \t\t(* buffer *)\n\
-	  \\tval yybl: int ref = ref 1\t\t(*buffer length *)\n\
-	  \\tval yybufpos: int ref = ref 1\t\t(* location of next character to use *)\n\
-	  \\tval yygone: int ref = ref yygone0\t(* position in file of beginning of buffer *)\n\
-	  \\tval yydone = ref false\t\t(* eof found yet? *)\n\
-	  \\tval yybegin: int ref = ref 1\t\t(*Current 'start state' for lexer *)\n\
+	  if !CountNewLines then say "\tval yylineno: int ref @{position} = ref @{position} 0\n\n" else ();
+	  say "\tval yyb = ref @{position} \"\\n\" \t\t(* buffer *)\n\
+	  \\tval yybl: int ref @{position} = ref @{position} 1\t\t(*buffer length *)\n\
+	  \\tval yybufpos: int ref @{position} = ref @{position} 1\t\t(* location of next character to use *)\n\
+	  \\tval yygone: int ref @{position} = ref @{position} yygone0\t(* position in file of beginning of buffer *)\n\
+	  \\tval yydone = ref @{position} false\t\t(* eof found yet? *)\n\
+	  \\tval yybegin: int ref @{position} = ref @{position} 1\t\t(*Current 'start state' for lexer *)\n\
   	  \\n\tval YYBEGIN = fn (Internal.StartStates.STARTSTATE x) =>\n\
 	  \\t\t yybegin := x\n\n";
 	  PrintLexer(ends);

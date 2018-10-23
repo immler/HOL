@@ -247,8 +247,8 @@ val REAL_REDUCE_CONV = computeLib.CBV_CONV (realSimps.real_compset())
 
 fun memo_conv is_tm cnv0 s =
    let
-      val rwts = ref ([]: thm list)
-      val cnv = ref (fn _: term => raise Conv.UNCHANGED)
+      val rwts = ref @{position} ([]: thm list)
+      val cnv = ref @{position} (fn _: term => raise Conv.UNCHANGED)
       val err = ERR (s ^ "_CONV") ""
    in
       fn tm =>
@@ -333,7 +333,7 @@ local
           THENC EVAL)
       |> Drule.EQT_ELIM
    val twm_map =
-      ref (Redblackmap.mkDict
+      ref @{position} (Redblackmap.mkDict
             (Lib.pair_compare (Lib.pair_compare (Type.compare, Type.compare),
                                Term.compare))
            : ((hol_type * hol_type) * term,

@@ -106,7 +106,7 @@ end;
  * The type of theorems and some basic operations on it.                     *
  *---------------------------------------------------------------------------*)
 
-datatype thm = THM of Tag.tag * term HOLset.set * term * proof ref
+datatype thm = THM of Tag.tag * term HOLset.set * term * proof ref @{position}
 and proof =
   Axiom_prf
 | ASSUME_prf of term
@@ -166,7 +166,7 @@ val hyp = hyplist   (* backwards compatibility *)
 
 fun dest_thm(t as THM(_,asl,w,_)) = (hyplist t,w) (* Compatible with old code. *)
 fun sdest_thm(THM(_,asl,w,_)) = (asl,w)
-fun make_thm R (x,y,z,p) = (Count.inc_count R; THM (x,y,z,ref p));   (* internal only *)
+fun make_thm R (x,y,z,p) = (Count.inc_count R; THM (x,y,z,ref @{position} p));   (* internal only *)
 
 fun thm_frees (t as THM(_,asl,c,_)) = free_varsl (c::hyplist t);
 
@@ -1127,7 +1127,7 @@ fun mk_axiom_thm (r,c) =
    (Assert (type_of c = bool) "mk_axiom_thm"  "Not a proposition!";
     make_thm Count.Axiom (Tag.ax_tag r, empty_hyp, c, Axiom_prf))
 
-val defn_callback = ref (K ())
+val defn_callback = ref @{position} (K ())
 fun set_definition_callback f = defn_callback := f
 fun clear_definition_callback () = defn_callback := K ()
 
@@ -1327,9 +1327,9 @@ end; (* local *)
     Saving dependencies of a theorem
    ---------------------------------------------------------------------- *)
 
-(* This reference is automatically reset to 0 each time you create
+(* This ref @{position}erence is automatically reset to 0 each time you create
    a theory. *)
-val thm_order = ref 0
+val thm_order = ref @{position} 0
 
 fun save_dep thy (th as (THM(t,h,c,p))) =
   let

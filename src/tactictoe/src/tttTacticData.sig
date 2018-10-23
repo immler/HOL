@@ -7,7 +7,7 @@ sig
   type fea_t = int list
   type feav_t = (lbl_t * fea_t)
 
-  val feature_time : real ref (* statistics *)
+  val feature_time : real ref @{position} (* statistics *)
 
   val import_tacdata : string list -> unit
   val export_tacdata : string -> unit

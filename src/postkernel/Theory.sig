@@ -114,6 +114,7 @@ sig
 
   val pp_thm             : (thm -> HOLPP.pretty) ref
   val link_parents       : string*num*num -> (string*num*num) list -> unit
+  val link_parents0       : string -> string list -> unit
   val incorporate_types  : string -> (string*int) list -> unit
 
 

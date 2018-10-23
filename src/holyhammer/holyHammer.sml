@@ -21,7 +21,7 @@ val ERR = mk_HOL_ERR "holyHammer"
    Settings
   ----------------------------------------------------------------------------*)
 
-val timeout_glob = ref 5
+val timeout_glob = ref @{position} 5
 fun set_timeout n = timeout_glob := n
 
 (*----------------------------------------------------------------------------
@@ -39,7 +39,7 @@ fun npremises_of atp = case atp of
   | Z3 => 32
   | Vampire => 96
 
-val all_atps = ref [Eprover,Z3,Vampire] 
+val all_atps = ref @{position} [Eprover,Z3,Vampire] 
 (* atps called by holyhammer if their binary exists *)
 
 (*----------------------------------------------------------------------------
@@ -67,8 +67,8 @@ fun status_dir dir = pathl [dir,"status"]
   Should not be used in parallel threads.
   ----------------------------------------------------------------------------*)
 
-val hh_eval_flag = ref false
-val thy_ref = ref "scratch"
+val hh_eval_flag = ref @{position} false
+val thy_ref = ref @{position} "scratch"
 
 fun hh_log_eval s = 
   if !hh_eval_flag 
@@ -90,7 +90,7 @@ fun hh_logt_eval s f x =
    Should not be used in parallel threads.
   ----------------------------------------------------------------------------*)
 
-val hh_goalfea_cache = ref (dempty goal_compare)
+val hh_goalfea_cache = ref @{position} (dempty goal_compare)
 
 fun clean_goalfea_cache () = hh_goalfea_cache := dempty goal_compare
 
@@ -110,7 +110,7 @@ fun add_fea dict (name,thm) =
 
 fun insert_thyfeav initdict thyl =
   let
-    val dict = ref initdict
+    val dict = ref @{position} initdict
     fun f_thy thy =
       let fun f (name,thm) =
         add_fea dict ((thy ^ "Theory." ^ name), thm)
@@ -124,7 +124,7 @@ fun insert_thyfeav initdict thyl =
 
 fun insert_namespace thmdict =
   let
-    val dict = ref thmdict
+    val dict = ref @{position} thmdict
     fun f (x,y) = (namespace_tag ^ "Theory." ^ x, y)
     val l1 = hide_out namespace_thms ()
     val l2 = map f l1
@@ -183,7 +183,7 @@ fun thml_of_namel sl =
    positive result in parallel_result.
  -----------------------------------------------------------------------------*)
 
-val (parallel_result : string list option ref) = ref NONE
+val (parallel_result : string list option ref @{position}) = ref @{position} NONE
 
 fun close_thread thread =
   if Thread.isActive thread
@@ -214,7 +214,7 @@ fun parallel_call t fl =
    Launch an ATP
   ----------------------------------------------------------------------------*)
 
-val atp_ref = ref ""
+val atp_ref = ref @{position} ""
 
 fun launch_atp_mute dir atp t =
   let 
@@ -274,7 +274,7 @@ fun exists_atp_err atp =
     b
   end
 
-val hh_goaltac_cache = ref (dempty goal_compare)
+val hh_goaltac_cache = ref @{position} (dempty goal_compare)
 
 fun hh_pb wanted_atpl premises goal =
   let

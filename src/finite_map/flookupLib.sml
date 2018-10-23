@@ -9,8 +9,8 @@ val ERR = mk_HOL_ERR "flookupLib"
 
 fun memoize size cmp f =
    let
-      val d = ref (Redblackmap.mkDict cmp)
-      val k = ref []
+      val d = ref @{position} (Redblackmap.mkDict cmp)
+      val k = ref @{position} []
       val finite = 0 < size
    in
       fn v =>
@@ -154,8 +154,8 @@ in
       end
 end
 
-val const_name = ref "gen_fmap_"
-val new_const_size = ref 100
+val const_name = ref @{position} "gen_fmap_"
+val new_const_size = ref @{position} 100
 
 (* --------------------------------------------------------------------------
     FLOOKUP_DEFN_CONV
@@ -176,17 +176,17 @@ val new_const_size = ref 100
 
 local
    val completed_fmap_convs =
-      ref (Redblackmap.mkDict Term.compare: (term, conv) Redblackmap.dict)
+      ref @{position} (Redblackmap.mkDict Term.compare: (term, conv) Redblackmap.dict)
    val head_fmaps =
-      ref (Redblackmap.mkDict Term.compare:
+      ref @{position} (Redblackmap.mkDict Term.compare:
              (term, (term, thm) Redblackmap.dict * thm) Redblackmap.dict)
    fun introduce_fmap_consts _ = ALL_CONV
-   val const_number = ref 0
+   val const_number = ref @{position} 0
    val flookup_fallback_conv =
       Conv.REWR_CONV finite_mapTheory.FLOOKUP_UPDATE
       ORELSEC Conv.REWR_CONV finite_mapTheory.FLOOKUP_EMPTY
-   val rwts = ref ([] : thm list)
-   val rwt_cnv = ref ALL_CONV
+   val rwts = ref @{position} ([] : thm list)
+   val rwt_cnv = ref @{position} ALL_CONV
    val err = ERR "FLOOKUP_DEFN_CONV" ""
    fun DICT_REST_CONV (dr as (dict, rest)) tm =
       let

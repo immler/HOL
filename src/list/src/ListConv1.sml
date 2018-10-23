@@ -711,8 +711,8 @@ val ELL_CONV =
     let val bthm = rich_listTheory.ELL_0_SNOC
         and ithm = rich_listTheory.ELL_SUC_SNOC
         fun iter count (d,lst) elty =
-            let val n = (ref count) and x = (ref d) and l = (ref lst)
-                val th = ref (ISPECL[(term_of_int (!n)), !x,
+            let val n = (ref @{position} count) and x = (ref @{position} d) and l = (ref @{position} lst)
+                val th = ref @{position} (ISPECL[(term_of_int (!n)), !x,
                                      mk_list{els=(!l),ty=elty}]ithm)
             in
                 (while (not(!n = 0)) do

@@ -14,7 +14,7 @@ val _ = Datatype`recursive = RC1 num | RC2 recursive bool`
 
 val _ = Datatype`polyrec = PR1 'a | PR2 polyrec 'b`;
 
-val _ = Datatype`simpleref = SR1 num | SR2 ((num,'a) polyrec)`
+val _ = Datatype`simpleref @{position} = SR1 num | SR2 ((num,'a) polyrec)`
 
 val _ = Datatype`
   mut1 = con1 'a num | con2 mut2 ;

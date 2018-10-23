@@ -591,7 +591,7 @@ fun prove_recordtype_thms (tyinfo, fields) = let
             end
         in
           ListPair.app add_record_field (fields, accfn_terms);
-          (* overload strings of the form fld_fupd to refer to the
+          (* overload strings of the form fld_fupd to ref @{position}er to the
              real fupdate functions, which have names of the form
              type_fld_fupd.  Make sure that this overloading is
              done before the add_record_fupdate function is called

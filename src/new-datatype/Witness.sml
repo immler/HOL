@@ -21,7 +21,7 @@ fun insert (tyvar, value) ([], []) = ([tyvar], [value])
     else let
       val (x, y) = (insert (tyvar,value) (tyvars, dict))
       in (tyvar'::x, h::y) end;
-val all_rules = ref (([]:string list),([]:Thm.thm list));
+val all_rules = ref @{position} (([]:string list),([]:Thm.thm list));
 
 val _ = (all_rules := insert ("sum_all", sum_all_def) (!all_rules);
 all_rules := insert ("list_all", list_all_def) (!all_rules);

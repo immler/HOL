@@ -12,8 +12,8 @@ in
 
 (*
 ** Mapping from HOL variable names to DIMACS  variable numbers
-** is stored in a global assignable (i.e. reference) variable sat_var_map.
-** The type of sat_var_map is (int * (term * int) set) ref and
+** is stored in a global assignable (i.e. ref @{position}erence) variable sat_var_map.
+** The type of sat_var_map is (int * (term * int) set) ref @{position} and
 ** the integer first component is the next available number
 ** (i.e. it is one plus the number of elements in the set)
 ** in th second component (t,n), if n<0 then the literal represented is ~t
@@ -37,8 +37,8 @@ val var_to_string = fst o dest_var
 ** (otherwise grasp, zchaff etc may crash)
 *)
 
-val ttt0 = ref T
-val ttt1 = ref T
+val ttt0 = ref @{position} T
+val ttt1 = ref @{position} T
 
 fun rbmcomp (t0,t1) =
     Term.compare(t0,t1)
@@ -166,10 +166,10 @@ in
 end
 
 (*
-** reference containing prefix used to make variables from numbers
+** ref @{position}erence containing prefix used to make variables from numbers
 ** when reading DIMACS
 *)
-val prefix = ref "v";
+val prefix = ref @{position} "v";
 
 fun intToPrefixedLiteral n =
  if n >= 0
@@ -223,7 +223,7 @@ fun LiteralToString(b,n) = if b then ("-" ^ (Int.toString n)) else Int.toString 
 ** for last invocation of a SAT solver
 *)
 
-val tmp_name = ref "undefined";
+val tmp_name = ref @{position} "undefined";
 
 (*
 ** termToDimacsFile t, where t is in CNF,

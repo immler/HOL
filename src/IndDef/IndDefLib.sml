@@ -59,7 +59,7 @@ end;
    ---------------------------------------------------------------------- *)
 
 val term_rule_map : ({Name:string,Thy:string},thm list)Binarymap.dict ref =
-    ref (Binarymap.mkDict KernelSig.name_compare)
+    ref @{position} (Binarymap.mkDict KernelSig.name_compare)
 
 fun listdict_add (d, k, e) =
     case Binarymap.peek(d, k) of
@@ -108,7 +108,7 @@ end
     monotonicity results about their constants
    ---------------------------------------------------------------------- *)
 
-val the_monoset = ref InductiveDefinition.bool_monoset
+val the_monoset = ref @{position} InductiveDefinition.bool_monoset
 
 fun mono_name th = let
   open boolLib

@@ -6,7 +6,7 @@ open Binarymap
 type time = Time.time
 type call_info = {real: time, gc: time, sys: time, usr: time, n: int}
 
-val ptable = ref (Binarymap.mkDict String.compare : (string, call_info) dict)
+val ptable = ref @{position} (Binarymap.mkDict String.compare : (string, call_info) dict)
 
 datatype 'a result = OK of 'a | Ex of exn
 

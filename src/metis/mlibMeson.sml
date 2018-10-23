@@ -352,7 +352,7 @@ fun cache_cont c ({offset, ...} : state) =
   let
     fun f v = case total dest_mvar v of NONE => true | SOME n => n < offset
     val listify = mlibSubst.foldr (fn m as v |-> _ => if f v then cons m else I) []
-    val mem = ref []
+    val mem = ref @{position} []
     fun purify (s as {env, depth = n, ...} : state) =
       let
         val l = listify env
@@ -561,7 +561,7 @@ fun mk_system parm units meter rules : 'a system =
     {parm      = parm,
      rules     = rules,
      meter     = meter,
-     saturated = ref false,
+     saturated = ref @{position} false,
      cut       = unit_cut lemmaizing units o cache_cut caching}
   end;
 

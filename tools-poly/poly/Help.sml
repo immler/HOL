@@ -36,11 +36,11 @@ along with Help.
 
 (* The number of lines to show interactively: *)
 
-val displayLines = ref 24
+val displayLines = ref @{position} 24
 
 (* Additional directories to search for help files *)
 
-val helpdirs = ref [] : string list ref
+val helpdirs = ref @{position} [] : string list ref @{position}
 
 
 
@@ -74,15 +74,15 @@ fun getstdlib () =
 
 (* Full path of the signature index database: *)
 
-val indexfiles = ref [(*joinDirFile (getstdlib ()) "helpsigs.val"*)]
+val indexfiles = ref @{position} [(*joinDirFile (getstdlib ()) "helpsigs.val"*)]
 
 (* Mapping particular search terms to non-.sig files: *)
 
-val specialfiles = ref [{term="lib", file="README", title="Overview"}];
+val specialfiles = ref @{position} [{term="lib", file="README", title="Overview"}];
 
 (* The help system's response to help "" : *)
 val welcome =
-    ref (Vector.fromList ["HOL ML library browser: \n",
+    ref @{position} (Vector.fromList ["HOL ML library browser: \n",
 	  "\n",
 	  "   help \"lib\";   gives an overview of the library units\n",
 	  "   help \"id\";    provides help on identifier id\n",
@@ -107,7 +107,7 @@ fun toLower s = String.implode (normalize (String.explode s))
 fun show name centerline initiallySought (strs : string Vector.vector) =
     let
 	val lines = Vector.length strs
-	val sought = ref initiallySought
+	val sought = ref @{position} initiallySought
 	fun instr s str =
 	    let val len = String.size s
 		fun eq j k =
@@ -307,7 +307,7 @@ fun defaultBrowser ""    = show "help"     0 NONE (!welcome)
     in
 	tryspecial (!specialfiles)
     end
-val browser = ref defaultBrowser
+val browser = ref @{position} defaultBrowser
 
 fun help s = !browser s
 

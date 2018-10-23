@@ -191,8 +191,8 @@ struct
           val combinedsz = List.foldl (fn (sl,a) => a + length sl) 0 sls
                            handle Overflow => raise Size
           val _ = if combinedsz > Vector.maxLen then raise Size else ()
-          val sls_r = ref sls
-          val i_r = ref 0
+          val sls_r = ref @{position} sls
+          val i_r = ref @{position} 0
           fun tabthis i = let
             val sl = hd (!sls_r)
           in
@@ -643,7 +643,7 @@ structure String = struct
     val f = Array.array(m+1,0)
     val s = Array.array(m+1,0)
     val bmPreprocess1 as () = let
-      val i = ref m and j = ref (m + 1)
+      val i = ref @{position} m and j = ref @{position} (m + 1)
       val _ = Array.update(f,!i,!j)
     in
       while (!i > 0) do
@@ -655,7 +655,7 @@ structure String = struct
          Array.update(f,!i,!j))
     end
     val bmPreprocess2 as () = let
-      val i = ref 0 and j = ref (Array.sub(f,0))
+      val i = ref @{position} 0 and j = ref @{position} (Array.sub(f,0))
     in
       while (!i <= m) do
         (if Array.sub(s,!i) = 0 then Array.update(s,!i,!j) else ();
@@ -663,7 +663,7 @@ structure String = struct
          i := !i + 1)
     end
     exception Done of int
-    val i = ref 0 and j = ref 0
+    val i = ref @{position} 0 and j = ref @{position} 0
   in
     (while !i <= n - m do
        (j := m - 1;

@@ -17,7 +17,7 @@ val ERR = mk_HOL_ERR "tttUnfold"
    Debugging
    -------------------------------------------------------------------------- *)
 
-val dirorg_glob = ref "/temp"
+val dirorg_glob = ref @{position} "/temp"
 
 (* --------------------------------------------------------------------------
    Program representation and stack
@@ -48,11 +48,11 @@ datatype sketch_t =
   | In
 
 (* --------------------------------------------------------------------------
-   Global references
+   Global ref @{position}erences
    -------------------------------------------------------------------------- *)
 
-val (infix_glob : (string * infixity_t) list ref) = ref []
-val open_cache = ref []
+val (infix_glob : (string * infixity_t) list ref @{position}) = ref @{position} []
+val open_cache = ref @{position} []
 
 (* --------------------------------------------------------------------------
    Test starting parentheses
@@ -169,9 +169,9 @@ fun replace_program2 p = replace_program replace_code2 mlquote_singleton p
    Profiling
    -------------------------------------------------------------------------- *)
 
-val open_time = ref 0.0
-val replace_special_time = ref 0.0
-val replace_id_time = ref 0.0
+val open_time = ref @{position} 0.0
+val replace_special_time = ref @{position} 0.0
+val replace_id_time = ref @{position} 0.0
 
 (* --------------------------------------------------------------------------
    Poly/ML 5.7
@@ -183,7 +183,7 @@ val basis = String.tokens Char.isSpace
 (
 "Size trunc ignore Empty Span :: Chr length LESS round vector EQUAL app " ^
 "~ Subscript NONE ceil getOpt str substring use o explode foldr foldl ^ " ^
-"exnMessage Option SOME tl Overflow null @ > = < ref Fail div nil before " ^
+"exnMessage Option SOME tl Overflow null @ > = < ref @{position} Fail div nil before " ^
 "real print ord / - rev + * implode map ! size isSome Div mod GREATER Match " ^
 "false abs <> exnName Domain Bind true >= valOf <= not := hd chr concat floor"
 );
@@ -209,7 +209,7 @@ fun rm_bbra bbra charl =
 fun rm_bbra_str s = implode (rm_bbra false (explode s))
 
 (* --------------------------------------------------------------------------
-   Record global values as string for further references
+   Record global values as string for further ref @{position}erences
    -------------------------------------------------------------------------- *)
 
 fun is_endtype opar s =
@@ -332,7 +332,7 @@ val watch_dict = dnew String.compare (map (fn x => (x,())) watch_list_init)
    Extract calls
    -------------------------------------------------------------------------- *)
 
-val let_flag = ref false
+val let_flag = ref @{position} false
 
 fun split_codelevel_aux i s pl program = case program of
     []     => raise ERR "split_codelevel_aux"
@@ -418,8 +418,8 @@ fun concat_with el ll = case ll of
   | [l]    => l
   | l :: m => l @ [el] @ concat_with el m
 
-val bval = ref true
-val bfun = ref true
+val bval = ref @{position} true
+val bfun = ref @{position} true
 
 fun sketch sl = case sl of
     [] => []
@@ -495,7 +495,7 @@ and sketch_record m =
    Stack
    -------------------------------------------------------------------------- *)
 
-val push_time = ref 0.0
+val push_time = ref @{position} 0.0
 
 fun hd_err s x = hd x handle Empty => raise ERR s ""
 
@@ -545,7 +545,7 @@ fun replace_id stack id =
 fun let_in_end s head body id =
   ["let",s] @ head @ ["="] @ body @ ["in",id,"end"]
 
-val n_store_thm = ref 0
+val n_store_thm = ref @{position} 0
 
 fun smart_concat_aux sep n l = case l of
     [] => ""
@@ -571,7 +571,7 @@ fun ppstring_stac qtac =
    Final modifications of the scripts
    -------------------------------------------------------------------------- *)
 
-val is_thm_flag = ref false
+val is_thm_flag = ref @{position} false
 
 fun modified_program (h,d) p = 
   let fun continue m' = modified_program (h,d) m' in
@@ -925,7 +925,7 @@ fun output_header oc cthy =
   output_flag oc "tttSetup.eprover_eval_flag" eprover_eval_flag;
   output_flag oc "tttSetup.eprover_save_flag" eprover_save_flag;
   output_flag oc "tttSetup.ttt_metis_flag" ttt_metis_flag;
-  (* global references *)
+  (* global ref @{position}erences *)
   osn oc ("val _ = tttTools.ttt_search_time := Time.fromReal " ^
     Real.toString (Time.toReal (!ttt_search_time)));
   osn oc ("val _ = tttTools.ttt_tactic_time := " ^

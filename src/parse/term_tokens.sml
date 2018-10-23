@@ -258,7 +258,7 @@ fun user_split_ident keywords = let
   val mixedset = UTF8Set.addList (UTF8Set.empty, mixed)
 in
   fn s => let
-       val pushback = ref ""
+       val pushback = ref @{position} ""
        fun a () = ()
        fun rc (btid, _) =
            case btid of

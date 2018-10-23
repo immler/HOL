@@ -975,8 +975,8 @@ fun work ptree k = toplevel ptree EXACT k
 
    fun print_test (l:int list list) = ignore (printVal l)
 
-   val current_goal = ref ([] : int list list)
-   val slow_goals = ref  ([] : int list list list)
+   val current_goal = ref @{position} ([] : int list list)
+   val slow_goals = ref @{position}  ([] : int list list list)
    fun sattest i timelimit numcsts numvars = if i <= 0 then ()
                        else let
                            val t = gen_test numcsts numvars

@@ -12,13 +12,13 @@ sig
   | Plamb  of pattern * pattern
   
   (* globals *)
-  val conjecture_limit : int ref
-  val patsub_flag : bool ref  
-  val concept_threshold : int ref
-  val concept_flag : bool ref  
+  val conjecture_limit : int ref @{position}
+  val patsub_flag : bool ref @{position}  
+  val concept_threshold : int ref @{position}
+  val concept_flag : bool ref @{position}  
 
   (* debugging *)
-  val ttt_synt_dir  : string ref
+  val ttt_synt_dir  : string ref @{position}
   val log_synt      : string -> unit 
   val log_synt_file : string -> string -> unit
   val msg_synt      : 'a list -> string -> unit

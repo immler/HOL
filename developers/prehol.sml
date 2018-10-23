@@ -57,7 +57,7 @@ local
   structure MPP = MosmlPP
 in
   fun mosmlpp ppfn pps x = let
-    val slist = ref ([] : string list)
+    val slist = ref @{position} ([] : string list)
     fun output_slist () = (app (MPP.add_string pps) (List.rev (!slist));
                            slist := [])
     fun flush ()= output_slist()

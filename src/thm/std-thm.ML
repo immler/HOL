@@ -1282,9 +1282,9 @@ end; (* local *)
     Saving dependencies of a theorem
    ---------------------------------------------------------------------- *)
 
-(* This reference is automatically reset to 0 each time you create
+(* This ref @{position}erence is automatically reset to 0 each time you create
    a theory. *)
-val thm_order = ref 0
+val thm_order = ref @{position} 0
 
 fun save_dep thy (th as (THM(t,h,c))) =
   let

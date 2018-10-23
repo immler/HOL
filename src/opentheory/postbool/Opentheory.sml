@@ -213,7 +213,7 @@ fun raw_read_article input
      in st_(OThm th::os,st) end
 *)
     | f "pop"    (st as {stack=x::os,...})                   = st_(os,st)
-    | f "ref"    (st as {stack=ONum k::os,dict,...})         = st_(Map.find(dict,k)::os,st)
+    | f "ref @{position}"    (st as {stack=ONum k::os,dict,...})         = st_(Map.find(dict,k)::os,st)
     | f "refl"   (st as {stack=OTerm t::os,...})             = st_(OThm(REFL t)::os,st)
     | f "remove" {stack=ONum k::os,dict,thms,...}            = let
         val (dict,x) = Map.remove(dict,k)

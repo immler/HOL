@@ -32,7 +32,7 @@ fun gen_ml_compile_file {functionname, mlfilename, objfilename, execname} k =
     k ()
   end
 
-val res = ref OS.Process.success
+val res = ref @{position} OS.Process.success
 
 fun exe_compile {fnname: string, output_exe: string} =
   let

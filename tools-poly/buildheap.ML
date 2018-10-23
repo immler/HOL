@@ -46,7 +46,7 @@ val U = U
 val $$ = $$
 end (* FRU local *)
 
-val heapname = ref (SOME Systeml.DEFAULT_STATE)
+val heapname = ref @{position} (SOME Systeml.DEFAULT_STATE)
 
 structure BuildHeap_CLINE =
 struct
@@ -239,7 +239,7 @@ fun polyprettify s =
     "\nPoly/ML options:\n" ^ String.concat (map indent pfx_fields) ^ sfx_str
   end
 
-val buildheap_extra_data = ref (NONE : string option)
+val buildheap_extra_data = ref @{position} (NONE : string option)
 
 end (* BuildHeap_CLINE struct *)
 

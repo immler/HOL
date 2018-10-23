@@ -13,20 +13,20 @@ open HolKernel boolLib tttTools
 
 val ERR = mk_HOL_ERR "hhTranslate"
 
-val tmn_glob = ref 0 (* number terms for parallel use *)
+val tmn_glob = ref @{position} 0 (* number terms for parallel use *)
 
-fun incr_genvar iref = 
-  let val (a,b) = !iref in iref := (a, b+1) end
+fun incr_genvar iref @{position} = 
+  let val (a,b) = !iref @{position} in iref @{position} := (a, b+1) end
 
-fun string_of_genvar iref =
-  let val (a,b) = !iref in int_to_string a ^ "_" ^ int_to_string b end
+fun string_of_genvar iref @{position} =
+  let val (a,b) = !iref @{position} in int_to_string a ^ "_" ^ int_to_string b end
 
 (*----------------------------------------------------------------------------
    Debug functions.
   ----------------------------------------------------------------------------*)
 
 val hh_dir = HOLDIR ^ "/src/holyhammer"
-val log_translate_flag = ref false
+val log_translate_flag = ref @{position} false
 
 fun log_translate s = 
   if !log_translate_flag 
@@ -78,9 +78,9 @@ fun prep_rw tm = rand (only_concl (QCONV PREP_CONV tm))
   ----------------------------------------------------------------------------*)
 
 (* lifting *)
-fun genvar_lifting iref ty = 
-  let val r = mk_var ("f" ^ string_of_genvar iref, ty) in
-    incr_genvar iref; r
+fun genvar_lifting iref @{position} ty = 
+  let val r = mk_var ("f" ^ string_of_genvar iref @{position}, ty) in
+    incr_genvar iref @{position}; r
   end
 
 (* arity *)
@@ -99,7 +99,7 @@ fun must_pred tm =
   is_imp tm orelse is_eq tm orelse is_neg tm
 
 local
-  val (atoml: term list ref) = ref []
+  val (atoml: term list ref @{position}) = ref @{position} []
   fun atoms_aux tm =
     if is_conj tm orelse is_disj tm orelse is_imp_only tm orelse is_eq tm
       then (atoms_aux (lhand tm); atoms_aux (rand tm))
@@ -132,7 +132,7 @@ fun collect_arity_aux adict tm =
   
 fun collect_arity tm = 
   let 
-    val adict = ref (dempty Term.compare)
+    val adict = ref @{position} (dempty Term.compare)
     fun f (_,l) = mk_fast_set Int.compare l 
   in  
     app (collect_arity_aux adict) (atoms tm); 
@@ -172,12 +172,12 @@ fun FUN_EQ_CONVL vl eq = case vl of
     [] => REFL eq
   | a :: m => (STRIP_QUANT_CONV (X_FUN_EQ_CONV a) THENC FUN_EQ_CONVL m) eq
   
-fun LIFT_CONV iref tm =
+fun LIFT_CONV iref @{position} tm =
   let 
     fun test x = must_pred x orelse is_abs x
     val subtm = find_term test tm handle _ => raise ERR "LIFT_CONV" ""
     val fvl = free_vars_lr subtm
-    val v = genvar_lifting iref (type_of (list_mk_abs (fvl,subtm)))
+    val v = genvar_lifting iref @{position} (type_of (list_mk_abs (fvl,subtm)))
     val rep = list_mk_comb (v,fvl)
     val eq  = list_mk_forall (fvl, (mk_eq (subtm,rep)))
     val thm = ASSUME eq
@@ -194,16 +194,16 @@ fun LIFT_CONV iref tm =
     else PURE_REWRITE_CONV [thm] tm
   end
  
-fun RPT_LIFT_CONV iref tm =
+fun RPT_LIFT_CONV iref @{position} tm =
   let  
-    val thmo = SOME (REPEATC (ATOM_CONV (TRY_CONV (LIFT_CONV iref))) tm) 
+    val thmo = SOME (REPEATC (ATOM_CONV (TRY_CONV (LIFT_CONV iref @{position}))) tm) 
     handle UNCHANGED => NONE
   in
     case thmo of
       SOME thm =>  
       let
         val (asl,w) = dest_thm thm
-        val thml1 = List.concat (map (RPT_LIFT_CONV iref) asl)
+        val thml1 = List.concat (map (RPT_LIFT_CONV iref @{position}) asl)
       in
         thm :: thml1
       end
@@ -297,7 +297,7 @@ fun name_of_const c =
 
 fun regroup_cid cl =
   let 
-    val dict = ref (dempty String.compare)
+    val dict = ref @{position} (dempty String.compare)
     fun update_dict c =
       let 
         val cid  = name_of_const c
@@ -352,7 +352,7 @@ fun monomorphize tml cj =
   
   ----------------------------------------------------------------------------*)
 
-val translate_cache = ref (dempty Term.compare)
+val translate_cache = ref @{position} (dempty Term.compare)
 
 (* Guarantees that there are no free variables in the term *)
 fun prepare_tm tm =
@@ -362,11 +362,11 @@ fun prepare_tm tm =
 
 fun debug_translate (tmn,tm) =
   let    
-    val iref = ref (tmn,0)
+    val iref @{position} = ref @{position} (tmn,0)
     val _ = log_translate ("  " ^ term_to_string tm)
     val tm1 = time_translate "prepare_tm" prepare_tm tm
     val _ = log_translate ("Renaming variables:\n  " ^ term_to_string tm1)
-    val thml1 = time_translate "RPT_LIFT_CONV" RPT_LIFT_CONV iref tm1
+    val thml1 = time_translate "RPT_LIFT_CONV" RPT_LIFT_CONV iref @{position} tm1
     val tml1 = map (rand o concl) thml1
     val _ = log_translate ("Lifting lambdas and predicates:\n  " ^ 
       String.concatWith "\n  " (map term_to_string tml1))
@@ -379,9 +379,9 @@ fun debug_translate (tmn,tm) =
 
 fun translate (tmn,tm) =
   let
-    val iref  = ref (tmn,0)
+    val iref @{position}  = ref @{position} (tmn,0)
     val tm1   = prepare_tm tm
-    val thml1 = RPT_LIFT_CONV iref tm1
+    val thml1 = RPT_LIFT_CONV iref @{position} tm1
     val tml1  = map (rand o concl) thml1
     val thml2 = (map (TRY_CONV LET_CONV_BVL THENC REFL)) tml1
     val tml2  = map (rand o concl) thml2

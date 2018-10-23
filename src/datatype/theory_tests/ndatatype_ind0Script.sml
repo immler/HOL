@@ -28,7 +28,7 @@ val _ = TypeBase.write [
             nchotomy = SOME foo_cases, size = NONE})
 ]
 
-val c = ref 0
+val c = ref @{position} 0
 fun check (tac, t) = (tac([], t) before ignore (save_thm(
   "OK" ^ Int.toString (!c) before c := !c + 1,
   TRUTH)))

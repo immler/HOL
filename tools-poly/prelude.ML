@@ -140,7 +140,7 @@ structure HOL_Interactive :>
 struct
   infix ++
   val op ++ = OS.Path.concat
-  val qd = ref true
+  val qd = ref @{position} true
   fun toggle_quietdec () =
     if !qd then
       ( PolyML.Compiler.prompt1 := "> "

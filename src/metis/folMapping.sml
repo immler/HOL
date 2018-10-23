@@ -353,7 +353,7 @@ fun mk_varconst s =
 (* Prettify FOL representations of HOL terms---WILL BREAK PROOF TRANSLATION! *)
 (* ------------------------------------------------------------------------- *)
 
-val prettify_fol = ref false;
+val prettify_fol = ref @{position} false;
 
 val type_op_map =
   [("fun", "->"), ("prod", "*"), ("sum", "+")];

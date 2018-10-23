@@ -27,9 +27,9 @@ fun vm_ty ty = inst [alpha |-> ty];
 
 datatype varnode
     = Lf
-    | Nd of term * varnode ref * varnode ref
+    | Nd of term * varnode ref @{position} * varnode ref @{position}
 
-type varmap = varnode ref;
+type varmap = varnode ref @{position};
 
 fun meta_map ty =
   let val mevm = vm_ty ty mevm
@@ -73,15 +73,15 @@ fun search_term t vm =
 
 fun add_term t vm i =
   case (i, !vm) of
-    (1, Lf) => (vm := Nd(t,ref Lf, ref Lf); Ei)
+    (1, Lf) => (vm := Nd(t,ref @{position} Lf, ref @{position} Lf); Ei)
   | (n, Nd(_,v1,v2)) =>
       if n mod 2 = 0 then Li (add_term t v1 (i div 2))
       else Lr (add_term t v2 (i div 2))
   | _ => raise QUOTE_ERR "add_term" "";
 
 local
-  val vm = ref Lf
-  val size = ref 0
+  val vm = ref @{position} Lf
+  val size = ref @{position} 0
 in
 fun empty_map () =
   (vm := Lf; size := 0)

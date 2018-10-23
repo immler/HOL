@@ -299,7 +299,7 @@ end
 
 val safepfx = " @ind_type"
 local
-  val count = ref 0
+  val count = ref @{position} 0
   fun vary_to_avoid_constants () = let
     val nm =
         temp_binding (safepfx ^ current_theory() ^ Int.toString (!count))

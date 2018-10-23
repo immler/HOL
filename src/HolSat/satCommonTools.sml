@@ -52,7 +52,7 @@ fun NOT_NOT_CONV tm = INST [t|->rand(rand tm)] NOT_NOT2
 end
 
 (* Like CONJUNCTS but assumes the conjunct is bracketed right-assoc. *)
-(* Not tail recursive. Here only as a reference implementation *)
+(* Not tail recursive. Here only as a ref @{position}erence implementation *)
 fun NTL_CONJUNCTSR th =
     if is_conj (concl th)
     then

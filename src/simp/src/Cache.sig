@@ -10,7 +10,7 @@
     rewritten by it.  The second should be a conversion i.e. convert a
     term t to |- t = x for some value x.
 
-    Returns a new conversion, and a reference to a table used as a
+    Returns a new conversion, and a ref @{position}erence to a table used as a
     cache.  The table is returned to enable users to analyse its
     contents
 

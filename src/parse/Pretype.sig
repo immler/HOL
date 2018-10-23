@@ -48,10 +48,10 @@ end
 
 (*
    [chase pty]  If pty is of the form (dom --> rng), once all necessary
-   uvar references have been followed, returns rng.
+   uvar ref @{position}erences have been followed, returns rng.
 
    [rename_typvars avds pty]  Avoiding type variables with names from avds,
-   renames Vartypes into uvar references.
+   renames Vartypes into uvar ref @{position}erences.
 
    [has_unbound_uvar pty] Returns true if pty includes (after chasing bound
    uvars), any unbound uvars.

@@ -5,7 +5,7 @@ open Lib Feedback
 
 datatype 'a testresult = Normal of 'a | Exn of exn
 
-val linewidth = ref 80
+val linewidth = ref @{position} 80
 val output_linewidth = Holmake_tools.getWidth()
 
 fun crush extra w s =
@@ -41,7 +41,7 @@ val red = checkterm "\027[31m"
 val dim = checkterm "\027[2m"
 val clear = checkterm "\027[0m"
 
-val really_die = ref true;
+val really_die = ref @{position} true;
 fun die s =
   (tadd (boldred s ^ "\n");
    if (!really_die) then OS.Process.exit OS.Process.failure

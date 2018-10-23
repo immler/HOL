@@ -4,9 +4,9 @@ sig
   include Abbrev
  
   (* Settings *)
-  val reconstruct_flag : bool ref
-  val minimization_timeout : real ref
-  val reconstruction_timeout : real ref
+  val reconstruct_flag : bool ref @{position}
+  val minimization_timeout : real ref @{position}
+  val reconstruction_timeout : real ref @{position}
   
   (* Read output of ATP *)
   val get_lemmas : (string * string) -> string list option

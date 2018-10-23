@@ -273,7 +273,7 @@ val GEN_METIS_TAC = X_METIS_TAC o GEN_METIS_TTAC;
 (* All the following use this limit.                                         *)
 (* ------------------------------------------------------------------------- *)
 
-val limit : limit ref = ref (#limit defaults);
+val limit : limit ref = ref @{position} (#limit defaults);
 
 (* ------------------------------------------------------------------------- *)
 (* Canned parameters for common situations.                                  *)

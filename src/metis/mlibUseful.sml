@@ -63,9 +63,9 @@ in
   fun timed_many f a = several 0 0.0 f a
 end;
 
-val trace_level = ref 1;
+val trace_level = ref @{position} 1;
 
-val traces : {module : string, alignment : int -> int} list ref = ref [];
+val traces : {module : string, alignment : int -> int} list ref = ref @{position} [];
 
 fun add_trace t = traces := t :: !traces
 fun set_traces ts = traces := ts
@@ -565,7 +565,7 @@ local val ln2 = Math.ln 2.0 in fun log2 x = Math.ln x / ln2 end;
 
 type 'a pp = 'a Parse.pprinter
 
-val LINE_LENGTH = ref 75;
+val LINE_LENGTH = ref @{position} 75;
 
 fun pp_map f pp_a x = pp_a (f x);
 

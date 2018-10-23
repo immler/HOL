@@ -11,12 +11,12 @@ type absyn  = Absyn.absyn;
 val ERR = mk_HOL_ERR "Defn";
 val ERRloc = mk_HOL_ERRloc "Defn";
 
-val monitoring = ref false;
+val monitoring = ref @{position} false;
 
 (* Interactively:
-  val const_eq_ref = ref (!Defn.const_eq_ref);
+  val const_eq_ref = ref @{position} (!Defn.const_eq_ref);
 *)
-val const_eq_ref = ref Conv.NO_CONV;
+val const_eq_ref = ref @{position} Conv.NO_CONV;
 
 (*---------------------------------------------------------------------------
       Miscellaneous support
@@ -71,7 +71,7 @@ fun extract_info constset db =
     ad hoc, but I don't know a better way!
  ---------------------------------------------------------------------------*)
 
-val ind_suffix = ref "_ind";
+val ind_suffix = ref @{position} "_ind";
 val def_suffix = boolLib.def_suffix
 
 fun indSuffix s     = (s ^ !ind_suffix);
@@ -400,7 +400,7 @@ local fun is_suc tm =
          | SOME{Name,Thy,...} => Name="SUC" andalso Thy="num"
 in
 val SUC_TO_NUMERAL_DEFN_CONV_hook =
-      ref (fn _ => raise ERR "SUC_TO_NUMERAL_DEFN_CONV_hook" "not initialized")
+      ref @{position} (fn _ => raise ERR "SUC_TO_NUMERAL_DEFN_CONV_hook" "not initialized")
 fun add_persistent_funs l =
   if not (!computeLib.auto_import_definitions) then () else
     let val has_lhs_SUC = List.exists
@@ -426,7 +426,7 @@ end;
 val mesg = with_flag(MESG_to_string, Lib.I) HOL_MESG
 
 local
-  val chatting = ref true
+  val chatting = ref @{position} true
   val _ = Feedback.register_btrace("Define.storage_message", chatting)
 in
 fun been_stored (s,thm) =
@@ -517,7 +517,7 @@ fun extract FV congs f (proto_def,WFR) =
      val restr_fR = rator(rator(lhs(snd(dest_imp (concl (SPEC_ALL CUT_LEM))))))
      fun mk_restr p = mk_comb(restr_fR, p)
  in fn (p,th) =>
-    let val nested_ref = ref false
+    let val nested_ref = ref @{position} false
         val FV' = FV@free_vars(concl th)
         val rwArgs = (RW.Pure [CUT_LEM],
                       RW.Context ([],RW.DONT_ADD),
@@ -557,7 +557,7 @@ val unprotect_thm  = PURE_REWRITE_RULE [combinTheory.I_THM];
 (* still remain right-hand sides with occurrences of fully concrete tests on *)
 (* literals. Here we simplify those away.                                    *)
 (*                                                                           *)
-(* const_eq_ref is a reference cell that decides equality of literals such   *)
+(* const_eq_ref is a ref @{position}erence cell that decides equality of literals such   *)
 (* as 23, "foo", #"G", 6w, 0b1000w. It gets updated in reduceLib, stringLib  *)
 (* and wordsLib.                                                             *)
 (*---------------------------------------------------------------------------*)

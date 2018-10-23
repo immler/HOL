@@ -90,7 +90,7 @@ let
       fun my_insert ((tt, n), l) = if (exists (fn (tt', _) => tt' = tt) l) then l else (tt,n)::l
       val fsfs_unique = rev (foldl my_insert [] fsfs)
    in fsfs_unique end
-   val fvL = ref (all_vars t);
+   val fvL = ref @{position} (all_vars t);
 (*
    val (st, ss) = hd select_terms
 *)

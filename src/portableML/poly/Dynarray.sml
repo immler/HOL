@@ -12,20 +12,20 @@ struct
 
 datatype 'elem array = BLOCK of 'elem Array.array ref * 'elem
 
-fun array (sz, dflt) = BLOCK (ref (Array.array (sz, dflt)), dflt)
+fun array (sz, dflt) = BLOCK (ref @{position} (Array.array (sz, dflt)), dflt)
 
 fun subArray (BLOCK (arr, dflt), lo, hi) =
    let
       val arrval = !arr
       fun copy i = Array.sub (arrval, i + lo) handle _ => dflt
    in
-      BLOCK (ref (Array.tabulate (hi - lo, copy)), dflt)
+      BLOCK (ref @{position} (Array.tabulate (hi - lo, copy)), dflt)
    end
 
-fun fromList (initlist, dflt) = BLOCK (ref (Array.fromList initlist), dflt)
+fun fromList (initlist, dflt) = BLOCK (ref @{position} (Array.fromList initlist), dflt)
 
 fun tabulate (sz, fillfn, dflt) =
-   BLOCK (ref (Array.tabulate (sz, fillfn)), dflt)
+   BLOCK (ref @{position} (Array.tabulate (sz, fillfn)), dflt)
 
 fun default (BLOCK (_, dflt)) = dflt
 

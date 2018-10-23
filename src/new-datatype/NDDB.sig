@@ -13,7 +13,7 @@ type rich_type = {
   all_mono : thm
 }
 
-val types : (string list * rich_type list) ref
+val types : (string list * rich_type list) ref @{position}
 
 val constantly_rich : rich_type
 

@@ -54,7 +54,7 @@ fun import_ancestry () =
    Importing databases.
    -------------------------------------------------------------------------- *)
 
-val imported_theories = ref []
+val imported_theories = ref @{position} []
 
 fun exists_theorydata () =
   let 
@@ -155,9 +155,9 @@ fun main_tactictoe goal =
     val (mcsymweight, mcfeav) =
       debug_t "select_mcfeav" select_mcfeav tacfea
     (* caches *)
-    val gl_cache = ref (dempty (list_compare goal_compare))
-    val thm_cache = ref (dempty (cpl_compare goal_compare Int.compare))
-    val tac_cache = ref (dempty goal_compare)
+    val gl_cache = ref @{position} (dempty (list_compare goal_compare))
+    val thm_cache = ref @{position} (dempty (cpl_compare goal_compare Int.compare))
+    val tac_cache = ref @{position} (dempty goal_compare)
     (* predictors *)
     fun tacpred g =
       dfind g (!tac_cache) handle NotFound =>
@@ -221,8 +221,8 @@ fun tactictoe term = tactictoe_aux ([],term)
    Prediction of the next tactic only
     ------------------------------------------------------------------------- *) 
 
-val next_tac_glob = ref []
-val next_tac_number = ref 5
+val next_tac_glob = ref @{position} []
+val next_tac_number = ref @{position} 5
 fun next n = List.nth (!next_tac_glob,n)
 
 fun save_stac tac stac g gl =
@@ -276,8 +276,8 @@ fun next_tac goal =
     val ((pthmsymweight,pthmfeav,pthmrevdict), thmfeav) =
       debug_t "select_thmfea" (hide_out select_thmfea) goalf
     (* caches *)
-    val thm_cache = ref (dempty (cpl_compare goal_compare Int.compare))
-    val tac_cache = ref (dempty goal_compare)
+    val thm_cache = ref @{position} (dempty (cpl_compare goal_compare Int.compare))
+    val tac_cache = ref @{position} (dempty goal_compare)
     (* predictors *)
     fun tacpred g =
       dfind g (!tac_cache) handle NotFound =>
@@ -294,9 +294,9 @@ fun next_tac goal =
         thm_cache := dadd (g,n) r (!thm_cache); r
       end
     (* internal caches: some could be duplicates *)
-    val thml_dict = ref (dempty (cpl_compare goal_compare Int.compare))
-    val inst_dict = ref (dempty (cpl_compare String.compare goal_compare))
-    val tac_dict = ref (dempty String.compare)
+    val thml_dict = ref @{position} (dempty (cpl_compare goal_compare Int.compare))
+    val inst_dict = ref @{position} (dempty (cpl_compare String.compare goal_compare))
+    val tac_dict = ref @{position} (dempty String.compare)
     val read_dicts = (tac_dict, inst_dict, thml_dict)
     (* not printing same outputs *)
     val gldict = dempty (list_compare goal_compare)
@@ -309,7 +309,7 @@ fun next_tac goal =
    Evaluate Eprover
    -------------------------------------------------------------------------- *)
 
-val eprover_eval_ref = ref 0
+val eprover_eval_ref = ref @{position} 0
 
 fun eval_eprover goal =
   let

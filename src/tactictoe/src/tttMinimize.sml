@@ -170,7 +170,7 @@ fun pretty_allstac tim proof = case proof of
 
 fun string_of_proof proof =
   let
-    val decll_ref = ref []
+    val decll_ref = ref @{position} []
     fun loop proof = case proof of
       Tactic (s,_) =>
         let val (decll,news) = find_local s in

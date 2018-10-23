@@ -17,11 +17,11 @@ fun tmlist_tyvs tlist =
 
 type 'a in_env = 'a Pretype.in_env
 
-val show_typecheck_errors = ref true
+val show_typecheck_errors = ref @{position} true
 val _ = register_btrace ("show_typecheck_errors", show_typecheck_errors)
 fun tcheck_say s = if !show_typecheck_errors then Lib.say s else ()
 
-val last_tcerror : error option ref = ref NONE
+val last_tcerror : error option ref = ref @{position} NONE
 
 type 'a errM = (Pretype.Env.t,'a,tcheck_error * locn.locn) errormonad.t
 type 'a seqM = (Pretype.Env.t,'a) seqmonad.seqmonad
@@ -850,7 +850,7 @@ fun remove_case_magic tm =
     if GrammarSpecials.case_initialised() then remove_case_magic0 tm
     else tm
 
-val post_process_term = ref (I : term -> term);
+val post_process_term = ref @{position} (I : term -> term);
 
 fun typecheck pfns ptm0 =
   let

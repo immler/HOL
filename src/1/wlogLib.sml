@@ -89,8 +89,8 @@ fun wlog_rule vars p hyp t =
                    (case hyp of
                       SOME hyp_t => CONJ (ASSUME p) (ASSUME hyp_t)
                     | NONE       => (ASSUME p))
-    val wlog_ant = ref NONE
-    val splice_thm = ref NONE
+    val wlog_ant = ref @{position} NONE
+    val splice_thm = ref @{position} NONE
     val _ =
       case hyp of
       NONE =>

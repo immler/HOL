@@ -408,7 +408,7 @@ fun detuple newvar =
 (* theorem takes.                                                            *)
 (*---------------------------------------------------------------------------*)
 
-val monitoring = ref 0;
+val monitoring = ref @{position} 0;
 
 val _ = Feedback.register_trace("tfl_ind",monitoring,1);
 

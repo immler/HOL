@@ -20,14 +20,14 @@ abstype 'a var = Var of
  {name: string,
   lock: Mutex.mutex,
   cond: ConditionVar.conditionVar,
-  var: 'a SingleAssignment.saref}
+  var: 'a SingleAssignment.saref @{position}}
 with
 
 fun var name = Var
  {name = name,
   lock = Mutex.mutex (),
   cond = ConditionVar.conditionVar (),
-  var = SingleAssignment.saref ()};
+  var = SingleAssignment.saref @{position} ()};
 
 fun peek (Var {var, ...}) = SingleAssignment.savalue var;
 

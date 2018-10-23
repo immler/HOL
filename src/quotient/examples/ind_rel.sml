@@ -1123,7 +1123,7 @@ fun process_term rel tm rule =
             process_rule rel tm rule
     end
 
-(* assemble a list of props such that only the one referring to this
+(* assemble a list of props such that only the one ref @{position}erring to this
    relation is something other than the relation itslef *)
 fun assemble_preds count (pred::more_preds) (rel::more_rels) =
     if count = 0 then

@@ -113,8 +113,8 @@ fun inst_rw (th,monitoring,{Rule=RW{thm,rhs,...}, Inst=(bds,tysub)}) =
   end
 end;
 
-val monitoring = ref NONE : (term -> bool) option ref;
-val stoppers = ref NONE : (term -> bool) option ref;
+val monitoring = ref @{position} NONE : (term -> bool) option ref;
+val stoppers = ref @{position} NONE : (term -> bool) option ref;
 
 (*---------------------------------------------------------------------------
  * Reducing a constant

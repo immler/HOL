@@ -115,7 +115,7 @@ local val equality = prim_mk_const{Name="=",Thy="min"}
       val conj     = prim_mk_const{Name="/\\",Thy="bool"}
       val disj     = prim_mk_const{Name="\\/",Thy="bool"}
 in
-val ConstMapRef = ref
+val ConstMapRef = ref @{position}
   (insert(insert(insert(insert(insert(insert
     (initConstMap,
      equality, (false,"","=",    eq_alpha-->eq_alpha-->bool)),

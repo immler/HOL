@@ -161,7 +161,7 @@ fun dest_string_lit tm =
 
 val is_string_lit = can dest_string_lit
 
-val paranoid_stringlitpp = ref false
+val paranoid_stringlitpp = ref @{position} false
 val _ = Feedback.register_btrace
             ("paranoid string literal printing", paranoid_stringlitpp)
 fun string_literalpp s =
@@ -226,14 +226,14 @@ in
 end
 
 (*---------------------------------------------------------------------------*)
-(* There are other possible literals, e.g. for word[n]. This ref cell is     *)
+(* There are other possible literals, e.g. for word[n]. This ref @{position} cell is     *)
 (* updated when a new class of literals is created. This is used by the      *)
 (* function definition package to help process definitions with literals in  *)
 (* patterns.                                                                 *)
 (*---------------------------------------------------------------------------*)
 
 local
-   val literals = ref [is_numeral, is_string_lit, is_char_lit]
+   val literals = ref @{position} [is_numeral, is_string_lit, is_char_lit]
 in
    fun add_literal is_lit = literals := !literals @ [is_lit]
    fun is_literal tm = List.exists (fn f => f tm) (!literals)

@@ -535,7 +535,7 @@ open Rsyntax   (* use records *)
        in order to do a new_specification to define the functions.
 
        Our first step will be to get rid of all the unwanted conjuncts
-       (those that refer to types the user isn't defining a function for),
+       (those that ref @{position}er to types the user isn't defining a function for),
        thus obtaining a theorem like
            ? fn1 fn2 ... fnN. <user's definition with fnI in place of
                                functions user wants to define>
@@ -592,7 +592,7 @@ open Rsyntax   (* use records *)
 
     (* we need to get some info about exists_thm: for each conjunct
        I want the conjunct itself, the constructor and the conjunct
-       refers to, and the type of the constructor *)
+       ref @{position}ers to, and the type of the constructor *)
     fun get_exists_info conjunct =
     let val (_, temp_tm) = strip_forall conjunct
         val cons_and_args = rand (lhs temp_tm)

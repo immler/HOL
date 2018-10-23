@@ -24,7 +24,7 @@ val prettyPrint = PrettyImpl.prettyPrint
 
 fun pp_to_string w f x =
   let
-    val sbuf = ref [] : string list ref
+    val sbuf = ref @{position} [] : string list ref
     fun app s = (sbuf := s :: !sbuf)
     val _ = prettyPrint (app,w) (f x)
     val strings =

@@ -169,7 +169,7 @@ datatype thing = mlibTerm of term | Formula of formula;
 (* Built-in infix operators and reserved symbols.                            *)
 (* ------------------------------------------------------------------------- *)
 
-val infixes : infixities ref = ref
+val infixes : infixities ref = ref @{position}
   [(* ML style *)
    {tok = " / ",   prec = 7,  left_assoc = true},
    {tok = " div ", prec = 7,  left_assoc = true},
@@ -213,7 +213,7 @@ val reserved = ["!", "?", "(", ")", ".", "~"];
 local
   val initials = explode "_vwxyz";
 in
-  val var_string = ref (C mem initials o Char.toLower o hd o explode);
+  val var_string = ref @{position} (C mem initials o Char.toLower o hd o explode);
 end;
 
 (* ------------------------------------------------------------------------- *)

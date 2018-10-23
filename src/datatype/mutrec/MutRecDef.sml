@@ -233,14 +233,14 @@ val joint_type =
 val type_arg_vars = type_vars joint_type;
 
 (* Our next goal is to define a function (called joint_name^"_select",
-   I'll refer to it as the joint select function) that, given an item in
+   I'll ref @{position}er to it as the joint select function) that, given an item in
    the joint type, will return a number indicating which type (if any) it
    would be if the constructors used to make it had the JOINT_ removed.
    It will return 1 for the first element in type_names, 2 for the
    second, etc, and 0 if the term would not be a well-formed term at all.
    We make it by defining the functions f0, f1, e0, e1, ... (the functions
    and constants, one for each constructor of the joint type, that compute
-   return values for the joint select function; I'll refer to them
+   return values for the joint select function; I'll ref @{position}er to them
    as the return functions) in the JointTypeAxiom. *)
 
 

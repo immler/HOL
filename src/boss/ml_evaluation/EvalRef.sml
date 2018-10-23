@@ -1,1 +1,1 @@
-structure EvalRef :> EvalRef = struct val r = ref boolSyntax.T end
+structure EvalRef :> EvalRef = struct val r = ref @{position} boolSyntax.T end

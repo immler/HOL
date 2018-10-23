@@ -7,14 +7,14 @@ sig
   type fea_t = int list
   type feav_t = (lbl_t * fea_t)
 
-  val last_stac : string ref (* for debugging purpose *)
+  val last_stac : string ref @{position} (* for debugging purpose *)
 
   val add_metis : string list -> string list
   val stac_to_tac : 
     (int -> goal -> string list) ->
-    (string, tactic) Redblackmap.dict ref *
-    (string * goal, string * tactic * real) Redblackmap.dict ref *
-    (goal * int, string list) Redblackmap.dict ref ->
+    (string, tactic) Redblackmap.dict ref @{position} *
+    (string * goal, string * tactic * real) Redblackmap.dict ref @{position} *
+    (goal * int, string list) Redblackmap.dict ref @{position} ->
     string -> goal -> 
     string * tactic * real
 

@@ -32,7 +32,7 @@ val term_subst = mlibSubst.term_subst;
 
 type rename = {tptp : string, fol : string, arity : int};
 
-val renaming : rename list ref = ref
+val renaming : rename list ref = ref @{position}
   [(* Mapping TPTP functions to nice symbols *)
    {tptp = "equal",      fol = "=",  arity = 2},
    {tptp = "equalish",   fol = "==", arity = 2},

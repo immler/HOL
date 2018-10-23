@@ -3,7 +3,7 @@ open HolKernel boolLib bossLib OpenTheoryMap OpenTheoryBoolTheory lcsymtacs
 val Thy = "HOL4bool"
 val _ = new_theory Thy
 
-val n = ref 0;
+val n = ref @{position} 0;
 fun export (tm,tac) =
   store_thm(("th"^Int.toString(!n)),tm,tac)
   before n := !n+1

@@ -231,7 +231,7 @@ functor ShrinkLrTableFun(structure LrTable : LR_TABLE) : SHRINK_LR_TABLE =
              end
         val size : (('a,'b) pairlist * 'c) list -> int =
 	   fn l =>
-	     let val c = ref 0
+	     let val c = ref @{position} 0
              in (app (fn (row,_) => c := !c + length row) l; !c)
              end
        val shrinkActionList =

@@ -19,7 +19,7 @@ fun die s = (TextIO.output(TextIO.stdErr, s ^ "\n");
              OS.Process.exit OS.Process.failure)
 
 fun mkBuffer () = let
-  val buf = ref ([] : string list)
+  val buf = ref @{position} ([] : string list)
   fun push s = buf := s :: !buf
   fun read () = let
     val contents = String.concat (List.rev (!buf))

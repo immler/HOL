@@ -2281,7 +2281,7 @@ local
 
 
   fun compute_cases_info var_gen lbl_gen v nthm = let
-    val disjuncts = ref ([] : (string * term * term list) list)
+    val disjuncts = ref @{position} ([] : (string * term * term list) list)
 
     (* val d = el 2 ds *)
     fun process_disj d = let

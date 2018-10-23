@@ -1,6 +1,6 @@
 structure CoreReplVARS =
 struct
 
-   val linewidth = ref 72
+   val linewidth = ref @{position} 72
 
 end;

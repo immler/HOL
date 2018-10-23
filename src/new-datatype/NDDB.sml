@@ -29,7 +29,7 @@ type rich_type = {
 };
 
 (* empty types store *)
-val types = ref ([]:string list, []:rich_type list);
+val types = ref @{position} ([]:string list, []:rich_type list);
 
 local
   fun insert (a:string) (b:rich_type) ([], []) = ([a], [b])

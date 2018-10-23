@@ -10,7 +10,7 @@ fun uptodate_const Thy Name =
   Theory.uptodate_term (Term.prim_mk_const {Thy=Thy,Name=Name})
   handle Feedback.HOL_ERR {origin_function="prim_mk_const",...} => false
 
-val verbosity = ref 0
+val verbosity = ref @{position} 0
 val _ = Feedback.register_trace("opentheory logging",verbosity,5)
 
 val proof_type = let open Thm fun
@@ -62,7 +62,7 @@ datatype log_state =
   Not_logging
 | Active_logging of TextIO.outstream
 
-val log_state = ref Not_logging
+val log_state = ref @{position} Not_logging
 
 fun log_raw s =
   case !log_state of
@@ -103,14 +103,14 @@ val (log_term, log_thm, log_clear,
      set_const_name_handler, reset_const_name_handler,
      set_tyop_name_handler, reset_tyop_name_handler) = let
   val (reset_key,next_key) = let
-    val key = ref 0
+    val key = ref @{position} 0
     fun reset() = key := 0
     fun next()  = let val k = !key in (key := k+1; k) end
     in (reset,next) end
 
   val (reset_dict,peek_dict,save_dict) = let
     fun new_dict() = Map.mkDict object_compare
-    val dict = ref (new_dict())
+    val dict = ref @{position} (new_dict())
     fun reset() = dict := new_dict()
     fun peek x = Map.peek(!dict,x)
     fun save x = case peek x of
@@ -125,7 +125,7 @@ val (log_term, log_thm, log_clear,
   fun saved ob = case peek_dict ob of
     SOME k => let
       val _ = log_num k
-      val _ = log_command "ref"
+      val _ = log_command "ref @{position}"
       in true end
   | NONE => false
 
@@ -137,8 +137,8 @@ val (log_term, log_thm, log_clear,
       ("No OpenTheory name for type "^(#Thy t)^"$"^(#Tyop t))
     fun default_cnh c = raise ERR "log_const_name"
       ("No OpenTheory name for constant "^(#Thy c)^"$"^(#Name c))
-    val tnh = ref default_tnh
-    val cnh = ref default_cnh
+    val tnh = ref @{position} default_tnh
+    val cnh = ref @{position} default_cnh
   in
     fun log_tyop_name tyop = let
       val n = Map.find(tyop_to_ot_map(),tyop)
@@ -415,7 +415,7 @@ val (log_term, log_thm, log_clear,
       val _ = save_dict (OConst c)
       val _ = log_command "pop"
       val _ = log_num k
-      val _ = log_command "ref"
+      val _ = log_command "ref @{position}"
       in () end
     | ABS_prf (v,th) => let
       val _ = log_var v
@@ -629,7 +629,7 @@ val (log_term, log_thm, log_clear,
       val _ = log_command "pop"
       val _ = app (ignore o save_dict o OConst o #1) (rev nvars)
       val _ = log_num k
-      val _ = log_command "ref"
+      val _ = log_command "ref @{position}"
       in () end
     | Def_tyop_prf (name,tyvars,th,aty) => let
       val n = log_tyop_name name
@@ -687,7 +687,7 @@ in (log_term, log_thm, reset_dict,
     set_tyop_name_handler, reset_tyop_name_handler)
 end
 
-val definitions = ref []
+val definitions = ref @{position} []
 
 fun log_definitions () =
   (List.app log_thm (List.rev (!definitions));

@@ -39,10 +39,10 @@ struct
 
   fun write_qdimacs_file path t =
   let
-    (* "global" state references (could instead be passed as arguments to the
+    (* "global" state ref @{position}erences (could instead be passed as arguments to the
        following functions to obtain a purely functional implementation) *)
-    val freshvar = ref 1
-    val dict = ref (Redblackmap.mkDict Term.compare)
+    val freshvar = ref @{position} 1
+    val dict = ref @{position} (Redblackmap.mkDict Term.compare)
     (* the following functions essentially implement the production rules of
        the QDIMACS grammar *)
     (* term -> string *)

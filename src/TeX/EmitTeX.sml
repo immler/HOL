@@ -9,12 +9,12 @@ open HolKernel boolLib;
 
 val texOptions = "11pt, twoside";
 
-val texLinewidth = ref 64;
-val texPrefix    = ref "HOL";
-val emitTeXDir   = ref "";
+val texLinewidth = ref @{position} 64;
+val texPrefix    = ref @{position} "HOL";
+val emitTeXDir   = ref @{position} "";
 
-val current_theory_name = ref "";
-val current_path        = ref Path.currentArc
+val current_theory_name = ref @{position} "";
+val current_path        = ref @{position} Path.currentArc
 
 fun tex_command_escape s =
   String.concat (map
@@ -194,14 +194,14 @@ end;
 (* ------------------------------------------------------------------------- *)
 
 fun token_string s = String.concat ["\\", !texPrefix, "Token", s, "{}"];
-val KRrecordtypes = ref true
+val KRrecordtypes = ref @{position} true
 val _ = register_btrace ("EmitTeX: K&R record type defns", KRrecordtypes)
 
 local
   fun greek s = "\\ensuremath{\\" ^ s ^ "}"
   fun subn i  = "\\ensuremath{\\sb{" ^ Int.toString i ^ "}}"
 
-  val dollar_parens = ref true
+  val dollar_parens = ref @{position} true
   val _ = register_btrace ("EmitTeX: dollar parens", dollar_parens)
 
   fun char_map c =
@@ -354,10 +354,10 @@ end;
 (* Pretty-printer for datatype theorems                                      *)
 (* ------------------------------------------------------------------------- *)
 
-val print_datatype_names_as_types = ref false
+val print_datatype_names_as_types = ref @{position} false
 val _ = register_btrace ("EmitTeX: print datatype names as types", print_datatype_names_as_types)
 
-val print_datatypes_compactly = ref false
+val print_datatypes_compactly = ref @{position} false
 val _ = register_btrace ("EmitTeX: print datatypes compactly",
                          print_datatypes_compactly)
 
@@ -523,7 +523,7 @@ fun raw_pp_type_as_tex overrides ty md =
 
 fun pp_type_as_tex ty = UnicodeOff (raw_pp_type_as_tex (K NONE) ty)
 
-val print_thm_turnstile = ref true
+val print_thm_turnstile = ref @{position} true
 val _ = register_btrace ("EmitTeX: print thm turnstiles", print_thm_turnstile)
 
 fun raw_pp_theorem_as_tex overrides thm =

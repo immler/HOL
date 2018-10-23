@@ -8,7 +8,7 @@ sig
   val tactictoe : term -> tactic
 
   (* Interactive exploration *)
-  val next_tac_number : int ref
+  val next_tac_number : int ref @{position}
   val next_tac  : goal -> unit
   val next      : int -> tactic
   

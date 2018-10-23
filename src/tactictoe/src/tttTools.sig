@@ -7,8 +7,8 @@ sig
   type fea_t = int list
   type feav_t = (lbl_t * fea_t)
 
-  val ttt_search_time : Time.time ref
-  val ttt_tactic_time : real ref
+  val ttt_search_time : Time.time ref @{position}
+  val ttt_tactic_time : real ref @{position}
 
   (* directory *)
   val tactictoe_dir    : string
@@ -45,16 +45,16 @@ sig
   (* tactictoe globals *)
   val clean_tttdata : unit -> unit
     (* tactic *)
-  val ttt_tacerr      : string list ref
-  val ttt_tacfea      : (lbl_t, fea_t) Redblackmap.dict ref
-  val ttt_tacfea_cthy : (lbl_t, fea_t) Redblackmap.dict ref
-  val ttt_tacdep      : (goal, lbl_t list) Redblackmap.dict ref
-  val ttt_taccov      : (string, int) Redblackmap.dict ref
+  val ttt_tacerr      : string list ref @{position}
+  val ttt_tacfea      : (lbl_t, fea_t) Redblackmap.dict ref @{position}
+  val ttt_tacfea_cthy : (lbl_t, fea_t) Redblackmap.dict ref @{position}
+  val ttt_tacdep      : (goal, lbl_t list) Redblackmap.dict ref @{position}
+  val ttt_taccov      : (string, int) Redblackmap.dict ref @{position}
     (* theorem *)
-  val ttt_thmfea      : (goal, (string * fea_t)) Redblackmap.dict ref
+  val ttt_thmfea      : (goal, (string * fea_t)) Redblackmap.dict ref @{position}
     (* goal list *)
-  val ttt_glfea       : (int list, (bool * int)) Redblackmap.dict ref
-  val ttt_glfea_cthy  : (int list, (bool * int)) Redblackmap.dict ref
+  val ttt_glfea       : (int list, (bool * int)) Redblackmap.dict ref @{position}
+  val ttt_glfea_cthy  : (int list, (bool * int)) Redblackmap.dict ref @{position}
 
   (* theorem data *)
   val namespace_tag : string
@@ -106,8 +106,8 @@ sig
   
 
   (* statistics *)
-  val incr   : int ref -> unit
-  val decr   : int ref -> unit
+  val incr   : int ref @{position} -> unit
+  val decr   : int ref @{position} -> unit
   val sum_real : real list -> real
   val average_real : real list -> real
   val sum_int : int list -> int
@@ -126,7 +126,7 @@ sig
   val add_time : ('a -> 'b) -> 'a -> 'b * real
   val print_time : string -> real -> unit
   val print_endline : string -> unit
-  val total_time : real ref -> ('a -> 'b) -> 'a -> 'b
+  val total_time : real ref @{position} -> ('a -> 'b) -> 'a -> 'b
 
   (* term *)
   val rename_bvarl : (string -> string) -> term -> term
@@ -164,7 +164,7 @@ sig
   val debug_parse  : string -> unit
   val debug_replay : string -> unit
   val debug_record : string -> unit
-  val ttt_unfold_cthy : string ref
+  val ttt_unfold_cthy : string ref @{position}
   val debug_unfold : string -> unit
 
   (* parse *)

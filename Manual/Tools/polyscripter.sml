@@ -15,7 +15,7 @@ fun lnumdie linenum extra exn =
   die ("Exception raised on line " ^ Int.toString linenum ^ ": "^
        extra ^ exnMessage exn)
 
-val outputPrompt = ref ">"
+val outputPrompt = ref @{position} ">"
 
 val quote = QFRead.fromString
 
@@ -24,9 +24,9 @@ fun quoteFile lnum fname =
 
 datatype lbuf =
          LB of {
-           currentOpt : string option ref,
+           currentOpt : string option ref @{position},
            strm : TextIO.instream ,
-           line : int ref
+           line : int ref @{position}
          }
 
 fun current (LB {currentOpt, ...}) = !currentOpt
@@ -37,14 +37,14 @@ fun advance (LB {strm, currentOpt, line}) =
 
 fun mklbuf strm =
   let
-    val lb = LB {currentOpt = ref NONE, strm = strm, line = ref 0}
+    val lb = LB {currentOpt = ref @{position} NONE, strm = strm, line = ref @{position} 0}
     val _ = advance lb
   in
     lb
   end
 
 fun mkLex s = let
-  val i = ref 0
+  val i = ref @{position} 0
   val sz = size s
   fun doit () =
     if !i < sz then SOME (String.sub(s,!i)) before i := !i + 1
@@ -91,7 +91,7 @@ fun umunge umap s =
   end
 
 val elision_string1 =
-    ref "\\quad\\textit{\\small\\dots{}output elided\\dots{}}\n"
+    ref @{position} "\\quad\\textit{\\small\\dots{}output elided\\dots{}}\n"
 
 fun deleteTrailingWhiteSpace s =
   let
@@ -132,7 +132,7 @@ fun cruftSuffix sfxs s =
       NONE => NONE
     | SOME (sfx,rep) => SOME (String.substring(s, 0, size s - size sfx) ^ rep)
 
-val cruftySuffixes = ref [
+val cruftySuffixes = ref @{position} [
       ("\n   : proofs\n", ""),
       ("\n   : proof\n", "\n"),
       (":\n   proof\n", "\n")

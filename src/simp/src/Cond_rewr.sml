@@ -8,10 +8,10 @@ type controlled_thm = BoundedRewrites.controlled_thm
 fun WRAP_ERR x = STRUCT_WRAP "Cond_rewr" x;
 fun ERR x      = STRUCT_ERR "Cond_rewr" x;
 
-val stack_limit = ref 4;
+val stack_limit = ref @{position} 4;
 
-val track_rewrites = ref false;
-val used_rewrites  = ref [] : thm list ref;
+val track_rewrites = ref @{position} false;
+val used_rewrites  = ref @{position} [] : thm list ref;
 
 (* -----------------------------------------------------------------------*
  * A total ordering on terms.  The behaviour of the simplifier depends    *

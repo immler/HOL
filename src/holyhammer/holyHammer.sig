@@ -14,7 +14,7 @@ sig
   
   (* Settings *)
   val set_timeout        : int -> unit
-  val all_atps           : prover list ref 
+  val all_atps           : prover list ref @{position} 
     (* atps called by holyhammer if their binary exists *)
   
   (* Read theorems from their string representataion *)

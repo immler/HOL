@@ -186,7 +186,7 @@ val P50 =
  * A few variable names have been primed to avoid clashing with constants.
  *
  * Here's a list giving typical CPU times, as well as common names and
- * literature references.
+ * literature ref @{position}erences.
  *
  * BOO003-1     34.6    B2 part 1 [McCharen, et al., 1976]; Lemma d [Overbeek, et al., 1976]; prob2_part1.ver1.in [ANL]
  * BOO004-1     36.7    B2 part 2 [McCharen, et al., 1976]; Lemma d [Overbeek, et al., 1976]; prob2_part2.ver1 [ANL]

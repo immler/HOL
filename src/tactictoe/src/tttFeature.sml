@@ -13,8 +13,8 @@ open HolKernel boolLib Abbrev tttTools
 val ERR = mk_HOL_ERR "tttFeature"
 
 (* top features are slow to print *)
-val hofea_flag = ref true
-val notopfea_flag = ref true
+val hofea_flag = ref @{position} true
+val notopfea_flag = ref @{position} true
 
 fun gen_all t = list_mk_forall ((free_vars_lr t),t)
 
@@ -22,8 +22,8 @@ fun gen_all t = list_mk_forall ((free_vars_lr t),t)
    Extracting features of a term
    ---------------------------------------------------------------------- *)
 
-val (atoml: term list ref) = ref []
-val (atoml_top: term list ref) = ref []
+val (atoml: term list ref @{position}) = ref @{position} []
+val (atoml_top: term list ref @{position}) = ref @{position} []
 
 fun atoms tm =
   (
@@ -47,7 +47,7 @@ and binder (_,tm) = atoms tm
 fun atoms_of_term tm =
   (atoml_top := []; atoml := []; atoms tm; (!atoml, !atoml_top))
 
-val (subterml: term list ref) = ref []
+val (subterml: term list ref @{position}) = ref @{position} []
 
 fun subterms tm =
   (
@@ -101,7 +101,7 @@ fun zeroed_term tm =
     end
   else raise ERR "zeroed_term" ""
 
-val top_sl : string list ref = ref []
+val top_sl : string list ref @{position} = ref @{position} []
 
 fun string_of_top tm =
   if is_var tm then "P"

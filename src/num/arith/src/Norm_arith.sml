@@ -156,7 +156,7 @@ fun mult_lookup ths (n,m) =
 (* new theorems that have to be proved are added to the list.                *)
 (*---------------------------------------------------------------------------*)
 
-val multiplication_theorems = ref ([]:((int * int) * thm) list);
+val multiplication_theorems = ref @{position} ([]:((int * int) * thm) list);
 
 fun FAST_MULT_CONV tm =
  (let val (a,b) = dest_mult tm

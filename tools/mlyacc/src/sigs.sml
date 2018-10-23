@@ -32,8 +32,8 @@ type int = Int.int
 signature HEADER =
   sig
     type pos = int
-    val lineno : pos ref
-    val text : string list ref
+    val lineno : pos ref @{position}
+    val text : string list ref @{position}
 
     type inputSource
     val newSource : string * TextIO.instream * TextIO.outstream -> inputSource

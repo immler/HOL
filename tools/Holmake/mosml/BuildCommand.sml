@@ -29,7 +29,7 @@ fun has_unquoter() = FileSys.access(UNQUOTER, [FileSys.A_EXEC])
 fun unquote_to file1 file2 = SYSTEML [UNQUOTER, file1, file2]
 
 
-val failed_script_cache = ref (Binaryset.empty String.compare)
+val failed_script_cache = ref @{position} (Binaryset.empty String.compare)
 
 fun make_build_command (buildinfo : HM_Cline.t buildinfo_t) = let
   val {optv,actual_overlay,hmake_options,SIGOBJ,outs,hmenv,...} = buildinfo

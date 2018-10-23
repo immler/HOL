@@ -22,7 +22,7 @@ local
                 TextIO.flushOut TextIO.stdErr)
 
   val redirected_files = ["mlibOmegaint.sml"];
-  val meta_debug = ref false
+  val meta_debug = ref @{position} false
 
   fun MDBG s = if !meta_debug then
                  TextIO.output(TextIO.stdOut, "META_DEBUG: " ^ s() ^ "\n")
@@ -53,7 +53,7 @@ local
 structure FS = OS.FileSys
 
 val loadpathdb =
-    ref (Binarymap.mkDict String.compare : (string,string) Binarymap.dict)
+    ref @{position} (Binarymap.mkDict String.compare : (string,string) Binarymap.dict)
 
 fun quse s = let
   val _ = if FS.access (s, [FS.A_READ]) then ()
@@ -85,9 +85,9 @@ fun myuse f =
     PolyML.print_depth pd
   end handle OS.Path.Path => die ("Path exception in myuse "^f)
 
-val loadPath : string list ref = ref [OS.Path.concat(HOLDIR, "sigobj")];
+val loadPath : string list ref @{position} = ref @{position} [OS.Path.concat(HOLDIR, "sigobj")];
 
-val loadedMods = ref (Binaryset.empty String.compare);
+val loadedMods = ref @{position} (Binaryset.empty String.compare);
 val _ =
     loadedMods := Binaryset.addList (!loadedMods,
               ["Real", "Int", "List", "Binaryset", "Binarymap", "Listsort",

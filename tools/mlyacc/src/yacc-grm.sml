@@ -247,7 +247,7 @@ val gotoT =
 \"
 val numstates = 104
 val numrules = 55
-val s = ref "" and index = ref 0
+val s = ref @{position} "" and index = ref @{position} 0
 val string_to_int = fn () =>
 let val i = !index
 in index := i+2; Char.ord(String.sub(!s,i)) + Char.ord(String.sub(!s,i+1)) * 256

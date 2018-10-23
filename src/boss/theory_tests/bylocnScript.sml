@@ -2,7 +2,7 @@ open HolKernel Parse boolLib bossLib;
 
 val _ = new_theory "bylocn";
 
-val c = ref 0
+val c = ref @{position} 0
 
 fun test l suffp q =
   (c := !c + 1;

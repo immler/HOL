@@ -24,7 +24,7 @@ print (column_print ("Regexp", "String", "Result", "Verdict"));
 print (column_print ("------", "------", "------", "-------"));
 open parse_glob regexpMatch;
 
-val had_a_bad = ref false
+val had_a_bad = ref @{position} false
 
 fun test (restr, tests) = let
   val re = parse_glob restr

@@ -5,10 +5,10 @@ structure Htmlsigs :> Htmlsigs = struct
 fun indexbar out srcpath = out (String.concat
    ["<hr><table width=\"100%\">",
     "<tr align = center>\n",
-    "<th><a href=\"file://", srcpath,
+    "<th><a href @{position}=\"file://", srcpath,
     "\" type=\"text/plain\">Source File</a>\n",
-    "<th><a href=\"idIndex.html\">Identifier index</A>\n",
-    "<th><a href=\"TheoryIndex.html\">Theory binding index</A>\n",
+    "<th><a href @{position}=\"idIndex.html\">Identifier index</A>\n",
+    "<th><a href @{position}=\"TheoryIndex.html\">Theory binding index</A>\n",
     "</table><hr>\n"]);
 
 val smlIdCharSym = Char.contains "'_!%&$#+-/:<=>?@\\~`^|*"
@@ -135,7 +135,7 @@ fun processSig db version bgcolor HOLpath SRCFILES sigfile htmlfile =
 
 	(* First pass over the file: record anchors of identifier defs *)
 
-	val anchors = ref (Binaryset.empty String.compare)
+	val anchors = ref @{position} (Binaryset.empty String.compare)
 
 	fun pass1 susline lineno =
 	    let open Substring
@@ -159,15 +159,15 @@ fun processSig db version bgcolor HOLpath SRCFILES sigfile htmlfile =
 
 	fun outSubstr s = TextIO.output(os, Substring.translate encode s)
 
-	val seenDefinition = ref false
+	val seenDefinition = ref @{position} false
 
 	fun name anchor target =
 	    (out "<a name=\""; out target; out "\">"; out anchor; out "</a>")
 
-	fun idhref link id =
-	    (out "<a href=\"#"; out link; out "\">"; out id; out"</a>")
+	fun idhref @{position} link id =
+	    (out "<a href @{position}=\"#"; out link; out "\">"; out id; out"</a>")
 	fun idhref_full link id =
-	    (out "<a href=\"file://"; out link; out "\">"; out id; out"</a>")
+	    (out "<a href @{position}=\"file://"; out link; out "\">"; out id; out"</a>")
 
         fun removeTrailingColon id =
            let
@@ -219,7 +219,7 @@ fun processSig db version bgcolor HOLpath SRCFILES sigfile htmlfile =
                                   | SOME (file, id2) =>
                                       (idhref_full file id2
                                        ; if id <> id2 then out ":" else ())
-                      else idhref link id
+                      else idhref @{position} link id
                ;
 		outSubstr after
 	    end
@@ -350,23 +350,23 @@ fun printHTMLBase version bgcolor HOLpath pred header (sigfile, outfile) =
 	val db = readbase sigfile
 	val os = TextIO.openOut outfile
 	fun out s = TextIO.output(os, s)
-	fun href anchor target =
-	    app out ["<a href=\"", target, "\">", anchor, "</a>"]
-	fun idhref file line anchor =
-	    href anchor (concat [file, ".html#line", Int.toString line])
-	fun strhref file anchor =
-	    href anchor (file ^ ".html")
+	fun href @{position} anchor target =
+	    app out ["<a href @{position}=\"", target, "\">", anchor, "</a>"]
+	fun idhref @{position} file line anchor =
+	    href @{position} anchor (concat [file, ".html#line", Int.toString line])
+	fun strhref @{position} file anchor =
+	    href @{position} anchor (file ^ ".html")
         fun mkalphaindex seps =
              (out "<hr>\n<center><b>";
               List.app
-                (fn c => (href (str c) ("#" ^ str c); out "&nbsp;&nbsp;"))
+                (fn c => (href @{position} (str c) ("#" ^ str c); out "&nbsp;&nbsp;"))
                 seps;
               out "</b></center><hr>\n")
 	fun subheader txt = app out ["\n<h2>", txt, "</h2>\n"]
 
 	(* Insert a subheader when meeting a new initial letter *)
-	val lastc1 = ref #" "
-	val firstsymb = ref true
+	val lastc1 = ref @{position} #" "
+	val firstsymb = ref @{position} true
 	fun separator k1 =
 	    let val c1 = Char.toUpper k1
 	    in
@@ -381,28 +381,28 @@ fun printHTMLBase version bgcolor HOLpath pred header (sigfile, outfile) =
                             firstsymb := false)
                       else ()
 	    end
-	fun mkref line file = idhref file line file
-	fun mkHOLref docfile =
+	fun mkref @{position} line file = idhref @{position} file line file
+	fun mkHOLref @{position} docfile =
             case find_most_appealing HOLpath docfile
-             of SOME file => href "Docfile" file
+             of SOME file => href @{position} "Docfile" file
               | NONE => out "not linked"
 	fun nextfile last [] = out ")\n"
 	  | nextfile last ((e1 as {comp, file, line}) :: erest) =
-	    if comp=last then (out ", "; mkref line file; nextfile last erest)
+	    if comp=last then (out ", "; mkref @{position} line file; nextfile last erest)
 	                 else (out ")\n"; newitem e1 erest)
 	and newitem (e1 as {comp, file, line}) erest =
 	    let val key = Database.getname e1
 	    in separator (String.sub(key, 0))
              ; out "<li><b>"; out key; out "</b> ("
              ; (case comp
-                 of Str    => strhref key "structure"
-                  | Val id => (out "value; "; mkref line file)
-                  | Typ id => (out "type; ";  mkref line file)
-                  | Exc id => (out "exception; "; mkref line file)
-                  | Con id => (out "constructor; "; mkref line file)
-                  | Term (id, NONE) => mkref line file
-(*                | Term (id, SOME "HOL") => (out "HOL; "; mkHOLref file) *)
-                  | Term (id, SOME kind) => (out kind;out"; ";mkref line file)
+                 of Str    => strhref @{position} key "structure"
+                  | Val id => (out "value; "; mkref @{position} line file)
+                  | Typ id => (out "type; ";  mkref @{position} line file)
+                  | Exc id => (out "exception; "; mkref @{position} line file)
+                  | Con id => (out "constructor; "; mkref @{position} line file)
+                  | Term (id, NONE) => mkref @{position} line file
+(*                | Term (id, SOME "HOL") => (out "HOL; "; mkHOLref @{position} file) *)
+                  | Term (id, SOME kind) => (out kind;out"; ";mkref @{position} line file)
              ; nextfile comp erest)
 	    end
 	fun prentries []            = ()

@@ -318,7 +318,7 @@ fun import_tacdata thyl =
  * Update
  *----------------------------------------------------------------------------*)
 
-val feature_time = ref 0.0 (* statistics *)
+val feature_time = ref @{position} 0.0 (* statistics *)
 
 fun update_tacdata_aux (lbl,fea) =
   if dmem lbl (!ttt_tacfea) then () else

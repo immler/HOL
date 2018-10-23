@@ -20,7 +20,7 @@ end handle HOL_ERR _ => false
 
 
 fun mk_var_gen prefix avoid = let
-  val c = ref 0
+  val c = ref @{position} 0
   val avoidL = List.map (fst o dest_var) avoid
   fun next_name () = let
     val vn = prefix ^ (int_to_string (!c))
@@ -134,7 +134,7 @@ val prove_attempt = Lib.with_flag (Feedback.emit_MESG, false) prove
 (* generating fresh labels and vars using
    a counter *)
 fun mk_new_label_gen prefix = let
-  val c = ref 0
+  val c = ref @{position} 0
 in
   fn () => let
     val l = prefix ^ int_to_string (!c)
@@ -747,7 +747,7 @@ fun is_PMATCH_IS_EXHAUSTIVE t = can dest_PMATCH_IS_EXHAUSTIVE t
 (* Pretty Printing                             *)
 (***********************************************)
 
-val use_pmatch_pp = ref true
+val use_pmatch_pp = ref @{position} true
 val _ = Feedback.register_btrace ("use pmatch_pp", use_pmatch_pp);
 
 fun pmatch_printer_fix_wildcards (vars, pat, guard, rh) = let

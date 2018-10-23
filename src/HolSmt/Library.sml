@@ -17,7 +17,7 @@ struct
          models, proofs)
      4 - moreover, temporary files (for communication with the SMT solver) are
          not removed after solver invocation *)
-  val trace = ref 2
+  val trace = ref @{position} 2
 
   val _ = Feedback.register_trace ("HolSmtLib", trace, 4)
 
@@ -45,7 +45,7 @@ struct
      a reasonable compromise between a small memory footprint (even
      after 'String.explode') and a small number of reads. *)
   let
-    val buffer = ref ([] : char list)
+    val buffer = ref @{position} ([] : char list)
   in
     fn () =>
       (case !buffer of
@@ -67,7 +67,7 @@ struct
      simply strings; we use no markup. *)
   fun get_token (get_char : unit -> char) : unit -> string =
   let
-    val buffer = ref (NONE : string option)
+    val buffer = ref @{position} (NONE : string option)
     fun line_comment () =
       if get_char () = #"\n" then
         ()

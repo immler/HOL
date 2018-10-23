@@ -309,8 +309,8 @@ in
       val {func = fixf, pred = fixp} = r n
       val () = assert (1 <= n) (Bug "mlibModel.new: nonpositive size")
       val id = new_id ()
-      val cachef = ref (Binarymap.mkDict fp_compare)
-      val cachep = ref (Binarymap.mkDict fp_compare)
+      val cachef = ref @{position} (Binarymap.mkDict fp_compare)
+      val cachep = ref @{position} (Binarymap.mkDict fp_compare)
       val overf = Binarymap.mkDict fp_compare
       val overp = Binarymap.mkDict fp_compare
     in

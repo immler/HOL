@@ -144,7 +144,7 @@ fun thmknn (symweight,feav) n fea_o =
     first_test_n exists_tid n l2
   end
 
-val add_fea_cache = ref (dempty goal_compare)
+val add_fea_cache = ref @{position} (dempty goal_compare)
 
 fun add_fea dict (name,thm) =
   let val g = dest_thm thm in
@@ -165,7 +165,7 @@ fun add_fea dict (name,thm) =
 
 fun insert_namespace thmdict =
   let
-    val dict = ref thmdict
+    val dict = ref @{position} thmdict
     fun f (x,y) = (namespace_tag ^ "Theory." ^ x, y)
     val l1 = namespace_thms ()
     val l2 = map f l1
@@ -240,7 +240,7 @@ fun desc_lbl_aux rlist rdict ddict (lbl as (stac,_,_,gl)) =
   )
 
 fun desc_lbl ddict lbl =
-  let val rlist = ref [] in
+  let val rlist = ref @{position} [] in
     desc_lbl_aux rlist (dempty lbl_compare) ddict lbl;
     !rlist
   end

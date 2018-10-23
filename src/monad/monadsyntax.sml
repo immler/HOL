@@ -42,7 +42,7 @@ struct
 end
 
 val monadDB =
-    ref (Binarymap.mkDict String.compare : (string,MonadInfo.t) Binarymap.dict)
+    ref @{position} (Binarymap.mkDict String.compare : (string,MonadInfo.t) Binarymap.dict)
 
 fun write_keyval (nm, mi) =
   let

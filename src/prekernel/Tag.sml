@@ -16,7 +16,7 @@ val ERR = mk_HOL_ERR "Tag";
 
 (*---------------------------------------------------------------------------*)
 (* A tag is represented by a pair (D,O,A) where O is a list of oracles       *)
-(* (represented by strings) and A is a list of axioms (a list of references  *)
+(* (represented by strings) and A is a list of axioms (a list of ref @{position}erences  *)
 (* to strings). The axioms are used to track the use of axioms in proofs in  *)
 (* the current theory. D represents a list of proof dependencies of the      *)
 (* theorem.                                                                  *)

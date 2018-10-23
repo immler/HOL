@@ -62,7 +62,7 @@ val empty_sdata_map = Map.mkDict String.compare
    latter sort of map an ordermap. *)
 type dbmap = (string, submap * submap) Map.dict
 
-local val DBref = ref (Map.mkDict String.compare) : dbmap ref
+local val DBref = ref @{position} (Map.mkDict String.compare) : dbmap ref
       fun lemmas() = !DBref
       fun add_to_submap m (newdata as ((s1, s2), x)) =
           let val s2key = toLower s2
@@ -99,7 +99,7 @@ local val DBref = ref (Map.mkDict String.compare) : dbmap ref
           (* used to update a database with all of the current segment's
              theorems.  The latter are a moving target, so needs to be done
              multiple times.  Note that the result of this operation is
-             not stored back into the reference cell, so there aren't
+             not stored back into the ref @{position}erence cell, so there aren't
              multiple copies of the current segment in what DB stores.
 
              An alternative approach would be to augment the Theory module

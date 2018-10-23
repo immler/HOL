@@ -144,7 +144,7 @@ in
   out (ostr, "\\DOC{"^docpart^"}{"^prettypart^"}\n\n")
 end
 
-val verbose = ref false
+val verbose = ref @{position} false
 
 fun do_the_work dir dset outstr = let
   fun appthis dnm = let

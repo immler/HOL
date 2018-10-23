@@ -7,35 +7,35 @@ sig
   type fea_t = int list
   type feav_t = (lbl_t * fea_t)
 
-  val ttt_bool_glob    : bool ref
-  val ttt_tacticl_glob : tactic list ref
-  val ttt_tactic_glob  : tactic ref
-  val ttt_qtactic_glob : (term quotation -> tactic) ref
-  val ttt_string_glob  : string ref
-  val ttt_goal_glob    : goal ref
+  val ttt_bool_glob    : bool ref @{position}
+  val ttt_tacticl_glob : tactic list ref @{position}
+  val ttt_tactic_glob  : tactic ref @{position}
+  val ttt_qtactic_glob : (term quotation -> tactic) ref @{position}
+  val ttt_string_glob  : string ref @{position}
+  val ttt_goal_glob    : goal ref @{position}
   
-  (* forward references to holyhammer and metis *)
+  (* forward ref @{position}erences to holyhammer and metis *)
   val hh_stac_glob     :
     (string ->
        (int, real) Redblackmap.dict *
        (string * fea_t) list *
        (string, goal * int list) Redblackmap.dict ->
-     int -> goal -> string option) ref
+     int -> goal -> string option) ref @{position}
   val update_hh_stac   : unit -> unit
-  val metis_tac_glob   : (thm list -> tactic) option ref
+  val metis_tac_glob   : (thm list -> tactic) option ref @{position}
   val update_metis_tac : unit -> unit
 
-  val create_fof_glob   : (string -> thm -> unit) ref
+  val create_fof_glob   : (string -> thm -> unit) ref @{position}
   val update_create_fof : unit -> unit
   
   (* execution function *)
   val exec_sml         : string -> string -> bool
 
-  val ttt_term_glob    : term ref
+  val ttt_term_glob    : term ref @{position}
   val is_stype         : string -> bool
   val term_of_sml      : string -> term
-  val ttt_thm          : thm ref
-  val ttt_thml         : thm list ref
+  val ttt_thm          : thm ref @{position}
+  val ttt_thml         : thm list ref @{position}
   val is_thm           : string -> bool
   val thm_of_sml       : string -> (string * thm) option
   val thml_of_sml      : string list -> (string * thm) list option

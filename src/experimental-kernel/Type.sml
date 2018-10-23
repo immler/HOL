@@ -40,7 +40,7 @@ val _ = prim_new_type (minseg "fun") 2
 val _ = prim_new_type (minseg "bool") 0
 val _ = prim_new_type (minseg "ind") 0
 
-val funref = #1 (KernelSig.find(operator_table, {Thy="min", Name = "fun"}))
+val funref @{position} = #1 (KernelSig.find(operator_table, {Thy="min", Name = "fun"}))
 
 fun uptodate_type (Tyv s) = true
   | uptodate_type (Tyapp(info, args)) = KernelSig.uptodate_id info andalso
@@ -150,10 +150,10 @@ fun type_var_in v =
 
 val polymorphic = exists_tyvar (fn _ => true)
 
-fun (ty1 --> ty2) = Tyapp(funref, [ty1, ty2])
+fun (ty1 --> ty2) = Tyapp(funref @{position}, [ty1, ty2])
 
 fun dom_rng (Tyv _)  = raise ERR "dom_rng" "Type a variable"
-  | dom_rng (Tyapp(i, args)) = if i = funref then (hd args, hd (tl args))
+  | dom_rng (Tyapp(i, args)) = if i = funref @{position} then (hd args, hd (tl args))
                                else raise ERR "dom_rng"
                                               "Type not a function type"
 
@@ -164,7 +164,7 @@ val delta  = Tyv "'d"
 val etyvar = Tyv "'e"
 val ftyvar = Tyv "'f"
 
-val varcomplain = ref true
+val varcomplain = ref @{position} true
 val _ = register_btrace ("Vartype Format Complaint", varcomplain)
 
 fun mk_vartype "'a" = alpha  | mk_vartype "'b" = beta

@@ -134,20 +134,20 @@ end;
 
 (* global state *)
 
-val queue = Unsynchronized.ref Task_Queue.empty;
-val next = Unsynchronized.ref 0;
-val scheduler = Unsynchronized.ref (NONE: Thread.thread option);
-val canceled = Unsynchronized.ref ([]: group list);
-val do_shutdown = Unsynchronized.ref false;
-val max_workers = Unsynchronized.ref 0;
-val max_active = Unsynchronized.ref 0;
+val queue = Unsynchronized.ref @{position} Task_Queue.empty;
+val next = Unsynchronized.ref @{position} 0;
+val scheduler = Unsynchronized.ref @{position} (NONE: Thread.thread option);
+val canceled = Unsynchronized.ref @{position} ([]: group list);
+val do_shutdown = Unsynchronized.ref @{position} false;
+val max_workers = Unsynchronized.ref @{position} 0;
+val max_active = Unsynchronized.ref @{position} 0;
 
-val status_ticks = Unsynchronized.ref 0;
-val last_round = Unsynchronized.ref Time.zeroTime;
+val status_ticks = Unsynchronized.ref @{position} 0;
+val last_round = Unsynchronized.ref @{position} Time.zeroTime;
 val next_round = Time.fromReal 0.05;
 
 datatype worker_state = Working | Waiting | Sleeping;
-val workers = Unsynchronized.ref ([]: (Thread.thread * worker_state Unsynchronized.ref) list);
+val workers = Unsynchronized.ref @{position} ([]: (Thread.thread * worker_state Unsynchronized.ref @{position}) list);
 
 fun count_workers state = (*requires SYNCHRONIZED*)
   foldl' (fn (_, state_ref) => fn i => if ! state_ref = state then i + 1 else i)
@@ -243,7 +243,7 @@ fun worker_start name = (*requires SYNCHRONIZED*)
     val worker =
       Standard_Thread.fork {name = "worker", stack_limit = stack_limit, interrupts = false}
         (fn () => worker_loop name);
-  in Unsynchronized.change workers (cons (worker, Unsynchronized.ref Working)) end
+  in Unsynchronized.change workers (cons (worker, Unsynchronized.ref @{position} Working)) end
   handle Fail msg => Multithreading.tracing 0 (fn () => "SCHEDULER: " ^ msg);
 
 

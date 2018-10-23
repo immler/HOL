@@ -483,15 +483,15 @@ end
     while maintaining a map to information about that variable.
    ---------------------------------------------------------------------- *)
 
-type varinfo = { maxupc : Arbint.int ref, maxloc : Arbint.int ref,
-                 numups : int ref, numlos : int ref }
+type varinfo = { maxupc : Arbint.int ref @{position}, maxloc : Arbint.int ref @{position},
+                 numups : int ref @{position}, numlos : int ref @{position} }
 fun new_varinfo () : varinfo =
-    { maxupc = ref Arbint.zero, maxloc = ref Arbint.zero,
-      numups = ref 0, numlos = ref 0}
+    { maxupc = ref @{position} Arbint.zero, maxloc = ref @{position} Arbint.zero,
+      numups = ref @{position} 0, numlos = ref @{position} 0}
 exception NotFound
 
 fun variable_information vs t = let
-  val table = ref (Redblackmap.mkDict Term.compare)
+  val table = ref @{position} (Redblackmap.mkDict Term.compare)
   fun ins_initial_recs v =
     table := Redblackmap.insert (!table, v, new_varinfo())
   val _ = app ins_initial_recs vs

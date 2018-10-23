@@ -64,11 +64,11 @@ functor mkMakeLrTable (structure IntGrammar : INTGRAMMAR
 			     | START of int
 
 	        val summary = fn l =>
-		   let val numRR: int ref = ref 0
-		       val numSR: int ref = ref 0
-		       val numSTART: int ref = ref 0
-		       val numNOT_REDUCED: int ref = ref 0
-		       val numNS: int ref = ref 0
+		   let val numRR: int ref @{position} = ref @{position} 0
+		       val numSR: int ref @{position} = ref @{position} 0
+		       val numSTART: int ref @{position} = ref @{position} 0
+		       val numNOT_REDUCED: int ref @{position} = ref @{position} 0
+		       val numNS: int ref @{position} = ref @{position} 0
 		       fun loop (h::t) =
 		       (case h
 		         of RR _ => numRR := !numRR+1

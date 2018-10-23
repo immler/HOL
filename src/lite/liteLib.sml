@@ -154,8 +154,8 @@ datatype ('a,'b)Lazysum = Unrealized of ('a -> 'b) * 'a
 
 type ('a,'b)lazy = ('a,'b) Lazysum ref;
 
-fun lazy f x = ref(Realized (f x));
-fun eager y  = ref(Realized y);;
+fun lazy f x = ref @{position}(Realized (f x));
+fun eager y  = ref @{position}(Realized y);;
 
 fun eval r =
   case !r of

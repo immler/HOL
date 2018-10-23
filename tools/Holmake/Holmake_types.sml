@@ -31,7 +31,7 @@ fun check_for_vref (startc, endc) acc ss k = let
   (* scan forward for balancing endc *)
   fun recurse (count, depth, ss) =
       case getc ss of
-        NONE => raise Fail ("Unclosed variable reference, beginning: $"^
+        NONE => raise Fail ("Unclosed variable ref @{position}erence, beginning: $"^
                             str startc ^
                             string (slice(ss, 0, SOME(Int.min(size ss, 10)))))
       | SOME(c, ss') => if c = endc then

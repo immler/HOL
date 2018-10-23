@@ -1,25 +1,25 @@
 (*  Title:      Pure/Concurrent/unsynchronized.ML
     Author:     Makarius
 
-Raw ML references as unsynchronized state variables.
+Raw ML ref @{position}erences as unsynchronized state variables.
 *)
 
 signature UNSYNCHRONIZED =
 sig
-  datatype ref = datatype ref
-  val := : 'a ref * 'a -> unit
-  val ! : 'a ref -> 'a
-  val change: 'a ref -> ('a -> 'a) -> unit
-  val change_result: 'a ref -> ('a -> 'b * 'a) -> 'b
-  val inc: int ref -> int
-  val dec: int ref -> int
-  val setmp: 'a ref -> 'a -> ('b -> 'c) -> 'b -> 'c
+  datatype ref @{position} = datatype ref @{position}
+  val := : 'a ref @{position} * 'a -> unit
+  val ! : 'a ref @{position} -> 'a
+  val change: 'a ref @{position} -> ('a -> 'a) -> unit
+  val change_result: 'a ref @{position} -> ('a -> 'b * 'a) -> 'b
+  val inc: int ref @{position} -> int
+  val dec: int ref @{position} -> int
+  val setmp: 'a ref @{position} -> 'a -> ('b -> 'c) -> 'b -> 'c
 end;
 
 structure Unsynchronized: UNSYNCHRONIZED =
 struct
 
-datatype ref = datatype ref;
+datatype ref @{position} = datatype ref @{position};
 
 val op := = op :=;
 val ! = !;

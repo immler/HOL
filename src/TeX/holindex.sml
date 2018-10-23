@@ -7,8 +7,8 @@ open Lib Feedback HolKernel Parse boolLib mungeTools holindexData
 (* Some datastructures to store all the necessary information in              *)
 (******************************************************************************)
 
-val default_linewidth_ref = ref 80;
-val use_occ_sort_ref = ref false;
+val default_linewidth_ref = ref @{position} 80;
+val use_occ_sort_ref = ref @{position} false;
 
 (******************************************************************************)
 (* Parse the input file                                                       *)
@@ -21,7 +21,7 @@ val use_occ_sort_ref = ref false;
    val l = Portable.input_line fh;
 *)
 
-val error_found = ref false;
+val error_found = ref @{position} false;
 fun report_error e = (print e;print"\n";error_found := true);
 fun report_warning e = (print e;print"\n");
 
@@ -152,7 +152,7 @@ end;
 
 fun parse_hix file =
 let
-   val ds_ref = ref new_data_store;
+   val ds_ref = ref @{position} new_data_store;
    val fh = Portable.open_in file;
    val basedir = Path.dir file;
 

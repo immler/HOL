@@ -8,7 +8,7 @@ sig
   type idict_t = int * (term * (string, term) Redblackmap.dict)
   
   (* globals *)
-  val nb_premises : int ref
+  val nb_premises : int ref @{position}
    
   (* saving terms *)
   val export_tml : string -> term list -> unit

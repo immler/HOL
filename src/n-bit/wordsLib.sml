@@ -595,7 +595,7 @@ end
 val SYM_WORD_NEG_1 = SYM WORD_NEG_1
 
 local
-  val d = ref (Redblackmap.mkDict Arbnum.compare:
+  val d = ref @{position} (Redblackmap.mkDict Arbnum.compare:
                (Arbnum.num, thm) Redblackmap.dict)
   val mk_th = Conv.RIGHT_CONV_RULE (Conv.REWR_CONV SYM_WORD_NEG_1) o GSYM o
               (Conv.REWR_CONV word_T_def THENC Conv.RAND_CONV SIZES_CONV) o
@@ -2516,7 +2516,7 @@ local
   val DECIDE_CONV = EQT_INTRO o DECIDE
   fun EQ_CONV t = (if term_eq T t orelse term_eq F t then
                      ALL_CONV else NO_CONV) t
-  val trace_word_decide = ref 0
+  val trace_word_decide = ref @{position} 0
   val _ = Feedback.register_trace ("word decide", trace_word_decide, 1)
 in
   val WORD_BIT_EQ_ss =
@@ -2678,9 +2678,9 @@ val Induct_word =
 
 (* ------------------------------------------------------------------------- *)
 
-val word_pp_mode = ref 0
-val word_cast_on = ref false
-val int_word_pp  = ref false
+val word_pp_mode = ref @{position} 0
+val word_cast_on = ref @{position} false
+val int_word_pp  = ref @{position} false
 
 local
    fun lsr (x, y) =
@@ -2884,8 +2884,8 @@ fun remove_word_cast_printer () =
    concatenate (@@), word_replicate and concat_word_list
    ------------------------------------------------------------------------- *)
 
-val notify_on_word_length_guess = ref true
-val guessing_word_lengths = ref false
+val notify_on_word_length_guess = ref @{position} true
+val guessing_word_lengths = ref @{position} false
 
 val _ = Feedback.register_btrace ("notify word length guesses",
                                   notify_on_word_length_guess)

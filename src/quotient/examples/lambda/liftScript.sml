@@ -1208,7 +1208,7 @@ END OF TESTS
 *)
 
 
-(* Now overload the substitution operator <[ to refer to the  *)
+(* Now overload the substitution operator <[ to ref @{position}er to the  *)
 (* term substitution operator defined:                        *)
 
 val term = ty_antiq (==`:'a term`==);

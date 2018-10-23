@@ -587,7 +587,7 @@ fun no_full_extra_rule tgt =
       NONE => true
     | SOME cl => null cl
 
-val done_some_work = ref false
+val done_some_work = ref @{position} false
 open HM_DepGraph
 
 fun is_script s =

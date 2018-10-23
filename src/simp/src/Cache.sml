@@ -30,13 +30,13 @@ fun all_aconv [] [] = true
   | all_aconv _ [] = false
   | all_aconv (h1::t1) (h2::t2) = aconv h1 h2 andalso all_aconv t1 t2
 fun new_table() =
-    ref (Redblackmap.mkDict Term.compare):table
+    ref @{position} (Redblackmap.mkDict Term.compare):table
 
 val thmcompare = inv_img_cmp concl Term.compare
 val empty_thmset = HOLset.empty thmcompare
 
 fun CACHE (filt,conv) = let
-  val cache = ref (new_table()) : cache
+  val cache = ref @{position} (new_table()) : cache
   fun cache_proc thms tm = let
     val _ = if (filt tm) then ()
             else failwith "CACHE_CCONV: not applicable"
@@ -189,7 +189,7 @@ fun build_graph fvs_of tmlist =
    in the same list point to the same updatable reference cell *)
 val build_var_to_group_map = let
   fun foldthis (tlist, acc) = let
-    val r = ref (empty_tmset, [] : thm list)
+    val r = ref @{position} (empty_tmset, [] : thm list)
   in
     List.foldl (fn (t, acc) => Binarymap.insert(acc, t, r)) acc tlist
   end
@@ -264,7 +264,7 @@ end
 
 
 fun RCACHE (dpfvs, check, conv) = let
-  val cache = ref(new_table())
+  val cache = ref @{position}(new_table())
   fun build_up_ctxt mp th = let
     val c = concl th
   in
@@ -311,7 +311,7 @@ fun RCACHE (dpfvs, check, conv) = let
         (* now extract the ctxt relevant for the goal statement *)
         val (group_map', glstmtref) =
           case dpfvs t of
-            [] => (group_map, ref (empty_tmset, []))
+            [] => (group_map, ref @{position} (empty_tmset, []))
           | (glvar::_) => Binarymap.remove(group_map, glvar)
 
         (* and the remaining contexts, ensuring there are no

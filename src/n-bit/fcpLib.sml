@@ -55,7 +55,7 @@ fun SIZE n =
 val FCP_ss =
   simpLib.rewrites [fcpTheory.FCP_BETA, fcpTheory.FCP_ETA, fcpTheory.CART_EQ]
 
-val notify_on_length_guess = ref true
+val notify_on_length_guess = ref @{position} true
 
 val () = Feedback.register_btrace
             ("notify FCP length guesses", notify_on_length_guess)

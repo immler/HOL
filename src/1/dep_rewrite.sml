@@ -152,7 +152,7 @@ infixr -->;
 
 local
 
-val show_rewrites = ref false; (* normally false, set true for tracing   *)
+val show_rewrites = ref @{position} false; (* normally false, set true for tracing   *)
 
 val debug         = false;  (* normally false, set to true for debugging *)
 val debug_fail    = false;  (* normally false, set to true for debugging *)

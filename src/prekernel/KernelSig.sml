@@ -15,7 +15,7 @@ struct
 
   fun name_of_id r = case !r of (n,utd) => n
   fun uptodate_id r = case !r of (n,utd) => utd
-  fun new_id n = ref (n, true)
+  fun new_id n = ref @{position} (n, true)
   fun retire_id r = case !r of ({Thy,Name}, _) =>
       r := ({Thy = Thy, Name = Globals.old Name}, false)
   fun name_of r = case !r of  ({Name,Thy},_) => Name
@@ -29,7 +29,7 @@ struct
   type 'a symboltable = (kernelname, kernelid * 'a) Binarymap.dict ref
   exception NotFound
 
-  fun new_table() = ref (Binarymap.mkDict name_compare)
+  fun new_table() = ref @{position} (Binarymap.mkDict name_compare)
   fun find(tab,n) = Binarymap.find(!tab,n)
       handle Binarymap.NotFound => raise NotFound
   fun peek(tab,n) = Binarymap.peek(!tab,n)

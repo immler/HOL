@@ -23,7 +23,7 @@ in
   in
     if is_var v then let
       val (sv,ty) = dest_var v
-      val n = let val n = ref 0 in fn()=> !n before n := !n+1 end
+      val n = let val n = ref @{position} 0 in fn()=> !n before n := !n+1 end
       fun split_tacs v tya tyd = let
         fun try_split s ty = let
           val v = mk_var((name_of v)^s,ty)
