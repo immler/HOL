@@ -77,17 +77,17 @@ val fp32_to_fp16_def = Define `fp32_to_fp16 m = SND o fp32_to_fp16_with_flags m`
    ------------------------------------------------------------------------ *)
 
 val () = Theory.quote_adjoin_to_theory
-`val sqrt_CONV: Conv.conv ref @{position}
-val add_CONV: Conv.conv ref @{position}
-val sub_CONV: Conv.conv ref @{position}
-val mul_CONV: Conv.conv ref @{position}
-val div_CONV: Conv.conv ref @{position}
-val compare_CONV: Conv.conv ref @{position}
-val eq_CONV: Conv.conv ref @{position}
-val lt_CONV: Conv.conv ref @{position}
-val le_CONV: Conv.conv ref @{position}
-val gt_CONV: Conv.conv ref @{position}
-val ge_CONV: Conv.conv ref @{position}`
+`val sqrt_CONV: Conv.conv ref
+val add_CONV: Conv.conv ref
+val sub_CONV: Conv.conv ref
+val mul_CONV: Conv.conv ref
+val div_CONV: Conv.conv ref
+val compare_CONV: Conv.conv ref
+val eq_CONV: Conv.conv ref
+val lt_CONV: Conv.conv ref
+val le_CONV: Conv.conv ref
+val gt_CONV: Conv.conv ref
+val ge_CONV: Conv.conv ref`
 `val native_eval = ref @{position} false(* off by default *)
 val () = Feedback.register_btrace ("native IEEE", native_eval)
 val sqrt_CONV = ref @{position} Conv.NO_CONV

@@ -483,8 +483,8 @@ end
     while maintaining a map to information about that variable.
    ---------------------------------------------------------------------- *)
 
-type varinfo = { maxupc : Arbint.int ref @{position}, maxloc : Arbint.int ref @{position},
-                 numups : int ref @{position}, numlos : int ref @{position} }
+type varinfo = { maxupc : Arbint.int ref, maxloc : Arbint.int ref,
+                 numups : int ref, numlos : int ref}
 fun new_varinfo () : varinfo =
     { maxupc = ref @{position} Arbint.zero, maxloc = ref @{position} Arbint.zero,
       numups = ref @{position} 0, numlos = ref @{position} 0}

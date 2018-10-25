@@ -464,7 +464,7 @@ local
    val FCP_EQ_CONV = Conv.REWR_CONV FCP_EQ_EVERY THENC EVAL_CONV
 
    val fcp_map = ref @{position} (Redblackmap.mkDict Arbnum.compare)
-                   : (Arbnum.num, Thm.thm) Redblackmap.dict ref @{position}
+                   : (Arbnum.num, Thm.thm) Redblackmap.dict ref
 in
    fun fcp_eq_thm ty =
       case Lib.total (fcpLib.index_to_num o wordsSyntax.dest_word_type) ty of

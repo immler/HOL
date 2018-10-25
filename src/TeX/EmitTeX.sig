@@ -2,9 +2,9 @@ signature EmitTeX =
 sig
     include Abbrev
 
-    val texLinewidth              : int ref @{position}
-    val texPrefix                 : string ref @{position}
-    val emitTeXDir                : string ref @{position}
+    val texLinewidth              : int ref
+    val texPrefix                 : string ref
+    val emitTeXDir                : string ref
 
     val non_type_definitions      : string -> (string * thm) list
     val non_type_theorems         : string -> (string * thm) list

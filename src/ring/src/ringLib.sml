@@ -200,7 +200,7 @@ type convs = { NormConv : conv, EqConv : conv,
 val no_such_ring = RING_ERR "" "No ring declared on that type"
 
 val rings =
-  ref @{position} (Redblackmap.mkDict Type.compare) : (hol_type, convs) Redblackmap.dict ref @{position};
+  ref @{position} (Redblackmap.mkDict Type.compare) : (hol_type, convs) Redblackmap.dict ref;
 
 fun add_ring ty rng =
   rings := Redblackmap.insert (!rings, ty,rng);

@@ -27,9 +27,9 @@ fun vm_ty ty = inst [alpha |-> ty];
 
 datatype varnode
     = Lf
-    | Nd of term * varnode ref @{position} * varnode ref @{position}
+    | Nd of term * varnode ref * varnode ref
 
-type varmap = varnode ref @{position};
+type varmap = varnode ref;
 
 fun meta_map ty =
   let val mevm = vm_ty ty mevm

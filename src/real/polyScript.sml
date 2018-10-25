@@ -1134,7 +1134,7 @@ val ORDER_DIFF = store_thm("ORDER_DIFF",
     REAL_ARITH_TAC]);
 
 (* ------------------------------------------------------------------------- *)
-(* Now justify the standard squaref @{position}ree decomposition, i.e. f / gcd(f,f').    *)
+(* Now justify the standard squarefree decomposition, i.e. f / gcd(f,f').    *)
 (* ------------------------------------------------------------------------- *)
 
 val POLY_SQUAREFREE_DECOMP_ORDER = store_thm("POLY_SQUAREFREE_DECOMP_ORDER",
@@ -1189,20 +1189,20 @@ val POLY_SQUAREFREE_DECOMP_ORDER = store_thm("POLY_SQUAREFREE_DECOMP_ORDER",
     ARITH_TAC]);
 
 (* ------------------------------------------------------------------------- *)
-(* Define being "squaref @{position}ree" --- NB with respect to real roots only.         *)
+(* Define being "squarefree" --- NB with respect to real roots only.         *)
 (* ------------------------------------------------------------------------- *)
 
-val rsquaref @{position}ree = new_definition ("rsquaref @{position}ree",
-  (Term`rsquaref @{position}ree p = ~(poly p = poly []) /\
+val rsquarefree = new_definition ("rsquarefree",
+  (Term`rsquarefree p = ~(poly p = poly []) /\
                    !a. (poly_order a p = 0) \/ (poly_order a p = 1)`));
 
 (* ------------------------------------------------------------------------- *)
-(* Standard squaref @{position}ree criterion and rephasing of squaref @{position}ree decomposition.  *)
+(* Standard squarefree criterion and rephasing of squarefree decomposition.  *)
 (* ------------------------------------------------------------------------- *)
 
 val RSQUAREFREE_ROOTS = store_thm("RSQUAREFREE_ROOTS",
- (Term`!p. rsquaref @{position}ree p = !a. ~((poly p a = &0) /\ (poly (diff p) a = &0))`),
-  GEN_TAC THEN REWRITE_TAC[rsquaref @{position}ree] THEN
+ (Term`!p. rsquarefree p = !a. ~((poly p a = &0) /\ (poly (diff p) a = &0))`),
+  GEN_TAC THEN REWRITE_TAC[rsquarefree] THEN
   ASM_CASES_TAC (Term`poly p = poly []`) THEN ASM_REWRITE_TAC[] THENL
    [FIRST_ASSUM(SUBST1_TAC o MATCH_MP POLY_DIFF_ZERO) THEN
     ASM_REWRITE_TAC[poly, NOT_FORALL_THM],
@@ -1221,10 +1221,10 @@ val RSQUAREFREE_ROOTS = store_thm("RSQUAREFREE_ROOTS",
       ASM_MESON_TAC[ORDER_DIFF, SUC_INJ]]]);
 
 val RSQUAREFREE_DECOMP = store_thm("RSQUAREFREE_DECOMP",
- (Term`!p a. rsquaref @{position}ree p /\ (poly p a = &0)
+ (Term`!p a. rsquarefree p /\ (poly p a = &0)
          ==> ?q. (poly p = poly ([~a; &1] * q)) /\
                  ~(poly q a = &0)`),
-  REPEAT GEN_TAC THEN REWRITE_TAC[rsquaref @{position}ree] THEN STRIP_TAC THEN
+  REPEAT GEN_TAC THEN REWRITE_TAC[rsquarefree] THEN STRIP_TAC THEN
   FIRST_ASSUM(MP_TAC o MATCH_MP ORDER_DECOMP) THEN
   DISCH_THEN(X_CHOOSE_THEN (Term`q:real list`) MP_TAC o SPEC (Term`a:real`)) THEN
   FIRST_ASSUM(MP_TAC o GEN_REWRITE_RULE I [ORDER_ROOT]) THEN
@@ -1252,7 +1252,7 @@ val POLY_SQUAREFREE_DECOMP = store_thm("POLY_SQUAREFREE_DECOMP",
         (poly p = poly (q * d)) /\
         (poly (diff p) = poly (e * d)) /\
         (poly d = poly (r * p + s * diff p))
-        ==> rsquaref @{position}ree q /\ (!a. (poly q a = &0) = (poly p a = &0))`),
+        ==> rsquarefree q /\ (!a. (poly q a = &0) = (poly p a = &0))`),
   REPEAT GEN_TAC THEN DISCH_THEN(fn th => MP_TAC th THEN
     ASSUME_TAC(MATCH_MP POLY_SQUAREFREE_DECOMP_ORDER th)) THEN
   DISCH_THEN(CONJUNCTS_THEN2 ASSUME_TAC MP_TAC) THEN
@@ -1266,7 +1266,7 @@ val POLY_SQUAREFREE_DECOMP = store_thm("POLY_SQUAREFREE_DECOMP",
   REWRITE_TAC[POLY_ENTIRE, DE_MORGAN_THM] THEN STRIP_TAC THEN
   UNDISCH_TAC (Term`poly p = poly (q * d)`) THEN
   DISCH_THEN(SUBST_ALL_TAC o SYM) THEN
-  ASM_REWRITE_TAC[rsquaref @{position}ree, ORDER_ROOT] THEN
+  ASM_REWRITE_TAC[rsquarefree, ORDER_ROOT] THEN
   CONJ_TAC THEN GEN_TAC THEN COND_CASES_TAC THEN ASM_SIMP_TAC real_ac_ss []);
 
 (* ------------------------------------------------------------------------- *)

@@ -41,9 +41,9 @@ sig
 (* package.                                                            *)
 (* ------------------------------------------------------------------- *)
 
-val chatting : bool ref @{position} (* default is false, no trace of quotient operation *)
+val chatting : bool ref (* default is false, no trace of quotient operation *)
 
-val caching  : bool ref @{position} (* default is true, do cache quotient thms for speed *)
+val caching  : bool ref (* default is true, do cache quotient thms for speed *)
 
 val reset_cache : unit -> unit
 val list_cache  : unit -> (Type.hol_type * Thm.thm) list

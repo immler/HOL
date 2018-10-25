@@ -65,7 +65,7 @@ sig
     val prefer_word         : unit -> unit
     val deprecate_word      : unit -> unit
 
-    val word_pp_mode        : int ref @{position}
+    val word_pp_mode        : int ref
     val output_words_as     : (int * Arbnum.num -> string) -> unit
 
     val output_words_as_bin : unit -> unit
@@ -81,8 +81,8 @@ sig
     val add_word_cast_printer       : unit -> unit
     val remove_word_cast_printer    : unit -> unit
 
-    val guessing_word_lengths       : bool ref @{position}
-    val notify_on_word_length_guess : bool ref @{position}
+    val guessing_word_lengths       : bool ref
+    val notify_on_word_length_guess : bool ref
     val inst_word_lengths           : term -> term
     val guess_lengths               : unit -> unit
 end

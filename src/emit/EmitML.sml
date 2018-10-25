@@ -218,7 +218,7 @@ fun vars_of_types alist =
 (*---------------------------------------------------------------------------*)
 
 local val emit_tag = "EmitML"
-  val pseudo_constr_defs = ref @{position} [] : thm list ref @{position};
+  val pseudo_constr_defs = ref @{position} [] : thm list ref;
 in
 fun pseudo_constr_rws() = map concl (!pseudo_constr_defs)
 val reshape_thm_hook = ref @{position} (fn th =>

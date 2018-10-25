@@ -8,14 +8,14 @@ sig
 
   val parseOpts : posn -> string -> optionset
   val usage : unit -> 'a
-  val user_overrides : override_map ref @{position}
+  val user_overrides : override_map ref
   val read_overrides : string -> override_map
   val optset_width : optionset -> int option
   val optset_mathmode: optionset -> string option
   val optset_nomath : optionset -> bool
   val optset_unoverloads : optionset -> string list
 
-  val numErrors : int ref @{position}
+  val numErrors : int ref
 
   val replacement : {commpos : posn, argpos : posn, command : command,
                      options : optionset, argument : string} ->
